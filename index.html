@@ -1,508 +1,364 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Users, Heart, Clock } from 'lucide-react';
-
-const WeddingTimeline = () => {
-  const [expandedEvent, setExpandedEvent] = useState(null);
-  const [selectedFilters, setSelectedFilters] = useState(['all']);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [expandAll, setExpandAll] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  const weddingDate = new Date('2026-02-13T00:00:00');
-
-  // Update current time every minute
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000); // Update every minute
-
-    return () => clearInterval(timer);
-  }, []);
-
-  // Update countdown every second
-  useEffect(() => {
-    const updateCountdown = () => {
-      const now = new Date();
-      const difference = weddingDate.getTime() - now.getTime();
-
-      if (difference > 0) {
-        setCountdown({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        });
-      } else {
-        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
-    };
-
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  // Helper function to parse time strings like "6:00 AM" into comparable format
-  const parseEventTime = (timeStr) => {
-    const [time, period] = timeStr.split(' ');
-    let [hours, minutes] = time.split(':').map(Number);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andy & Charlotte</title>
     
-    if (period === 'PM' && hours !== 12) hours += 12;
-    if (period === 'AM' && hours === 12) hours = 0;
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    return hours * 60 + minutes; // Return minutes from midnight
-  };
-
-  // Check if we're on the wedding day
-  const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
-
-  // Get current time in minutes from midnight
-  const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-
-  // EDIT THIS SECTION TO UPDATE YOUR EVENTS
-  // Copy this events array to a separate JSON file for easier editing
-  const events = [
-    {
-      id: 1,
-      time: '6:00 AM',
-      title: 'Morning Preparations Begin',
-      description: 'Bridesmaids arrive at the bridal suite to begin preparations.',
-      location: 'Bridal Suite',
-      teams: ['bridesmaids', 'bride'],
-      image: null,
-      links: []
-    },
-    {
-      id: 2,
-      time: '7:00 AM',
-      title: 'Hair & Makeup',
-      description: 'Professional hair and makeup artists begin styling the bridal party.',
-      location: 'Bridal Suite',
-      teams: ['bridesmaids', 'bride'],
-      image: null,
-      links: []
-    },
-    {
-      id: 3,
-      time: '8:00 AM',
-      title: 'Groom\'s Party Arrival',
-      description: 'Groomsmen gather and prepare for the day ahead.',
-      location: 'Groom\'s Suite',
-      teams: ['groomsmen', 'groom'],
-      image: null,
-      links: []
-    },
-    {
-      id: 4,
-      time: '9:00 AM',
-      title: 'Tea Ceremony - Bride\'s Family',
-      description: 'Traditional Chinese tea ceremony with the bride\'s parents and elders. The bride serves tea to show respect and gratitude.',
-      location: 'Bride\'s Family Home',
-      teams: ['bride', 'parents'],
-      image: null,
-      links: []
-    },
-    {
-      id: 5,
-      time: '10:00 AM',
-      title: 'Door Games & Groom\'s Arrival',
-      description: 'The groom and groomsmen participate in traditional door games and challenges before "claiming" the bride.',
-      location: 'Bride\'s Family Home',
-      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
-      image: null,
-      links: []
-    },
-    {
-      id: 6,
-      time: '11:00 AM',
-      title: 'Tea Ceremony - Groom\'s Family',
-      description: 'Traditional Chinese tea ceremony with the groom\'s parents and elders. The couple serves tea together.',
-      location: 'Groom\'s Family Home',
-      teams: ['bride', 'groom', 'parents'],
-      image: null,
-      links: []
-    },
-    {
-      id: 7,
-      time: '12:00 PM',
-      title: 'Wedding Party Photos',
-      description: 'Group photos with the entire wedding party at scenic locations.',
-      location: 'Photo Location TBD',
-      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
-      image: null,
-      links: []
-    },
-    {
-      id: 8,
-      time: '1:00 PM',
-      title: 'Lunch Break',
-      description: 'Light refreshments and rest before the ceremony.',
-      location: 'Hotel Restaurant',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 9,
-      time: '2:00 PM',
-      title: 'Final Preparations',
-      description: 'Final touch-ups and getting into ceremony attire.',
-      location: 'Hotel Suites',
-      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
-      image: null,
-      links: []
-    },
-    {
-      id: 10,
-      time: '3:00 PM',
-      title: 'Guest Arrival',
-      description: 'Guests begin to arrive and are seated.',
-      location: 'Ceremony Venue',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 11,
-      time: '4:00 PM',
-      title: 'Wedding Ceremony',
-      description: 'The moment we\'ve all been waiting for! Please be seated by 3:45 PM.',
-      location: 'Main Chapel',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 12,
-      time: '5:00 PM',
-      title: 'Cocktail Hour',
-      description: 'Drinks and canapés while the newlyweds take couple photos.',
-      location: 'Garden Terrace',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 13,
-      time: '6:00 PM',
-      title: 'Reception Begins',
-      description: 'Grand entrance of the newlyweds and wedding party.',
-      location: 'Grand Ballroom',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 14,
-      time: '7:00 PM',
-      title: 'Dinner Service',
-      description: 'Traditional Chinese banquet with multiple courses.',
-      location: 'Grand Ballroom',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 15,
-      time: '8:00 PM',
-      title: 'Speeches & Toasts',
-      description: 'Speeches from parents, best man, and maid of honor.',
-      location: 'Grand Ballroom',
-      teams: ['parents', 'bridesmaids', 'groomsmen'],
-      image: null,
-      links: []
-    },
-    {
-      id: 16,
-      time: '9:00 PM',
-      title: 'First Dance & Parent Dances',
-      description: 'The newlyweds\' first dance, followed by parent dances and open dancing.',
-      location: 'Grand Ballroom',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 17,
-      time: '10:00 PM',
-      title: 'Cake Cutting',
-      description: 'Traditional cake cutting ceremony.',
-      location: 'Grand Ballroom',
-      teams: ['all'],
-      image: null,
-      links: []
-    },
-    {
-      id: 18,
-      time: '11:00 PM',
-      title: 'Send-Off',
-      description: 'Farewell send-off for Andy & Charlotte!',
-      location: 'Main Entrance',
-      teams: ['all'],
-      image: null,
-      links: []
-    }
-  ];
-
-  const filters = [
-    { id: 'all', label: 'Everyone', icon: Users },
-    { id: 'bride', label: 'Bride', icon: Users },
-    { id: 'groom', label: 'Groom', icon: Users },
-    { id: 'bridesmaids', label: 'Bridesmaids', icon: Users },
-    { id: 'groomsmen', label: 'Groomsmen', icon: Users },
-    { id: 'parents', label: 'Parents', icon: Users }
-  ];
-
-  const filteredEvents = events.filter(event => {
-    // Filter by team - if 'all' is selected, show everything
-    const teamMatch = selectedFilters.includes('all') || 
-      event.teams.includes('all') ||
-      event.teams.some(team => selectedFilters.includes(team));
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    // Filter by search query
-    const searchMatch = searchQuery === '' || 
-      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.time.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // Filter by time - only show upcoming/current events on wedding day
-    let timeMatch = true;
-    if (isWeddingDay) {
-      const eventMinutes = parseEventTime(event.time);
-      // Show events that haven't passed yet (with 30 min buffer to show current events)
-      timeMatch = eventMinutes >= currentMinutes - 30;
-    }
-    
-    return teamMatch && searchMatch && timeMatch;
-  });
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+    </style>
+</head>
+<body class="bg-stone-50">
+    <div id="root"></div>
 
-  const toggleFilter = (filterId) => {
-    if (filterId === 'all') {
-      setSelectedFilters(['all']);
-    } else {
-      setSelectedFilters(prev => {
-        // Remove 'all' if selecting a specific filter
-        const withoutAll = prev.filter(f => f !== 'all');
-        
-        if (prev.includes(filterId)) {
-          // Remove the filter if already selected
-          const newFilters = withoutAll.filter(f => f !== filterId);
-          // If no filters left, default to 'all'
-          return newFilters.length === 0 ? ['all'] : newFilters;
-        } else {
-          // Add the filter
-          return [...withoutAll, filterId];
-        }
-      });
-    }
-  };
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-  const toggleEvent = (id) => {
-    if (!expandAll) {
-      setExpandedEvent(expandedEvent === id ? null : id);
-    }
-  };
+        // --- ICON COMPONENTS ---
+        // I have recreated the icons here so you don't need external imports
+        const ChevronDown = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>
+        );
+        const ChevronUp = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>
+        );
+        const Users = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        );
+        const Heart = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        );
+        const Clock = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        );
 
-  const toggleExpandAll = () => {
-    setExpandAll(!expandAll);
-    if (!expandAll) {
-      setExpandedEvent(null);
-    }
-  };
+        // --- MAIN APP COMPONENT ---
+        const WeddingTimeline = () => {
+            const [expandedEvent, setExpandedEvent] = useState(null);
+            const [selectedFilters, setSelectedFilters] = useState(['all']);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [expandAll, setExpandAll] = useState(false);
+            const [currentTime, setCurrentTime] = useState(new Date());
+            const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
-      {/* Header */}
-      <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-6 text-center">
-          <h1 className="text-4xl font-serif text-black mb-2">Andy & Charlotte</h1>
-          <p className="text-stone-600 font-light tracking-wide">February 13, 2026</p>
-          
-          {/* Countdown */}
-          {countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 ? (
-            <div className="mt-4 flex items-center justify-center gap-4">
-              <Clock className="w-4 h-4 text-stone-400" />
-              <div className="flex gap-3 text-sm">
-                {countdown.days > 0 && (
-                  <div className="flex flex-col items-center">
-                    <span className="text-2xl font-serif text-black">{countdown.days}</span>
-                    <span className="text-xs text-stone-500 uppercase tracking-wide">Days</span>
-                  </div>
-                )}
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-serif text-black">{countdown.hours}</span>
-                  <span className="text-xs text-stone-500 uppercase tracking-wide">Hours</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-serif text-black">{countdown.minutes}</span>
-                  <span className="text-xs text-stone-500 uppercase tracking-wide">Minutes</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-serif text-black">{countdown.seconds}</span>
-                  <span className="text-xs text-stone-500 uppercase tracking-wide">Seconds</span>
-                </div>
-              </div>
-            </div>
-          ) : isWeddingDay ? (
-            <div className="mt-4">
-              <p className="text-lg font-serif text-black">Today's the day! 🎉</p>
-            </div>
-          ) : (
-            <div className="mt-4">
-              <p className="text-sm text-stone-500">The big day has arrived!</p>
-            </div>
-          )}
-          
-          <div className="mt-3 flex items-center justify-center gap-2">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
-            <Heart className="w-4 h-4 text-stone-400" />
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
-          </div>
-        </div>
-      </header>
+            const weddingDate = new Date('2026-02-13T00:00:00');
 
-      {/* Filter Bar */}
-      <div className="sticky top-[180px] z-40 bg-white border-b border-stone-200 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          {/* Search bar */}
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search events, locations, or times..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:border-black transition-colors"
-            />
-          </div>
-          
-          {/* Filter buttons */}
-          <div className="flex flex-wrap gap-2 justify-center items-center">
-            {filters.map(filter => (
-              <button
-                key={filter.id}
-                onClick={() => toggleFilter(filter.id)}
-                className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
-                  selectedFilters.includes(filter.id)
-                    ? 'bg-black text-white shadow-md'
-                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-            
-            {/* Expand/Collapse All button */}
-            <div className="w-px h-6 bg-stone-300 mx-2"></div>
-            <button
-              onClick={toggleExpandAll}
-              className="px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all bg-stone-800 text-white hover:bg-black shadow-md"
-            >
-              {expandAll ? 'Collapse All' : 'Expand All'}
-            </button>
-          </div>
-        </div>
-      </div>
+            // Update current time every minute
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setCurrentTime(new Date());
+                }, 60000); 
+                return () => clearInterval(timer);
+            }, []);
 
-      {/* Timeline */}
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-20 top-0 bottom-0 w-px bg-stone-300"></div>
+            // Update countdown every second
+            useEffect(() => {
+                const updateCountdown = () => {
+                    const now = new Date();
+                    const difference = weddingDate.getTime() - now.getTime();
 
-          {/* Events */}
-          <div className="space-y-8">
-            {filteredEvents.map((event, index) => (
-              <div key={event.id} className="relative pl-32">
-                {/* Time marker - now more prominent */}
-                <div className="absolute left-0 flex items-center">
-                  <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md">
-                    <span className="text-sm font-medium tracking-wide">{event.time}</span>
-                  </div>
-                  <div className="ml-4 w-3 h-3 rounded-full bg-black shadow-sm"></div>
-                </div>
+                    if (difference > 0) {
+                        setCountdown({
+                            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                            minutes: Math.floor((difference / 1000 / 60) % 60),
+                            seconds: Math.floor((difference / 1000) % 60)
+                        });
+                    } else {
+                        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+                    }
+                };
 
-                {/* Event card */}
-                <div className="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all">
-                  <button
-                    onClick={() => toggleEvent(event.id)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between"
-                  >
-                    <div className="flex-1">
-                      <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
-                      <p className="text-sm text-stone-500 font-light">{event.location}</p>
-                    </div>
-                    {expandAll ? (
-                      <ChevronUp className="w-5 h-5 text-stone-600" />
-                    ) : expandedEvent === event.id ? (
-                      <ChevronUp className="w-5 h-5 text-stone-600" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-stone-600" />
-                    )}
-                  </button>
+                updateCountdown();
+                const timer = setInterval(updateCountdown, 1000);
+                return () => clearInterval(timer);
+            }, []);
 
-                  {/* Expanded content */}
-                  {(expandedEvent === event.id || expandAll) && (
-                    <div className="px-6 pb-4 border-t border-stone-100">
-                      <p className="text-stone-700 mt-4 leading-relaxed">{event.description}</p>
-                      
-                      {/* Team tags */}
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {event.teams.map(team => (
-                          <span
-                            key={team}
-                            className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200"
-                          >
-                            {team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}
-                          </span>
-                        ))}
-                      </div>
+            const parseEventTime = (timeStr) => {
+                const [time, period] = timeStr.split(' ');
+                let [hours, minutes] = time.split(':').map(Number);
+                if (period === 'PM' && hours !== 12) hours += 12;
+                if (period === 'AM' && hours === 12) hours = 0;
+                return hours * 60 + minutes; 
+            };
 
-                      {/* Optional image display */}
-                      {event.image && (
-                        <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />
-                      )}
+            const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
+            const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-                      {/* Optional links */}
-                      {event.links && event.links.length > 0 && (
-                        <div className="mt-4 space-y-2">
-                          {event.links.map((link, idx) => (
-                            <a
-                              key={idx}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-black hover:text-stone-600 text-sm underline block"
-                            >
-                              {link.text}
-                            </a>
-                          ))}
+            // EVENTS DATA
+            const events = [
+                { id: 1, time: '6:00 AM', title: 'Morning Preparations Begin', description: 'Bridesmaids arrive at the bridal suite to begin preparations.', location: 'Bridal Suite', teams: ['bridesmaids', 'bride'], image: null, links: [] },
+                { id: 2, time: '7:00 AM', title: 'Hair & Makeup', description: 'Professional hair and makeup artists begin styling the bridal party.', location: 'Bridal Suite', teams: ['bridesmaids', 'bride'], image: null, links: [] },
+                { id: 3, time: '8:00 AM', title: 'Groom\'s Party Arrival', description: 'Groomsmen gather and prepare for the day ahead.', location: 'Groom\'s Suite', teams: ['groomsmen', 'groom'], image: null, links: [] },
+                { id: 4, time: '9:00 AM', title: 'Tea Ceremony - Bride\'s Family', description: 'Traditional Chinese tea ceremony with the bride\'s parents and elders. The bride serves tea to show respect and gratitude.', location: 'Bride\'s Family Home', teams: ['bride', 'parents'], image: null, links: [] },
+                { id: 5, time: '10:00 AM', title: 'Door Games & Groom\'s Arrival', description: 'The groom and groomsmen participate in traditional door games and challenges before "claiming" the bride.', location: 'Bride\'s Family Home', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
+                { id: 6, time: '11:00 AM', title: 'Tea Ceremony - Groom\'s Family', description: 'Traditional Chinese tea ceremony with the groom\'s parents and elders. The couple serves tea to show respect and gratitude.', location: 'Groom\'s Family Home', teams: ['bride', 'groom', 'parents'], image: null, links: [] },
+                { id: 7, time: '12:00 PM', title: 'Wedding Party Photos', description: 'Group photos with the entire wedding party at scenic locations.', location: 'Photo Location TBD', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
+                { id: 8, time: '1:00 PM', title: 'Lunch Break', description: 'Light refreshments and rest before the ceremony.', location: 'Hotel Restaurant', teams: ['all'], image: null, links: [] },
+                { id: 9, time: '2:00 PM', title: 'Final Preparations', description: 'Final touch-ups and getting into ceremony attire.', location: 'Hotel Suites', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
+                { id: 10, time: '3:00 PM', title: 'Guest Arrival', description: 'Guests begin to arrive and are seated.', location: 'Ceremony Venue', teams: ['all'], image: null, links: [] },
+                { id: 11, time: '4:00 PM', title: 'Wedding Ceremony', description: 'The moment we\'ve all been waiting for! Please be seated by 3:45 PM.', location: 'Main Chapel', teams: ['all'], image: null, links: [] },
+                { id: 12, time: '5:00 PM', title: 'Cocktail Hour', description: 'Drinks and canapés while the newlyweds take couple photos.', location: 'Garden Terrace', teams: ['all'], image: null, links: [] },
+                { id: 13, time: '6:00 PM', title: 'Reception Begins', description: 'Grand entrance of the newlyweds and wedding party.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
+                { id: 14, time: '7:00 PM', title: 'Dinner Service', description: 'Traditional Chinese banquet with multiple courses.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
+                { id: 15, time: '8:00 PM', title: 'Speeches & Toasts', description: 'Speeches from parents, best man, and maid of honor.', location: 'Grand Ballroom', teams: ['parents', 'bridesmaids', 'groomsmen'], image: null, links: [] },
+                { id: 16, time: '9:00 PM', title: 'First Dance & Parent Dances', description: 'The newlyweds\' first dance, followed by parent dances and open dancing.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
+                { id: 17, time: '10:00 PM', title: 'Cake Cutting', description: 'Traditional cake cutting ceremony.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
+                { id: 18, time: '11:00 PM', title: 'Send-Off', description: 'Farewell send-off for Andy & Charlotte!', location: 'Main Entrance', teams: ['all'], image: null, links: [] }
+            ];
+
+            const filters = [
+                { id: 'all', label: 'Everyone', icon: Users },
+                { id: 'bride', label: 'Bride', icon: Users },
+                { id: 'groom', label: 'Groom', icon: Users },
+                { id: 'bridesmaids', label: 'Bridesmaids', icon: Users },
+                { id: 'groomsmen', label: 'Groomsmen', icon: Users },
+                { id: 'parents', label: 'Parents', icon: Users }
+            ];
+
+            const filteredEvents = events.filter(event => {
+                const teamMatch = selectedFilters.includes('all') || 
+                    event.teams.includes('all') ||
+                    event.teams.some(team => selectedFilters.includes(team));
+                
+                const searchMatch = searchQuery === '' || 
+                    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    event.time.toLowerCase().includes(searchQuery.toLowerCase());
+                
+                let timeMatch = true;
+                if (isWeddingDay) {
+                    const eventMinutes = parseEventTime(event.time);
+                    timeMatch = eventMinutes >= currentMinutes - 30;
+                }
+                
+                return teamMatch && searchMatch && timeMatch;
+            });
+
+            const toggleFilter = (filterId) => {
+                if (filterId === 'all') {
+                    setSelectedFilters(['all']);
+                } else {
+                    setSelectedFilters(prev => {
+                        const withoutAll = prev.filter(f => f !== 'all');
+                        if (prev.includes(filterId)) {
+                            const newFilters = withoutAll.filter(f => f !== filterId);
+                            return newFilters.length === 0 ? ['all'] : newFilters;
+                        } else {
+                            return [...withoutAll, filterId];
+                        }
+                    });
+                }
+            };
+
+            const toggleEvent = (id) => {
+                if (!expandAll) {
+                    setExpandedEvent(expandedEvent === id ? null : id);
+                }
+            };
+
+            const toggleExpandAll = () => {
+                setExpandAll(!expandAll);
+                if (!expandAll) {
+                    setExpandedEvent(null);
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
+                    {/* Header */}
+                    <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+                        <div className="max-w-4xl mx-auto px-4 py-6 text-center">
+                            <h1 className="text-4xl font-serif text-black mb-2">Andy & Charlotte</h1>
+                            <p className="text-stone-600 font-light tracking-wide">February 13, 2026</p>
+                            
+                            {/* Countdown */}
+                            {countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 ? (
+                                <div className="mt-4 flex items-center justify-center gap-4">
+                                    <Clock className="w-4 h-4 text-stone-400" />
+                                    <div className="flex gap-3 text-sm">
+                                        {countdown.days > 0 && (
+                                            <div className="flex flex-col items-center">
+                                                <span className="text-2xl font-serif text-black">{countdown.days}</span>
+                                                <span className="text-xs text-stone-500 uppercase tracking-wide">Days</span>
+                                            </div>
+                                        )}
+                                        <div className="flex flex-col items-center">
+                                            <span className="text-2xl font-serif text-black">{countdown.hours}</span>
+                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Hours</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <span className="text-2xl font-serif text-black">{countdown.minutes}</span>
+                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Minutes</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <span className="text-2xl font-serif text-black">{countdown.seconds}</span>
+                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Seconds</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : isWeddingDay ? (
+                                <div className="mt-4">
+                                    <p className="text-lg font-serif text-black">Today's the day! 🎉</p>
+                                </div>
+                            ) : (
+                                <div className="mt-4">
+                                    <p className="text-sm text-stone-500">The big day has arrived!</p>
+                                </div>
+                            )}
+                            
+                            <div className="mt-3 flex items-center justify-center gap-2">
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
+                                <Heart className="w-4 h-4 text-stone-400" />
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
+                            </div>
                         </div>
-                      )}
+                    </header>
+
+                    {/* Filter Bar */}
+                    <div className="sticky top-[180px] z-40 bg-white border-b border-stone-200 shadow-sm">
+                        <div className="max-w-4xl mx-auto px-4 py-4">
+                            <div className="mb-4">
+                                <input
+                                    type="text"
+                                    placeholder="Search events, locations, or times..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:border-black transition-colors"
+                                />
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-2 justify-center items-center">
+                                {filters.map(filter => (
+                                    <button
+                                        key={filter.id}
+                                        onClick={() => toggleFilter(filter.id)}
+                                        className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
+                                            selectedFilters.includes(filter.id)
+                                                ? 'bg-black text-white shadow-md'
+                                                : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                                        }`}
+                                    >
+                                        {filter.label}
+                                    </button>
+                                ))}
+                                
+                                <div className="w-px h-6 bg-stone-300 mx-2"></div>
+                                <button
+                                    onClick={toggleExpandAll}
+                                    className="px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all bg-stone-800 text-white hover:bg-black shadow-md"
+                                >
+                                    {expandAll ? 'Collapse All' : 'Expand All'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                  )}
+
+                    {/* Timeline */}
+                    <div className="max-w-3xl mx-auto px-4 py-12">
+                        <div className="relative">
+                            <div className="absolute left-20 top-0 bottom-0 w-px bg-stone-300"></div>
+
+                            <div className="space-y-8">
+                                {filteredEvents.map((event, index) => (
+                                    <div key={event.id} className="relative pl-32">
+                                        <div className="absolute left-0 flex items-center">
+                                            <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md">
+                                                <span className="text-sm font-medium tracking-wide">{event.time}</span>
+                                            </div>
+                                            <div className="ml-4 w-3 h-3 rounded-full bg-black shadow-sm"></div>
+                                        </div>
+
+                                        <div className="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all">
+                                            <button
+                                                onClick={() => toggleEvent(event.id)}
+                                                className="w-full px-6 py-4 text-left flex items-center justify-between"
+                                            >
+                                                <div className="flex-1">
+                                                    <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
+                                                    <p className="text-sm text-stone-500 font-light">{event.location}</p>
+                                                </div>
+                                                {expandAll ? (
+                                                    <ChevronUp className="w-5 h-5 text-stone-600" />
+                                                ) : expandedEvent === event.id ? (
+                                                    <ChevronUp className="w-5 h-5 text-stone-600" />
+                                                ) : (
+                                                    <ChevronDown className="w-5 h-5 text-stone-600" />
+                                                )}
+                                            </button>
+
+                                            {(expandedEvent === event.id || expandAll) && (
+                                                <div className="px-6 pb-4 border-t border-stone-100">
+                                                    <p className="text-stone-700 mt-4 leading-relaxed">{event.description}</p>
+                                                    
+                                                    <div className="mt-4 flex flex-wrap gap-2">
+                                                        {event.teams.map(team => (
+                                                            <span
+                                                                key={team}
+                                                                className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200"
+                                                            >
+                                                                {team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+
+                                                    {event.image && (
+                                                        <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />
+                                                    )}
+
+                                                    {event.links && event.links.length > 0 && (
+                                                        <div className="mt-4 space-y-2">
+                                                            {event.links.map((link, idx) => (
+                                                                <a
+                                                                    key={idx}
+                                                                    href={link.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-black hover:text-stone-600 text-sm underline block"
+                                                                >
+                                                                    {link.text}
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <footer className="bg-white border-t border-stone-200 mt-16">
+                        <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+                            <p className="text-stone-600 font-light text-sm">
+                                We can't wait to celebrate with you!
+                            </p>
+                            <p className="text-stone-500 font-light text-xs mt-2">
+                                恭喜發財 • 百年好合
+                            </p>
+                        </div>
+                    </footer>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+            );
+        };
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-stone-200 mt-16">
-        <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-          <p className="text-stone-600 font-light text-sm">
-            We can't wait to celebrate with you!
-          </p>
-          <p className="text-stone-500 font-light text-xs mt-2">
-            恭喜發財 • 百年好合
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default WeddingTimeline;
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<WeddingTimeline />);
+    </script>
+</body>
+</html>
