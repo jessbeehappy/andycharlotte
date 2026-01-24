@@ -52,8 +52,6 @@
             const [expandAll, setExpandAll] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-            
-            // NEW STATE: Controls whether the filter section is open or closed
             const [showFilters, setShowFilters] = useState(false);
 
             const weddingDate = new Date('2026-02-13T00:00:00');
@@ -231,7 +229,7 @@
                     <div className="sticky top-[180px] z-40 bg-white border-b border-stone-200 shadow-sm transition-all duration-300">
                         <div className="max-w-4xl mx-auto px-4">
                             
-                            {/* Toggle Button (Always Visible) */}
+                            {/* Toggle Button */}
                             <button 
                                 onClick={() => setShowFilters(!showFilters)}
                                 className="w-full py-3 flex items-center justify-between text-stone-600 hover:text-black transition-colors"
@@ -287,76 +285,98 @@
                     {/* Timeline */}
                     <div className="max-w-3xl mx-auto px-4 py-12">
                         <div className="relative">
-                            {/* Vertical line */}
+                            {/* Vertical line (Spine) */}
                             <div className="absolute left-12 top-0 bottom-0 w-1 bg-stone-300 transform -translate-x-1/2"></div>
 
-                            <div className="space-y-8">
-                                {filteredEvents.map((event, index) => (
-                                    <div key={event.id} className="relative pl-32">
-                                        {/* Time marker */}
-                                        <div className="absolute left-0 w-24 flex justify-center z-10 mt-1">
-                                            <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative">
-                                                <span className="text-sm font-medium tracking-wide">{event.time}</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all">
-                                            <button
-                                                onClick={() => toggleEvent(event.id)}
-                                                className="w-full px-6 py-4 text-left flex items-center justify-between"
-                                            >
-                                                <div className="flex-1">
-                                                    <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
-                                                    <p className="text-sm text-stone-500 font-light">{event.location}</p>
+                            <div className="space-y-4">
+                                {filteredEvents.map((event, index) => {
+                                    const isExpanded = expandedEvent === event.id || expandAll;
+                                    
+                                    return (
+                                        <div 
+                                            key={event.id} 
+                                            className={`relative transition-all duration-500 ease-in-out ${
+                                                isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'
+                                            }`}
+                                        >
+                                            {/* Time Marker */}
+                                            <div className={`
+                                                transition-all duration-500 ease-in-out z-10
+                                                ${isExpanded 
+                                                    ? 'relative w-auto transform translate-x-0' 
+                                                    : 'absolute left-0 w-24 flex justify-center mt-1'
+                                                }
+                                            `}>
+                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative">
+                                                    <span className="text-sm font-medium tracking-wide">{event.time}</span>
                                                 </div>
-                                                {expandAll ? (
-                                                    <ChevronUp className="w-5 h-5 text-stone-600" />
-                                                ) : expandedEvent === event.id ? (
-                                                    <ChevronUp className="w-5 h-5 text-stone-600" />
-                                                ) : (
-                                                    <ChevronDown className="w-5 h-5 text-stone-600" />
-                                                )}
-                                            </button>
+                                            </div>
 
-                                            {(expandedEvent === event.id || expandAll) && (
-                                                <div className="px-6 pb-4 border-t border-stone-100">
-                                                    <p className="text-stone-700 mt-4 leading-relaxed">{event.description}</p>
-                                                    
-                                                    <div className="mt-4 flex flex-wrap gap-2">
-                                                        {event.teams.map(team => (
-                                                            <span
-                                                                key={team}
-                                                                className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200"
-                                                            >
-                                                                {team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}
-                                                            </span>
-                                                        ))}
+                                            {/* Event Card */}
+                                            <div className={`
+                                                bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md 
+                                                transition-all duration-500 ease-in-out
+                                                ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}
+                                            `}>
+                                                <button
+                                                    onClick={() => toggleEvent(event.id)}
+                                                    className="w-full px-6 py-4 text-left flex items-center justify-between bg-white"
+                                                >
+                                                    <div className="flex-1">
+                                                        <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
+                                                        <p className="text-sm text-stone-500 font-light">{event.location}</p>
                                                     </div>
-
-                                                    {event.image && (
-                                                        <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />
+                                                    {isExpanded ? (
+                                                        <ChevronUp className="w-5 h-5 text-stone-600" />
+                                                    ) : (
+                                                        <ChevronDown className="w-5 h-5 text-stone-600" />
                                                     )}
+                                                </button>
 
-                                                    {event.links && event.links.length > 0 && (
-                                                        <div className="mt-4 space-y-2">
-                                                            {event.links.map((link, idx) => (
-                                                                <a
-                                                                    key={idx}
-                                                                    href={link.url}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
-                                                                    className="text-black hover:text-stone-600 text-sm underline block"
+                                                {/* Expanded Content */}
+                                                <div className={`
+                                                    transition-all duration-500 ease-in-out overflow-hidden
+                                                    ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
+                                                `}>
+                                                    <div className="px-6 pb-6 border-t border-stone-100">
+                                                        <p className="text-stone-700 mt-4 leading-relaxed">{event.description}</p>
+                                                        
+                                                        <div className="mt-4 flex flex-wrap gap-2">
+                                                            {event.teams.map(team => (
+                                                                <span
+                                                                    key={team}
+                                                                    className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200"
                                                                 >
-                                                                    {link.text}
-                                                                </a>
+                                                                    {team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}
+                                                                </span>
                                                             ))}
                                                         </div>
-                                                    )}
+
+                                                        {event.image && (
+                                                            <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />
+                                                        )}
+
+                                                        {event.links && event.links.length > 0 && (
+                                                            <div className="mt-4 space-y-2">
+                                                                {event.links.map((link, idx) => (
+                                                                    <a
+                                                                        key={idx}
+                                                                        href={link.url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="text-black hover:text-stone-600 text-sm underline block"
+                                                                    >
+                                                                        {link.text}
+                                                                    </a>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
