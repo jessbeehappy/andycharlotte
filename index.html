@@ -3,93 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding Timeline</title>
+    <title>Wedding Day Timeline</title>
     <style>
         :root {
             --ivory: #FAF9F6;
             --olive: #556B2F;
             --olive-light: #808b6d;
             --text: #2F3020;
-            --black-bg: #121212;
-            --dark-card: #1e1e1e;
         }
 
         body {
             background-color: var(--ivory);
             color: var(--text);
-            font-family: 'Segoe UI', serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
-        /* Header Area */
+        /* Header & Countdown */
         header {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             background: white;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e0ddd5;
         }
 
-        h1 { font-family: 'Georgia', serif; font-weight: normal; margin-bottom: 5px; }
-        #countdown { font-weight: bold; color: var(--olive); font-size: 0.9rem; letter-spacing: 1px; }
+        #countdown {
+            font-weight: bold;
+            color: var(--olive);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
 
-        /* Navigation Filters */
-        .filter-nav {
+        /* Filter Pills */
+        .filter-container {
             position: sticky;
             top: 0;
             background: var(--ivory);
             padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            z-index: 100;
-            border-bottom: 1px solid #e0ddd5;
+            text-align: center;
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
         }
 
         .filter-btn {
-            background: white;
+            background: transparent;
             border: 1px solid var(--olive);
             color: var(--olive);
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            margin: 0 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
+            transition: 0.3s;
         }
 
-        .filter-btn.active { background: var(--olive); color: white; }
+        .filter-btn.active {
+            background: var(--olive);
+            color: white;
+        }
 
-        /* Timeline Layout */
-        .timeline {
+        /* Timeline Structure */
+        .timeline-container {
             position: relative;
-            max-width: 500px;
+            max-width: 600px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .timeline::before {
+        /* The Vertical Line */
+        .timeline-container::after {
             content: '';
             position: absolute;
-            left: 55px;
+            width: 2px;
+            background: var(--olive);
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: var(--olive-light);
-            opacity: 0.3;
+            left: 50px; /* Aligned with the bubbles */
+            margin-left: -1px;
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 30px;
-            padding-left: 80px;
-            transition: opacity 0.4s ease;
+            margin-bottom: 40px;
+            padding-left: 80px; /* Space for line and bubbles */
+            transition: opacity 0.3s ease;
         }
 
-        /* Clickable Time Bubbles */
-        .bubble {
+        /* The Bubbles (Pills) */
+        .time-bubble {
             position: absolute;
-            left: 20px;
+            left: 15px;
             width: 70px;
             height: 35px;
             background: var(--olive);
@@ -98,184 +102,152 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: bold;
             z-index: 2;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* Detail Boxes */
+        /* Details & Summary Style */
         details {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 10px 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--olive-light);
         }
 
         summary {
             list-style: none;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 1.1rem;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .content-inner { padding-top: 15px; border-top: 1px solid #f0f0f0; margin-top: 10px; }
-        .content-inner img { width: 100%; border-radius: 8px; margin-top: 10px; }
+        summary::-webkit-details-marker { display: none; }
 
-        /* GROOMSMEN SECRET MODE */
-        #groomsmen-mode {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--black-bg);
-            z-index: 9999;
-            display: none;
-            color: white;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
+        .content {
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
         }
 
-        .exit-btn {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: #333; color: white; border: none;
-            padding: 10px 15px; border-radius: 8px;
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
         }
 
-        .todo-item {
-            background: var(--dark-card);
-            padding: 20px; margin-bottom: 12px;
-            border-radius: 12px;
-            display: flex; align-items: center;
-            cursor: pointer;
+        /* Highlight for Auto-scroll target */
+        .current-event {
+            border: 2px solid var(--olive);
+            transform: scale(1.02);
         }
-
-        .todo-item.checked { text-decoration: line-through; opacity: 0.5; background: #1a2e1a; }
-        .check-box { width: 22px; height: 22px; border: 2px solid var(--olive); margin-right: 15px; border-radius: 4px; }
-        .todo-item.checked .check-box { background: var(--olive); }
-
-        .current-event { border: 2px solid var(--olive); transform: scale(1.03); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>The Wedding Day</h1>
-    <div id="countdown">Loading...</div>
+    <h1>The Wedding Celebration</h1>
+    <div id="countdown">Calculating...</div>
 </header>
 
-<div class="filter-nav">
-    <button class="filter-btn active" onclick="filterEvents('all', this)">Everyone</button>
-    <button class="filter-btn" onclick="filterEvents('bridesmaid', this)">Bridesmaids</button>
-    <button class="filter-btn" id="groom-trigger" onclick="filterEvents('groom', this)">Groomsmen</button>
+<div class="filter-container">
+    <button class="filter-btn active" onclick="filter('all', this)">Everyone</button>
+    <button class="filter-btn" onclick="filter('bridesmaid', this)">Bridesmaids</button>
+    <button class="filter-btn" onclick="filter('groom', this)">Groomsmen</button>
 </div>
 
-<div class="timeline">
+<div class="timeline-container">
+
     <div class="timeline-item bridesmaid" data-time="08:00">
-        <div class="bubble">08:00</div>
-        <details>
-            <summary>Hair & Makeup <span>▾</span></summary>
-            <div class="content-inner">
-                <p>Location: Bridemaid Suite. Have your breakfast and robes ready!</p>
-                <img src="https://images.unsplash.com/photo-1481653191744-b7d0c58b3dca?q=80&w=400" alt="Prep">
+        <div class="time-bubble">08:00</div>
+        <details id="event-0800">
+            <summary>Hair & Makeup Begins <span>▾</span></summary>
+            <div class="content">
+                <p>Location: Suite 402. Please be on time with dry hair and your robes!</p>
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400" alt="Makeup Prep">
             </div>
         </details>
     </div>
 
-    <div class="timeline-item groom" data-time="11:00">
-        <div class="bubble">11:00</div>
-        <details>
-            <summary>Groomsmen Prep <span>▾</span></summary>
-            <div class="content-inner">
-                <p>Location: The Grooms Suite. Tie the ties and check the socks!</p>
+    <div class="timeline-item groom" data-time="11:30">
+        <div class="time-bubble">11:30</div>
+        <details id="event-1130">
+            <summary>Groom's Lunch <span>▾</span></summary>
+            <div class="content">
+                <p>Gentlemen, meet at the hotel lobby bar for a quick bite before photos.</p>
             </div>
         </details>
     </div>
 
-    <div class="timeline-item all" data-time="15:30">
-        <div class="bubble">15:30</div>
-        <details>
-            <summary>Ceremony Starts <span>▾</span></summary>
-            <div class="content-inner">
-                <p>Location: The Main Garden. Cell phones on silent, please!</p>
-            </div>
-        </details>
     </div>
-</div>
-
-<div id="groomsmen-mode">
-    <button class="exit-btn" onclick="closeGroomMode()">✕ Exit</button>
-    <h2 style="margin-top:40px;">Groomsmen Checklist</h2>
-    <p style="color:#888; margin-bottom:30px;">Tap tasks to complete them.</p>
-
-    <div class="todo-item" onclick="this.classList.toggle('checked')"><div class="check-box"></div> Rings are safe?</div>
-    <div class="todo-item" onclick="this.classList.toggle('checked')"><div class="check-box"></div> Ties are straight?</div>
-    <div class="todo-item" onclick="this.classList.toggle('checked')"><div class="check-box"></div> Pocket squares folded?</div>
-    <div class="todo-item" onclick="this.classList.toggle('checked')"><div class="check-box"></div> Greet the celebrant?</div>
-    <div class="todo-item" onclick="this.classList.toggle('checked')"><div class="check-box"></div> Keep the groom hydrated?</div>
-</div>
 
 <script>
-    // 1. Filter & Secret Mode Logic
-    let groomClicks = 0;
-    function filterEvents(role, btn) {
-        // Handle Button Styling
+    // 1. COUNTDOWN (Update the date below)
+    const weddingDate = new Date("2026-10-15T15:00:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const gap = weddingDate - now;
+
+        const d = Math.floor(gap / (1000 * 60 * 60 * 24));
+        const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        document.getElementById("countdown").innerText = d > 0 
+            ? `${d} days and ${h} hours to go!` 
+            : "It's Wedding Day!";
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 2. FILTERING LOGIC
+    function filter(role, btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Handle Filtering
         document.querySelectorAll('.timeline-item').forEach(item => {
-            if (role === 'all' || item.classList.contains(role) || item.classList.contains('all')) {
+            if (role === 'all' || item.classList.contains(role)) {
                 item.style.display = 'block';
+                item.style.opacity = '1';
             } else {
-                item.style.display = 'none';
+                item.style.opacity = '0';
+                setTimeout(() => item.style.display = 'none', 300);
+            }
+        });
+    }
+
+    // 3. AUTO-SCROLL LOGIC
+    function autoScrollOnDay() {
+        const now = new Date();
+        const items = document.querySelectorAll('.timeline-item');
+        let currentMatch = null;
+
+        // Only auto-scroll if it is the day of the wedding (or for testing)
+        items.forEach(item => {
+            const [hours, minutes] = item.getAttribute('data-time').split(':');
+            const itemTime = new Date();
+            itemTime.setHours(hours, minutes, 0);
+
+            if (now >= itemTime) {
+                currentMatch = item;
             }
         });
 
-        // Secret Trigger
-        if (btn.id === 'groom-trigger') {
-            groomClicks++;
-            if (groomClicks === 3) {
-                document.getElementById('groomsmen-mode').style.display = 'block';
-                groomClicks = 0;
-            }
-        } else {
-            groomClicks = 0;
+        if (currentMatch) {
+            const details = currentMatch.querySelector('details');
+            details.open = true;
+            currentMatch.classList.add('current-event');
+            currentMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    function closeGroomMode() {
-        document.getElementById('groomsmen-mode').style.display = 'none';
-    }
-
-    // 2. Countdown Logic (Set your wedding date here)
-    const weddingDate = new Date("Oct 1, 2026 15:30:00").getTime();
-    setInterval(() => {
-        const now = new Date().getTime();
-        const diff = weddingDate - now;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById("countdown").innerHTML = `${days} DAYS & ${hours} HOURS TO GO`;
-    }, 1000);
-
-    // 3. Auto-Scroll Logic
-    window.onload = () => {
-        const now = new Date();
-        const currentHour = now.getHours();
-        const currentMin = now.getMinutes();
-        const currentTimeInMins = (currentHour * 60) + currentMin;
-
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            const [h, m] = item.dataset.time.split(':');
-            const itemTimeInMins = (parseInt(h) * 60) + parseInt(m);
-
-            if (currentTimeInMins >= itemTimeInMins) {
-                item.classList.add('current-event');
-                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    };
+    // Run auto-scroll on load
+    window.onload = autoScrollOnDay;
 </script>
 
 </body>
