@@ -16,6 +16,15 @@
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        /* Custom checkbox style for the dark mode */
+        .custom-checkbox:checked + div {
+            background-color: white;
+            border-color: white;
+        }
+        .custom-checkbox:checked + div svg {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-stone-50">
@@ -25,24 +34,98 @@
         const { useState, useEffect } = React;
 
         // --- ICON COMPONENTS ---
-        const ChevronDown = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>
-        );
-        const ChevronUp = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>
-        );
-        const Users = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        );
-        const Heart = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-        );
-        const Clock = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        );
-        const SearchIcon = ({ className }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        );
+        const ChevronDown = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>;
+        const ChevronUp = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>;
+        const Users = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+        const Heart = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>;
+        const Clock = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+        const SearchIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
+        const XIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+        const CheckIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg>;
+
+        // --- CHECKLIST COMPONENT (Hidden Feature) ---
+        const ChecklistMode = ({ onClose }) => {
+            const [items, setItems] = useState([
+                { id: 1, text: "Suit Jacket & Trousers", checked: false },
+                { id: 2, text: "White Dress Shirt", checked: false },
+                { id: 3, text: "Tie / Bow Tie", checked: false },
+                { id: 4, text: "Belt / Suspenders", checked: false },
+                { id: 5, text: "Dress Socks (Black)", checked: false },
+                { id: 6, text: "Dress Shoes (Polished)", checked: false },
+                { id: 7, text: "Cufflinks", checked: false },
+                { id: 8, text: "Watch", checked: false },
+                { id: 9, text: "Wedding Ring!", checked: false },
+                { id: 10, text: "Vows / Speech", checked: false },
+                { id: 11, text: "Deodorant / Cologne", checked: false },
+                { id: 12, text: "Hair Product", checked: false }
+            ]);
+
+            const toggleItem = (id) => {
+                setItems(items.map(item => 
+                    item.id === id ? { ...item, checked: !item.checked } : item
+                ));
+            };
+
+            const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
+
+            return (
+                <div className="fixed inset-0 bg-black text-white z-[100] overflow-y-auto animate-in fade-in duration-300">
+                    <div className="max-w-2xl mx-auto p-8">
+                        {/* Header */}
+                        <div className="flex justify-between items-start mb-12">
+                            <div>
+                                <h2 className="text-4xl font-serif mb-2 text-white">The Essentials</h2>
+                                <p className="text-stone-400 font-mono text-sm tracking-widest uppercase">Groom Protocol</p>
+                            </div>
+                            <button 
+                                onClick={onClose}
+                                className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"
+                            >
+                                <XIcon className="w-6 h-6 text-white" />
+                            </button>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mb-12">
+                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500">
+                                <span>Readiness</span>
+                                <span>{progress}%</span>
+                            </div>
+                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden">
+                                <div 
+                                    className="h-full bg-white transition-all duration-500 ease-out"
+                                    style={{ width: `${progress}%` }}
+                                ></div>
+                            </div>
+                        </div>
+
+                        {/* List */}
+                        <div className="space-y-4">
+                            {items.map(item => (
+                                <label key={item.id} className="group flex items-center p-4 bg-stone-900/50 border border-stone-800 rounded-xl cursor-pointer hover:border-stone-600 transition-all">
+                                    <input 
+                                        type="checkbox" 
+                                        className="hidden custom-checkbox"
+                                        checked={item.checked}
+                                        onChange={() => toggleItem(item.id)}
+                                    />
+                                    <div className="w-6 h-6 border-2 border-stone-600 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-stone-500">
+                                        <CheckIcon className="w-4 h-4 text-black hidden" />
+                                    </div>
+                                    <span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-stone-500' : 'opacity-100'}`}>
+                                        {item.text}
+                                    </span>
+                                </label>
+                            ))}
+                        </div>
+                        
+                        <div className="mt-12 text-center">
+                            <p className="text-stone-600 text-xs font-mono uppercase tracking-[0.2em]">Don't Forget the Rings</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
 
         // --- MAIN APP COMPONENT ---
         const WeddingTimeline = () => {
@@ -53,13 +136,15 @@
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             const [showFilters, setShowFilters] = useState(false);
+            
+            // Easter Egg States
+            const [groomClickCount, setGroomClickCount] = useState(0);
+            const [showChecklist, setShowChecklist] = useState(false);
 
             const weddingDate = new Date('2026-02-13T00:00:00');
 
             useEffect(() => {
-                const timer = setInterval(() => {
-                    setCurrentTime(new Date());
-                }, 60000); 
+                const timer = setInterval(() => setCurrentTime(new Date()), 60000); 
                 return () => clearInterval(timer);
             }, []);
 
@@ -67,7 +152,6 @@
                 const updateCountdown = () => {
                     const now = new Date();
                     const difference = weddingDate.getTime() - now.getTime();
-
                     if (difference > 0) {
                         setCountdown({
                             days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -126,95 +210,79 @@
             ];
 
             const filteredEvents = events.filter(event => {
-                const teamMatch = selectedFilters.includes('all') || 
-                    event.teams.includes('all') ||
-                    event.teams.some(team => selectedFilters.includes(team));
-                
-                const searchMatch = searchQuery === '' || 
-                    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    event.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    event.time.toLowerCase().includes(searchQuery.toLowerCase());
-                
+                const teamMatch = selectedFilters.includes('all') || event.teams.includes('all') || event.teams.some(team => selectedFilters.includes(team));
+                const searchMatch = searchQuery === '' || event.title.toLowerCase().includes(searchQuery.toLowerCase()) || event.description.toLowerCase().includes(searchQuery.toLowerCase()) || event.location.toLowerCase().includes(searchQuery.toLowerCase()) || event.time.toLowerCase().includes(searchQuery.toLowerCase());
                 let timeMatch = true;
                 if (isWeddingDay) {
                     const eventMinutes = parseEventTime(event.time);
                     timeMatch = eventMinutes >= currentMinutes - 30;
                 }
-                
                 return teamMatch && searchMatch && timeMatch;
             });
 
             const toggleFilter = (filterId) => {
-                if (filterId === 'all') {
-                    setSelectedFilters(['all']);
+                // EASTER EGG LOGIC
+                if (filterId === 'groom') {
+                    const newCount = groomClickCount + 1;
+                    setGroomClickCount(newCount);
+                    
+                    // On 4th click, trigger Checklist and reset count
+                    if (newCount >= 4) {
+                        setShowChecklist(true);
+                        setGroomClickCount(0);
+                        return;
+                    }
                 } else {
+                    // Reset if any other filter is clicked
+                    setGroomClickCount(0);
+                }
+
+                // Standard Filter Logic
+                if (filterId === 'all') { setSelectedFilters(['all']); } 
+                else {
                     setSelectedFilters(prev => {
                         const withoutAll = prev.filter(f => f !== 'all');
                         if (prev.includes(filterId)) {
                             const newFilters = withoutAll.filter(f => f !== filterId);
                             return newFilters.length === 0 ? ['all'] : newFilters;
-                        } else {
-                            return [...withoutAll, filterId];
-                        }
+                        } else { return [...withoutAll, filterId]; }
                     });
                 }
             };
 
-            const toggleEvent = (id) => {
-                if (!expandAll) {
-                    setExpandedEvent(expandedEvent === id ? null : id);
-                }
+            const handleSearchChange = (e) => {
+                setSearchQuery(e.target.value);
+                setGroomClickCount(0); // Reset easter egg count on search
             };
 
-            const toggleExpandAll = () => {
-                setExpandAll(!expandAll);
-                if (!expandAll) {
-                    setExpandedEvent(null);
-                }
-            };
+            const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
+            const toggleExpandAll = () => { setExpandAll(!expandAll); if (!expandAll) { setExpandedEvent(null); } };
 
             return (
                 <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
+                    {/* Render Checklist Overlay if triggered */}
+                    {showChecklist && <ChecklistMode onClose={() => setShowChecklist(false)} />}
+                    
                     {/* Header */}
                     <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
                         <div className="max-w-4xl mx-auto px-4 py-6 text-center">
                             <h1 className="text-4xl font-serif text-black mb-2">Andy & Charlotte</h1>
                             <p className="text-stone-600 font-light tracking-wide">February 13, 2026</p>
                             
-                            {/* Countdown */}
                             {countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 ? (
                                 <div className="mt-4 flex items-center justify-center gap-4">
                                     <Clock className="w-4 h-4 text-stone-400" />
                                     <div className="flex gap-3 text-sm">
-                                        {countdown.days > 0 && (
-                                            <div className="flex flex-col items-center">
-                                                <span className="text-2xl font-serif text-black">{countdown.days}</span>
-                                                <span className="text-xs text-stone-500 uppercase tracking-wide">Days</span>
-                                            </div>
-                                        )}
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-2xl font-serif text-black">{countdown.hours}</span>
-                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Hours</span>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-2xl font-serif text-black">{countdown.minutes}</span>
-                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Minutes</span>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <span className="text-2xl font-serif text-black">{countdown.seconds}</span>
-                                            <span className="text-xs text-stone-500 uppercase tracking-wide">Seconds</span>
-                                        </div>
+                                        {countdown.days > 0 && <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.days}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Days</span></div>}
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.hours}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Hours</span></div>
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.minutes}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Minutes</span></div>
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.seconds}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Seconds</span></div>
                                     </div>
                                 </div>
                             ) : isWeddingDay ? (
-                                <div className="mt-4">
-                                    <p className="text-lg font-serif text-black">Today's the day! 🎉</p>
-                                </div>
+                                <div className="mt-4"><p className="text-lg font-serif text-black">Today's the day! 🎉</p></div>
                             ) : (
-                                <div className="mt-4">
-                                    <p className="text-sm text-stone-500">The big day has arrived!</p>
-                                </div>
+                                <div className="mt-4"><p className="text-sm text-stone-500">The big day has arrived!</p></div>
                             )}
                             
                             <div className="mt-3 flex items-center justify-center gap-2">
@@ -225,57 +293,41 @@
                         </div>
                     </header>
 
-                    {/* Collapsible Filter Bar */}
+                    {/* Filter Bar */}
                     <div className="sticky top-[180px] z-40 bg-white border-b border-stone-200 shadow-sm transition-all duration-300">
                         <div className="max-w-4xl mx-auto px-4">
-                            
-                            {/* Toggle Button */}
-                            <button 
-                                onClick={() => setShowFilters(!showFilters)}
-                                className="w-full py-3 flex items-center justify-between text-stone-600 hover:text-black transition-colors"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <SearchIcon className="w-4 h-4" />
-                                    <span className="font-serif text-sm uppercase tracking-wider">Search & Filters</span>
-                                </div>
+                            <button onClick={() => setShowFilters(!showFilters)} className="w-full py-3 flex items-center justify-between text-stone-600 hover:text-black transition-colors">
+                                <div className="flex items-center gap-2"><SearchIcon className="w-4 h-4" /><span className="font-serif text-sm uppercase tracking-wider">Search & Filters</span></div>
                                 {showFilters ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                             </button>
-
-                            {/* Collapsible Content */}
                             {showFilters && (
                                 <div className="pb-4 animate-in slide-in-from-top-2 duration-200">
                                     <div className="mb-4">
-                                        <input
-                                            type="text"
-                                            placeholder="Search events, locations, or times..."
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:border-black transition-colors"
-                                        />
+                                        <input type="text" placeholder="Search events, locations, or times..." value={searchQuery} onChange={handleSearchChange} className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:border-black transition-colors"/>
                                     </div>
-                                    
                                     <div className="flex flex-wrap gap-2 justify-center items-center">
-                                        {filters.map(filter => (
-                                            <button
-                                                key={filter.id}
-                                                onClick={() => toggleFilter(filter.id)}
-                                                className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
-                                                    selectedFilters.includes(filter.id)
-                                                        ? 'bg-black text-white shadow-md'
-                                                        : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                                                }`}
-                                            >
-                                                {filter.label}
-                                            </button>
-                                        ))}
-                                        
+                                        {filters.map(filter => {
+                                            // Conditional Style for Groom Easter Egg Warning (Click 3)
+                                            const isGroomWarning = filter.id === 'groom' && groomClickCount === 3;
+                                            
+                                            return (
+                                                <button 
+                                                    key={filter.id} 
+                                                    onClick={() => toggleFilter(filter.id)} 
+                                                    className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
+                                                        isGroomWarning 
+                                                            ? 'bg-stone-900 text-white shadow-xl scale-105' // Special style for click #3
+                                                            : selectedFilters.includes(filter.id) 
+                                                                ? 'bg-black text-white shadow-md' 
+                                                                : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                                                    }`}
+                                                >
+                                                    {filter.label}
+                                                </button>
+                                            );
+                                        })}
                                         <div className="w-px h-6 bg-stone-300 mx-2"></div>
-                                        <button
-                                            onClick={toggleExpandAll}
-                                            className="px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all bg-stone-800 text-white hover:bg-black shadow-md"
-                                        >
-                                            {expandAll ? 'Collapse All' : 'Expand All'}
-                                        </button>
+                                        <button onClick={toggleExpandAll} className="px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all bg-stone-800 text-white hover:bg-black shadow-md">{expandAll ? 'Collapse All' : 'Expand All'}</button>
                                     </div>
                                 </div>
                             )}
@@ -285,92 +337,26 @@
                     {/* Timeline */}
                     <div className="max-w-3xl mx-auto px-4 py-12">
                         <div className="relative">
-                            {/* Vertical line (Spine) */}
                             <div className="absolute left-12 top-0 bottom-0 w-1 bg-stone-300 transform -translate-x-1/2"></div>
-
                             <div className="space-y-4">
-                                {filteredEvents.map((event, index) => {
+                                {filteredEvents.map((event) => {
                                     const isExpanded = expandedEvent === event.id || expandAll;
-                                    
                                     return (
-                                        <div 
-                                            key={event.id} 
-                                            className={`relative transition-all duration-500 ease-in-out ${
-                                                isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'
-                                            }`}
-                                        >
-                                            {/* Time Marker */}
-                                            <div className={`
-                                                transition-all duration-500 ease-in-out z-10
-                                                ${isExpanded 
-                                                    ? 'relative w-auto transform translate-x-0' 
-                                                    : 'absolute left-0 w-24 flex justify-center mt-1'
-                                                }
-                                            `}>
-                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative">
-                                                    <span className="text-sm font-medium tracking-wide">{event.time}</span>
-                                                </div>
+                                        <div key={event.id} className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'}`}>
+                                            <div className={`transition-all duration-500 ease-in-out z-10 ${isExpanded ? 'relative w-auto transform translate-x-0' : 'absolute left-0 w-24 flex justify-center mt-1'}`}>
+                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative"><span className="text-sm font-medium tracking-wide">{event.time}</span></div>
                                             </div>
-
-                                            {/* Event Card */}
-                                            <div className={`
-                                                bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md 
-                                                transition-all duration-500 ease-in-out
-                                                ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}
-                                            `}>
-                                                <button
-                                                    onClick={() => toggleEvent(event.id)}
-                                                    className="w-full px-6 py-4 text-left flex items-center justify-between bg-white"
-                                                >
-                                                    <div className="flex-1">
-                                                        <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
-                                                        <p className="text-sm text-stone-500 font-light">{event.location}</p>
-                                                    </div>
-                                                    {isExpanded ? (
-                                                        <ChevronUp className="w-5 h-5 text-stone-600" />
-                                                    ) : (
-                                                        <ChevronDown className="w-5 h-5 text-stone-600" />
-                                                    )}
+                                            <div className={`bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all duration-500 ease-in-out ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}`}>
+                                                <button onClick={() => toggleEvent(event.id)} className="w-full px-6 py-4 text-left flex items-center justify-between bg-white">
+                                                    <div className="flex-1"><h3 className="text-xl font-serif text-black mb-1">{event.title}</h3><p className="text-sm text-stone-500 font-light">{event.location}</p></div>
+                                                    {isExpanded ? <ChevronUp className="w-5 h-5 text-stone-600" /> : <ChevronDown className="w-5 h-5 text-stone-600" />}
                                                 </button>
-
-                                                {/* Expanded Content */}
-                                                <div className={`
-                                                    transition-all duration-500 ease-in-out overflow-hidden
-                                                    ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}
-                                                `}>
+                                                <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                                                     <div className="px-6 pb-6 border-t border-stone-100">
                                                         <p className="text-stone-700 mt-4 leading-relaxed">{event.description}</p>
-                                                        
-                                                        <div className="mt-4 flex flex-wrap gap-2">
-                                                            {event.teams.map(team => (
-                                                                <span
-                                                                    key={team}
-                                                                    className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200"
-                                                                >
-                                                                    {team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-
-                                                        {event.image && (
-                                                            <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />
-                                                        )}
-
-                                                        {event.links && event.links.length > 0 && (
-                                                            <div className="mt-4 space-y-2">
-                                                                {event.links.map((link, idx) => (
-                                                                    <a
-                                                                        key={idx}
-                                                                        href={link.url}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="text-black hover:text-stone-600 text-sm underline block"
-                                                                    >
-                                                                        {link.text}
-                                                                    </a>
-                                                                ))}
-                                                            </div>
-                                                        )}
+                                                        <div className="mt-4 flex flex-wrap gap-2">{event.teams.map(team => (<span key={team} className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200">{team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}</span>))}</div>
+                                                        {event.image && <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />}
+                                                        {event.links && event.links.length > 0 && (<div className="mt-4 space-y-2">{event.links.map((link, idx) => (<a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="text-black hover:text-stone-600 text-sm underline block">{link.text}</a>))}</div>)}
                                                     </div>
                                                 </div>
                                             </div>
@@ -382,14 +368,10 @@
                     </div>
 
                     {/* Footer */}
-                    <footer className="bg-white border-t border-stone-200 mt-16">
+                    <footer className="bg-white border-t border-stone-200 mt-8">
                         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-                            <p className="text-stone-600 font-light text-sm">
-                                We can't wait to celebrate with you!
-                            </p>
-                            <p className="text-stone-500 font-light text-xs mt-2">
-                                恭喜發財 • 百年好合
-                            </p>
+                            <p className="text-stone-600 font-light text-sm">We can't wait to celebrate with you!</p>
+                            <p className="text-stone-500 font-light text-xs mt-2">恭喜發財 • 百年好合</p>
                         </div>
                     </footer>
                 </div>
