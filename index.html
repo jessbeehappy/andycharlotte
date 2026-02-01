@@ -43,8 +43,8 @@
         const XIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
         const CheckIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg>;
 
-        // --- CHECKLIST COMPONENT ---
-        const ChecklistMode = ({ onClose }) => {
+        // --- GROOM CHECKLIST (BLACK) ---
+        const GroomChecklist = ({ onClose }) => {
             const [items, setItems] = useState([
                 { id: 1, text: "Suit Jacket & Trousers", checked: false },
                 { id: 2, text: "White Dress Shirt", checked: false },
@@ -60,10 +60,7 @@
                 { id: 12, text: "Hair Product", checked: false }
             ]);
 
-            const toggleItem = (id) => {
-                setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
-            };
-
+            const toggleItem = (id) => setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
             const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
 
             return (
@@ -92,6 +89,50 @@
             );
         };
 
+        // --- GROOMSMEN CHECKLIST (CHARCOAL) ---
+        const GroomsmenChecklist = ({ onClose }) => {
+            const [items, setItems] = useState([
+                { id: 1, text: "Suit Up & Look Sharp", checked: false },
+                { id: 2, text: "Straighten Tie", checked: false },
+                { id: 3, text: "Boutonnière Check (Don't crush it)", checked: false },
+                { id: 4, text: "Flask Filled (Optional)", checked: false },
+                { id: 5, text: "Speech Printed/Ready", checked: false },
+                { id: 6, text: "Sunglasses", checked: false },
+                { id: 7, text: "Hype the Groom", checked: false },
+                { id: 8, text: "Keep Groom Hydrated", checked: false },
+                { id: 9, text: "Dance Moves Prepared", checked: false },
+                { id: 10, text: "Escort Guests", checked: false }
+            ]);
+
+            const toggleItem = (id) => setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
+            const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
+
+            return (
+                <div className="fixed inset-0 bg-zinc-800 text-white z-[100] overflow-y-auto animate-in fade-in duration-300">
+                    <div className="max-w-2xl mx-auto p-8">
+                        <div className="flex justify-between items-start mb-12">
+                            <div><h2 className="text-4xl font-serif mb-2 text-white">The Squad</h2><p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Groomsmen Duties</p></div>
+                            <button onClick={onClose} className="p-2 bg-zinc-700 rounded-full hover:bg-zinc-600 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
+                        </div>
+                        <div className="mb-12">
+                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-zinc-400"><span>Vibe Check</span><span>{progress}%</span></div>
+                            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
+                        </div>
+                        <div className="space-y-4">
+                            {items.map(item => (
+                                <label key={item.id} className="group flex items-center p-4 bg-zinc-700/50 border border-zinc-600 rounded-xl cursor-pointer hover:border-zinc-500 transition-all">
+                                    <input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} />
+                                    <div className="w-6 h-6 border-2 border-zinc-500 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-zinc-400"><CheckIcon className="w-4 h-4 text-zinc-800 hidden" /></div>
+                                    <span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-zinc-500' : 'opacity-100'}`}>{item.text}</span>
+                                </label>
+                            ))}
+                        </div>
+                        <div className="mt-12 text-center"><p className="text-zinc-500 text-xs font-mono uppercase tracking-[0.2em]">Keep the Vibes High</p></div>
+                    </div>
+                </div>
+            );
+        };
+
         // --- MAIN APP ---
         const WeddingTimeline = () => {
             const [expandedEvent, setExpandedEvent] = useState(null);
@@ -104,7 +145,11 @@
             
             // Easter Egg States
             const [groomClickCount, setGroomClickCount] = useState(0);
-            const [showChecklist, setShowChecklist] = useState(false);
+            const [showGroomChecklist, setShowGroomChecklist] = useState(false);
+
+            // Groomsmen Easter Egg States
+            const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
+            const [showGroomsmenChecklist, setShowGroomsmenChecklist] = useState(false);
 
             const weddingDate = new Date('2026-02-13T00:00:00');
 
@@ -181,26 +226,45 @@
             });
 
             const toggleFilter = (filterId) => {
-                // SPECIAL LOGIC FOR GROOM BUTTON
+                // 1. GROOM LOGIC (4 Clicks)
                 if (filterId === 'groom') {
+                    setGroomsmenClickCount(0); // Reset other counter
                     const newCount = groomClickCount + 1;
                     setGroomClickCount(newCount);
                     
                     if (newCount >= 4) {
-                        setShowChecklist(true);
+                        setShowGroomChecklist(true);
                         setGroomClickCount(0);
                         setSelectedFilters(['groom']);
                         return;
                     }
-
-                    // FORCE SELECT GROOM (Don't toggle off)
-                    // This prevents the UI from "flashing" while clicking repeatedly
                     setSelectedFilters(['groom']);
                     return;
                 } 
 
-                // STANDARD LOGIC FOR OTHER BUTTONS
-                setGroomClickCount(0); // Reset easter egg count
+                // 2. GROOMSMEN LOGIC (5 Clicks)
+                if (filterId === 'groomsmen') {
+                    setGroomClickCount(0); // Reset other counter
+                    const newCount = groomsmenClickCount + 1;
+                    setGroomsmenClickCount(newCount);
+
+                    if (newCount === 5) {
+                        // Wait 800ms so they can see "Okay, Chill!" before switching
+                        setTimeout(() => {
+                            setShowGroomsmenChecklist(true);
+                            setGroomsmenClickCount(0);
+                        }, 800);
+                        setSelectedFilters(['groomsmen']);
+                        return;
+                    }
+                    
+                    setSelectedFilters(['groomsmen']);
+                    return;
+                }
+
+                // 3. STANDARD LOGIC (Reset counters)
+                setGroomClickCount(0);
+                setGroomsmenClickCount(0);
                 
                 if (filterId === 'all') { 
                     setSelectedFilters(['all']); 
@@ -219,7 +283,8 @@
 
             const handleSearchChange = (e) => {
                 setSearchQuery(e.target.value);
-                setGroomClickCount(0); 
+                setGroomClickCount(0);
+                setGroomsmenClickCount(0);
             };
 
             const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
@@ -227,7 +292,9 @@
 
             return (
                 <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
-                    {showChecklist && <ChecklistMode onClose={() => setShowChecklist(false)} />}
+                    {/* OVERLAYS */}
+                    {showGroomChecklist && <GroomChecklist onClose={() => setShowGroomChecklist(false)} />}
+                    {showGroomsmenChecklist && <GroomsmenChecklist onClose={() => setShowGroomsmenChecklist(false)} />}
                     
                     {/* Header */}
                     <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
@@ -273,20 +340,27 @@
                                     </div>
                                     <div className="flex flex-wrap gap-2 justify-center items-center">
                                         {filters.map(filter => {
+                                            // Easter Egg Styles
                                             const isGroomWarning = filter.id === 'groom' && groomClickCount === 3;
+                                            const isGroomsmenChill = filter.id === 'groomsmen' && groomsmenClickCount >= 5;
+                                            
+                                            // Determine Text
+                                            let label = filter.label;
+                                            if (isGroomsmenChill) label = "Okay, Chill!";
+
+                                            // Determine Classes
+                                            let btnClass = "bg-stone-100 text-stone-700 hover:bg-stone-200";
+                                            if (selectedFilters.includes(filter.id)) btnClass = "bg-black text-white shadow-md";
+                                            if (isGroomWarning) btnClass = "bg-stone-900 text-white shadow-xl scale-105";
+                                            if (isGroomsmenChill) btnClass = "bg-red-700 text-white shadow-xl scale-110 font-bold";
+
                                             return (
                                                 <button 
                                                     key={filter.id} 
                                                     onClick={() => toggleFilter(filter.id)} 
-                                                    className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
-                                                        isGroomWarning 
-                                                            ? 'bg-stone-900 text-white shadow-xl scale-105'
-                                                            : selectedFilters.includes(filter.id) 
-                                                                ? 'bg-black text-white shadow-md' 
-                                                                : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
-                                                    }`}
+                                                    className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all duration-200 ${btnClass}`}
                                                 >
-                                                    {filter.label}
+                                                    {label}
                                                 </button>
                                             );
                                         })}
