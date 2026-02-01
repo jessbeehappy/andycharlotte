@@ -71,7 +71,10 @@
                             <button onClick={onClose} className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
                         <div className="mb-12">
-                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500"><span>Readiness</span><span>{progress}%</span></div>
+                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500">
+                                <span>{progress === 100 ? "Let's go get married!" : "Readiness"}</span>
+                                <span>{progress}%</span>
+                            </div>
                             <div className="h-1 bg-stone-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
                         </div>
                         <div className="space-y-4">
@@ -115,7 +118,10 @@
                             <button onClick={onClose} className="p-2 bg-zinc-700 rounded-full hover:bg-zinc-600 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
                         <div className="mb-12">
-                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-zinc-400"><span>Vibe Check</span><span>{progress}%</span></div>
+                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-zinc-400">
+                                <span>{progress === 100 ? "Let's get Andy married!" : "Readiness"}</span>
+                                <span>{progress}%</span>
+                            </div>
                             <div className="h-1 bg-zinc-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
                         </div>
                         <div className="space-y-4">
@@ -146,8 +152,6 @@
             // Easter Egg States
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
-
-            // Groomsmen Easter Egg States
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
             const [showGroomsmenChecklist, setShowGroomsmenChecklist] = useState(false);
 
@@ -228,7 +232,7 @@
             const toggleFilter = (filterId) => {
                 // 1. GROOM LOGIC (4 Clicks)
                 if (filterId === 'groom') {
-                    setGroomsmenClickCount(0); // Reset other counter
+                    setGroomsmenClickCount(0); 
                     const newCount = groomClickCount + 1;
                     setGroomClickCount(newCount);
                     
@@ -244,12 +248,11 @@
 
                 // 2. GROOMSMEN LOGIC (5 Clicks)
                 if (filterId === 'groomsmen') {
-                    setGroomClickCount(0); // Reset other counter
+                    setGroomClickCount(0);
                     const newCount = groomsmenClickCount + 1;
                     setGroomsmenClickCount(newCount);
 
                     if (newCount === 5) {
-                        // Wait 800ms so they can see "Okay, Chill!" before switching
                         setTimeout(() => {
                             setShowGroomsmenChecklist(true);
                             setGroomsmenClickCount(0);
@@ -257,12 +260,12 @@
                         setSelectedFilters(['groomsmen']);
                         return;
                     }
-                    
                     setSelectedFilters(['groomsmen']);
                     return;
                 }
 
-                // 3. STANDARD LOGIC (Reset counters)
+                // 3. STANDARD LOGIC
+                // Reset easter egg counters when clicking other buttons
                 setGroomClickCount(0);
                 setGroomsmenClickCount(0);
                 
@@ -270,12 +273,15 @@
                     setSelectedFilters(['all']); 
                 } else {
                     setSelectedFilters(prev => {
-                        const withoutAll = prev.filter(f => f !== 'all');
+                        // BUG FIX: Clean up 'groom' and 'groomsmen' from the previous selection
+                        // This ensures that if they were "stuck" due to the easter egg logic, they get removed
+                        const cleanPrev = prev.filter(f => f !== 'all' && f !== 'groom' && f !== 'groomsmen');
+                        
                         if (prev.includes(filterId)) {
-                            const newFilters = withoutAll.filter(f => f !== filterId);
+                            const newFilters = cleanPrev.filter(f => f !== filterId);
                             return newFilters.length === 0 ? ['all'] : newFilters;
                         } else { 
-                            return [...withoutAll, filterId]; 
+                            return [...cleanPrev, filterId]; 
                         }
                     });
                 }
@@ -340,28 +346,19 @@
                                     </div>
                                     <div className="flex flex-wrap gap-2 justify-center items-center">
                                         {filters.map(filter => {
-                                            // Easter Egg Styles
                                             const isGroomWarning = filter.id === 'groom' && groomClickCount === 3;
                                             const isGroomsmenChill = filter.id === 'groomsmen' && groomsmenClickCount >= 5;
                                             
-                                            // Determine Text
                                             let label = filter.label;
                                             if (isGroomsmenChill) label = "Okay, Chill!";
 
-                                            // Determine Classes
                                             let btnClass = "bg-stone-100 text-stone-700 hover:bg-stone-200";
                                             if (selectedFilters.includes(filter.id)) btnClass = "bg-black text-white shadow-md";
                                             if (isGroomWarning) btnClass = "bg-stone-900 text-white shadow-xl scale-105";
                                             if (isGroomsmenChill) btnClass = "bg-red-700 text-white shadow-xl scale-110 font-bold";
 
                                             return (
-                                                <button 
-                                                    key={filter.id} 
-                                                    onClick={() => toggleFilter(filter.id)} 
-                                                    className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all duration-200 ${btnClass}`}
-                                                >
-                                                    {label}
-                                                </button>
+                                                <button key={filter.id} onClick={() => toggleFilter(filter.id)} className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all duration-200 ${btnClass}`}>{label}</button>
                                             );
                                         })}
                                         <div className="w-px h-6 bg-stone-300 mx-2"></div>
