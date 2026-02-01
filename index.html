@@ -11,6 +11,8 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -33,6 +35,7 @@
         const { useState, useEffect } = React;
 
         // --- ICONS ---
+        // Note: We are using lucide-react via CDN for simplicity in this standalone file
         const ChevronDown = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>;
         const ChevronUp = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>;
         const Users = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
@@ -41,6 +44,8 @@
         const SearchIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
         const XIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
         const CheckIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg>;
+        const UserIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
+        const MapPin = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
 
         // --- CHECKLISTS ---
         const GroomChecklist = ({ onClose }) => {
@@ -132,7 +137,8 @@
             const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
             const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-            // *** FIXED EVENTS LIST ***
+            // *** UPDATED EVENTS LIST WITH RESPONSIBLE PEOPLE ***
+            // Based on '13 Feb Runsheet.pdf'
             const events = [
                 {
                     id: 1,
@@ -140,19 +146,12 @@
                     title: 'Wake Up & Get Ready',
                     description: 'All parties wake up at the Airbnb. Time to brush teeth and get the day started!',
                     location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Andrew'],
                     teams: ['all'],
                     image: null,
                     links: [{ 
-                        text: "Google Drive",
+                        text: "Google Drive Photos",
                         url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9"
-                    },
-                    { 
-                        text: "Detailed Runsheet",
-                        url: "https://drive.google.com/file/d/1zEZJy_lvgu0YFaA8cX4oIZwhxkGw9tXk/view?usp=sharing"
-                    }
-                    { 
-                        text: "Vendor List",
-                        url: "https://drive.google.com/file/d/1hOuL1aDPtW8rS8GA19dPzqv_yQdOm5U8/view?usp=drive_link"
                     }]
                 },
                 {
@@ -163,9 +162,11 @@
                         '7:00am: Artist Arrives',
                         '7:00am: Bridesmaid 1 (Wing) - Hair',
                         '7:00am: Bridesmaid 3 (Jess) - Makeup',
-                        '7:30am: Bridesmaid 2 (Alison) - Hair'
+                        '7:30am: Bridesmaid 2 (Alison) - Hair',
+                        '7:45am: Bridesmaid 1 (Wing) - Makeup'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
                     teams: ['bridesmaids'],
                     image: null,
                     links: []
@@ -175,12 +176,12 @@
                     time: '8:00 AM',
                     title: 'Hair and Make Up - Part 2',
                     description: [
-                        '7:45am: Bridesmaid 1 (Wing) - Makeup',
                         '8:00am: Bridesmaid 3 (Jess) - Hair',
                         '8:30am: Bridesmaid 4 (Janice) - Hair',
                         '8:30am: Bridesmaid 2 (Alison) - Makeup'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
                     teams: ['bridesmaids'],
                     image: null,
                     links: []
@@ -194,6 +195,7 @@
                         'Brides/Groomsman start helping with Tea Ceremony setup'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Yunho', 'Ryan'],
                     teams: ['bridesmaids', 'groomsmen'],
                     image: null,
                     links: []
@@ -209,6 +211,7 @@
                         'Bridesmaids start steaming dresses'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Alison'],
                     teams: ['bridesmaids', 'parents'],
                     image: null,
                     links: []
@@ -222,6 +225,7 @@
                         'Brides/Groomsman start packing for Bendooley. Needs to be ready by 12:00pm!'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Yunho'],
                     teams: ['bridesmaids', 'groomsmen'],
                     image: null,
                     links: []
@@ -237,17 +241,19 @@
                         'Bridesmaids start steaming dresses and getting ready'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte'],
                     teams: ['bride', 'parents'],
                     image: null,
                     links: []
                 },
                 {
                     id: 8,
-                    time: '10:00 AM',
+                    time: '10:30 AM',
                     title: 'Have you eaten?',
-                    description: 'Make sure people have eaten and drank water. Some may start getting ready',
+                    description: 'Make sure people have eaten and drank water. Some may start getting ready during this time',
                     location: 'Burradoo Airbnb',
-                    teams: ['bride', 'parents'],
+                    responsible: ['All Parties'],
+                    teams: ['all'],
                     image: null,
                     links: []
                 },
@@ -261,7 +267,8 @@
                         'Bride and Groom family start to arrive at 11:30am' 
                     ],
                     location: 'Burradoo Airbnb',
-                    teams: ['bridesmaids'],
+                    responsible: ['Charlotte', 'Andrew'],
+                    teams: ['all'],
                     image: null,
                     links: []
                 },
@@ -271,10 +278,11 @@
                     title: 'Media Arrives & Setup',
                     description: [
                         '11:30am: Photographer & Videographer arrive',
-                        'Begin Tea Ceremony decoration setup',
+                        'Finalise Tea Ceremony decoration setup',
                         'AW/CL Family ensure tea pots and red envelope items are ready'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Yunho', 'Ryan'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -290,6 +298,7 @@
                         'Includes door games and red pocket exchange'
                     ],
                     location: 'Burradoo Airbnb',
+                    responsible: ['Yunho'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -304,6 +313,7 @@
                         'Double check you have the Rings, Vows, Dress Changes and Speech scripts etc on the bus!'
                     ],
                     location: 'Transport to Bendooley',
+                    responsible: ['Yunho', 'Charlotte'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -314,6 +324,7 @@
                     title: 'Reception Preparation',
                     description: '2:15pm - 4:30pm: Reception preparation and dry run of the ceremony. Bridal party to check in with the celebrant and check sound systems.',
                     location: 'Bendooley Estate',
+                    responsible: ['Charlotte'],
                     teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
                     image: null,
                     links: []
@@ -324,6 +335,7 @@
                     title: 'Guest Transport & Setup',
                     description: '3:30pm: Shuttle picks up guests from Imperial Hotel. Styling setup continues (Book Barn, Floral, Wishing Well).',
                     location: 'Imperial Hotel / Bendooley',
+                    responsible: ['Ryan'],
                     teams: ['groomsmen'],
                     image: null,
                     links: []
@@ -334,6 +346,7 @@
                     title: 'Guests & First Look',
                     description: '4:00pm: Guests arrive and are seated. 4:00pm - 4:15pm: First Look photos for Charlotte & Andrew.',
                     location: 'Book Barn - Reception',
+                    responsible: ['Charlotte', 'Andrew'],
                     teams: ['bride', 'groom', 'groomsmen'],
                     image: null,
                     links: []
@@ -344,6 +357,7 @@
                     title: 'Wedding Ceremony',
                     description: '4:30pm - 5:30pm: The Ceremony! Followed immediately by group photos with immediate and extended families.',
                     location: 'Bendooley Estate',
+                    responsible: ['TP'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -358,6 +372,7 @@
                         '6:15pm: Door opens'
                     ],
                     location: 'Bendooley Estate',
+                    responsible: ['TP'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -372,6 +387,7 @@
                         '6:40pm: Speeches (Father of Bride, Brother of Groom)'
                     ],
                     location: 'Book Barn - Reception',
+                    responsible: ['TP'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -386,6 +402,7 @@
                         '7:30pm: Speeches (Maid of Honor, Best Woman, Bride, Groom)'
                     ],
                     location: 'Book Barn - Reception',
+                    responsible: ['Charlotte', 'Andrew'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -399,6 +416,7 @@
                         '8:20pm: First Dance, Dessert served, and Dance Floor opens!'
                     ],
                     location: 'Book Barn - Reception',
+                    responsible: ['Wing', 'Andrew'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -412,6 +430,7 @@
                         '10:45pm: Party concludes. Pack down begins.'
                     ],
                     location: 'Book Barn - Reception',
+                    responsible: ['TP', 'Jess'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -422,12 +441,16 @@
 
             const filteredEvents = events.filter(event => {
                 const teamMatch = selectedFilters.includes('all') || event.teams.includes('all') || event.teams.some(team => selectedFilters.includes(team));
-                const searchMatch = searchQuery === '' || event.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                
+                // Enhanced Search: Now checks Title, Description, Location, Time AND Responsible People
+                const searchMatch = searchQuery === '' || 
+                    event.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                     (Array.isArray(event.description) 
                         ? event.description.some(d => d.toLowerCase().includes(searchQuery.toLowerCase()))
                         : event.description.toLowerCase().includes(searchQuery.toLowerCase())) || 
                     event.location.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                    event.time.toLowerCase().includes(searchQuery.toLowerCase());
+                    event.time.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (event.responsible && event.responsible.some(r => r.toLowerCase().includes(searchQuery.toLowerCase()))); // <--- New Search Logic
                 
                 let timeMatch = true;
                 if (isWeddingDay) {
@@ -554,7 +577,22 @@
                                             </div>
                                             <div className={`bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all duration-500 ease-in-out ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}`}>
                                                 <button onClick={() => toggleEvent(event.id)} className="w-full px-6 py-4 text-left flex items-center justify-between bg-white">
-                                                    <div className="flex-1"><h3 className="text-xl font-serif text-black mb-1">{event.title}</h3><p className="text-sm text-stone-500 font-light">{event.location}</p></div>
+                                                    <div className="flex-1">
+                                                        <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="flex items-center gap-1.5 text-sm text-stone-500 font-light">
+                                                                <MapPin className="w-3.5 h-3.5" />
+                                                                {event.location}
+                                                            </div>
+                                                            {/* RESPONSIBLE PEOPLE SECTION */}
+                                                            {event.responsible && (
+                                                                <div className="flex items-center gap-1.5 text-xs text-stone-400 font-medium uppercase tracking-wide">
+                                                                    <UserIcon className="w-3.5 h-3.5" />
+                                                                    {event.responsible.join(', ')}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                     {isExpanded ? <ChevronUp className="w-5 h-5 text-stone-600" /> : <ChevronDown className="w-5 h-5 text-stone-600" />}
                                                 </button>
                                                 <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
