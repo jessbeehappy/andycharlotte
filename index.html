@@ -189,25 +189,197 @@
             const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
             const events = [
-                { id: 1, time: '6:00 AM', title: 'Morning Preparations Begin', description: 'Bridesmaids arrive at the bridal suite to begin preparations.', location: 'Bridal Suite', teams: ['bridesmaids', 'bride'], image: null, links: [] },
-                { id: 2, time: '7:00 AM', title: 'Hair & Makeup', description: 'Professional hair and makeup artists begin styling the bridal party.', location: 'Bridal Suite', teams: ['bridesmaids', 'bride'], image: null, links: [] },
-                { id: 3, time: '8:00 AM', title: 'Groom\'s Party Arrival', description: 'Groomsmen gather and prepare for the day ahead.', location: 'Groom\'s Suite', teams: ['groomsmen', 'groom'], image: null, links: [] },
-                { id: 4, time: '9:00 AM', title: 'Tea Ceremony - Bride\'s Family', description: 'Traditional Chinese tea ceremony with the bride\'s parents and elders. The bride serves tea to show respect and gratitude.', location: 'Bride\'s Family Home', teams: ['bride', 'parents'], image: null, links: [] },
-                { id: 5, time: '10:00 AM', title: 'Door Games & Groom\'s Arrival', description: 'The groom and groomsmen participate in traditional door games and challenges before "claiming" the bride.', location: 'Bride\'s Family Home', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
-                { id: 6, time: '11:00 AM', title: 'Tea Ceremony - Groom\'s Family', description: 'Traditional Chinese tea ceremony with the groom\'s parents and elders. The couple serves tea to show respect and gratitude.', location: 'Groom\'s Family Home', teams: ['bride', 'groom', 'parents'], image: null, links: [] },
-                { id: 7, time: '12:00 PM', title: 'Wedding Party Photos', description: 'Group photos with the entire wedding party at scenic locations.', location: 'Photo Location TBD', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
-                { id: 8, time: '1:00 PM', title: 'Lunch Break', description: 'Light refreshments and rest before the ceremony.', location: 'Hotel Restaurant', teams: ['all'], image: null, links: [] },
-                { id: 9, time: '2:00 PM', title: 'Final Preparations', description: 'Final touch-ups and getting into ceremony attire.', location: 'Hotel Suites', teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'], image: null, links: [] },
-                { id: 10, time: '3:00 PM', title: 'Guest Arrival', description: 'Guests begin to arrive and are seated.', location: 'Ceremony Venue', teams: ['all'], image: null, links: [] },
-                { id: 11, time: '4:00 PM', title: 'Wedding Ceremony', description: 'The moment we\'ve all been waiting for! Please be seated by 3:45 PM.', location: 'Main Chapel', teams: ['all'], image: null, links: [] },
-                { id: 12, time: '5:00 PM', title: 'Cocktail Hour', description: 'Drinks and canapés while the newlyweds take couple photos.', location: 'Garden Terrace', teams: ['all'], image: null, links: [] },
-                { id: 13, time: '6:00 PM', title: 'Reception Begins', description: 'Grand entrance of the newlyweds and wedding party.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
-                { id: 14, time: '7:00 PM', title: 'Dinner Service', description: 'Traditional Chinese banquet with multiple courses.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
-                { id: 15, time: '8:00 PM', title: 'Speeches & Toasts', description: 'Speeches from parents, best man, and maid of honor.', location: 'Grand Ballroom', teams: ['parents', 'bridesmaids', 'groomsmen'], image: null, links: [] },
-                { id: 16, time: '9:00 PM', title: 'First Dance & Parent Dances', description: 'The newlyweds\' first dance, followed by parent dances and open dancing.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
-                { id: 17, time: '10:00 PM', title: 'Cake Cutting', description: 'Traditional cake cutting ceremony.', location: 'Grand Ballroom', teams: ['all'], image: null, links: [] },
-                { id: 18, time: '11:00 PM', title: 'Send-Off', description: 'Farewell send-off for Andy & Charlotte!', location: 'Main Entrance', teams: ['all'], image: null, links: [] }
-            ];
+    {
+      id: 1,
+      time: '6:30 AM',
+      title: 'Wake Up & Get Ready',
+      description: '6:30am: All parties wake up at 42 Osborne Road. Time to brush teeth and get the day started!',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
+      image: null,
+      links: []
+    },
+    {
+      id: 2,
+      time: '7:00 AM',
+      title: 'Glam Squad: Round 1',
+      description: '7:00am Sharp: Wing starts Hair (with Yoyo). Jess starts Makeup (with Mary). Alison starts Hair at 7:30am.',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bridesmaids'],
+      image: null,
+      links: []
+    },
+    {
+      id: 3,
+      time: '8:00 AM',
+      title: 'Glam Squad: Round 2',
+      description: '8:00am: Jess moves to Hair. Wing moves to Makeup (7:45). Alison starts Makeup (8:30). Janice starts Hair (8:30).',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bridesmaids'],
+      image: null,
+      links: []
+    },
+    {
+      id: 4,
+      time: '9:00 AM',
+      title: 'Mums & Final Touches',
+      description: '9:00am: Mums start hair styling. Janice moves to Makeup (9:15). Everyone else: relax and have coffee.',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bridesmaids', 'parents'],
+      image: null,
+      links: []
+    },
+    {
+      id: 5,
+      time: '10:00 AM',
+      title: 'The Bride (Charlotte)',
+      description: '10:00am: Charlotte begins full Hair & Makeup. Mum 2 starts makeup. This is the main event!',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bride', 'parents'],
+      image: null,
+      links: []
+    },
+    {
+      id: 6,
+      time: '11:00 AM',
+      title: 'Bridesmaids: Pack & Brunch',
+      description: '[Coordinator Note]: Bridesmaids are finished! Use this hour to eat, pack your bags for the shuttle, and steam any dresses. Don\'t leave it until the last minute!',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['bridesmaids'],
+      image: null,
+      links: []
+    },
+    {
+      id: 7,
+      time: '11:30 AM',
+      title: 'Media Arrives & Setup',
+      description: '11:30am: Photographer & Videographer arrive. Begin Tea Ceremony decoration setup. [Protocol Note]: Groomsmen ensure tea pots and red envelope items are ready.',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 8,
+      time: '12:00 PM',
+      title: 'Tea Ceremony',
+      description: '12:15pm - 1:30pm: Traditional Tea Ceremony. Charlotte\'s family served first, followed by Andrew\'s family. Includes door games and red pocket exchange.',
+      location: '42 Osborne Road, Burradoo',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 9,
+      time: '1:30 PM',
+      title: 'Pack Down & Transport',
+      description: '1:30pm: Shuttle arrives. 1:45pm: Depart for Bendooley Estate. [Protocol Note]: Double check you have the Rings, Vows, and Speech scripts on the bus!',
+      location: 'Transport to Bendooley',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 10,
+      time: '2:00 PM',
+      title: 'Rehearsal & Prep',
+      description: '2:15pm - 4:30pm: Reception preparation and dry run of the ceremony. [Protocol Note]: Bridal party to check in with the celebrant and check sound systems.',
+      location: 'Bendooley Estate',
+      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
+      image: null,
+      links: []
+    },
+    {
+      id: 11,
+      time: '3:30 PM',
+      title: 'Guest Transport & Setup',
+      description: '3:30pm: Shuttle picks up guests from Imperial Hotel. Styling setup continues (Book Barn, Floral, Wishing Well).',
+      location: 'Imperial Hotel / Bendooley',
+      teams: ['groomsmen'],
+      image: null,
+      links: []
+    },
+    {
+      id: 12,
+      time: '4:00 PM',
+      title: 'Guests & First Look',
+      description: '4:00pm: Guests arrive and are seated. 4:00pm - 4:15pm: First Look photos for Charlotte & Andrew. [Protocol Note]: Groomsmen to ensure guests are ushered to the ceremony area.',
+      location: 'Bendooley Estate - Ceremony Area',
+      teams: ['bride', 'groom', 'groomsmen'],
+      image: null,
+      links: []
+    },
+    {
+      id: 13,
+      time: '4:30 PM',
+      title: 'Wedding Ceremony',
+      description: '4:30pm - 5:30pm: The Ceremony! Followed immediately by group photos with immediate and extended families.',
+      location: 'Bendooley Estate',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 14,
+      time: '5:30 PM',
+      title: 'Aperitivo (Cocktail Hour)',
+      description: '5:30pm - 6:15pm: Drinks, mingling, and bridal party photos. [Protocol Note]: Bridal party to usher guests to Book Barn after photos.',
+      location: 'Bendooley Estate',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 15,
+      time: '6:30 PM',
+      title: 'Reception Entrances',
+      description: '6:30pm: Grand Entrances! Order: Alison & Ryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew.',
+      location: 'Book Barn',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 16,
+      time: '7:00 PM',
+      title: 'Dinner & Speeches (Part 1)',
+      description: '6:40pm: Speeches by Father of Bride & Brother of Groom. 7:00pm: Mains served. Couple golden hour photoshoot.',
+      location: 'Book Barn',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 17,
+      time: '7:30 PM',
+      title: 'Speeches (Part 2)',
+      description: '7:30pm: Speeches by Maid of Honor, Best Woman (Jessica), Bride, and Groom.',
+      location: 'Book Barn',
+      teams: ['bride', 'groom', 'bridesmaids', 'groomsmen', 'parents'],
+      image: null,
+      links: []
+    },
+    {
+      id: 18,
+      time: '8:00 PM',
+      title: 'Party Time!',
+      description: '8:15pm: Charlotte changes dress. 8:20pm: First Dance, Dessert served, and Dance Floor opens!',
+      location: 'Book Barn',
+      teams: ['all'],
+      image: null,
+      links: []
+    },
+    {
+      id: 19,
+      time: '10:30 PM',
+      title: 'Farewell',
+      description: '10:30pm: Shuttle bus available for international guests. 10:45pm: Party concludes. Pack down begins.',
+      location: 'Book Barn / Main Entrance',
+      teams: ['all'],
+      image: null,
+      links: []
+    }
+  ];
 
             const filters = [
                 { id: 'all', label: 'Everyone', icon: Users },
@@ -417,3 +589,4 @@
     </script>
 </body>
 </html>
+
