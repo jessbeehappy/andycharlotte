@@ -132,7 +132,7 @@
             const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
             const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-            // *** UPDATED EVENTS LIST WITH PARAGRAPHS & LOCATION FIXES ***
+            // *** FIXED EVENTS LIST ***
             const events = [
                 {
                     id: 1,
@@ -142,12 +142,15 @@
                     location: 'Burradoo Airbnb',
                     teams: ['all'],
                     image: null,
-                    links: ['https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9?usp=drive_link']
+                    links: [{ 
+                        text: "Google Drive Photos",
+                        url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9"
+                    }]
                 },
                 {
                     id: 2,
                     time: '7:00 AM',
-                    title: 'Hair and Make Up Start for Bridemaids and Best Woman',
+                    title: 'Hair and Make Up Start',
                     description: [
                         '7:00am: Artist Arrives',
                         '7:00am: Bridesmaid 1 (Wing) - Hair',
@@ -162,7 +165,7 @@
                 {
                     id: 3,
                     time: '8:00 AM',
-                    title: 'Hair and Make Up for Bridemaids and Best Woman - Part 2',
+                    title: 'Hair and Make Up - Part 2',
                     description: [
                         '7:45am: Bridesmaid 1 (Wing) - Makeup',
                         '8:00am: Bridesmaid 3 (Jess) - Hair',
@@ -174,9 +177,10 @@
                     image: null,
                     links: []
                 },
+                {
                     id: 4,
                     time: '8:30 AM',
-                    title: 'Breakfast Setup and Tea Ceremony Decoration',
+                    title: 'Breakfast Setup & Decor',
                     description: [
                         'Brides/Groomsman start helping with Breakfast setup',
                         'Brides/Groomsman start helping with Tea Ceremony setup'
@@ -189,12 +193,12 @@
                 {
                     id: 5,
                     time: '9:00 AM',
-                    title: 'Hair and Make Up for last bridemaid and mums',
+                    title: 'Hair and Make Up - Mums',
                     description: [
                         '9:00am: Mum 1 - Hair',
                         '9:15am: Bridesmaid 4 (Janice) - Makeup',
-                        '9:30am: Mum 2 - Hair'
-                        'Bridemaid start steaming dresses'
+                        '9:30am: Mum 2 - Hair',
+                        'Bridesmaids start steaming dresses'
                     ],
                     location: 'Burradoo Airbnb',
                     teams: ['bridesmaids', 'parents'],
@@ -204,13 +208,13 @@
                 {
                     id: 6,
                     time: '9:30 AM',
-                    title: 'Groomsmen start to get ready & Start Packing',
+                    title: 'Groomsmen: Ready & Packing',
                     description: [
                         '(If not there yet) Pick up or Yunho drives to main Airbnb',
                         'Brides/Groomsman start packing for Bendooley. Needs to be ready by 12:00pm!'
                     ],
                     location: 'Burradoo Airbnb',
-                    teams: ['bridesmaids','groomsmen'],
+                    teams: ['bridesmaids', 'groomsmen'],
                     image: null,
                     links: []
                 },
@@ -222,7 +226,7 @@
                         '10:00am: Charlotte - Hair & Makeup',
                         '10:00am: Mum 2 - Makeup',
                         '10:45am: Mum 1 - Makeup',
-                        'Bridemaid start steaming dresses and getting ready'
+                        'Bridesmaids start steaming dresses and getting ready'
                     ],
                     location: 'Burradoo Airbnb',
                     teams: ['bride', 'parents'],
@@ -233,7 +237,7 @@
                     id: 8,
                     time: '10:00 AM',
                     title: 'Have you eaten?',
-                    description: 'Make sure people have eaten and drank water. Some may start getting ready'
+                    description: 'Make sure people have eaten and drank water. Some may start getting ready',
                     location: 'Burradoo Airbnb',
                     teams: ['bride', 'parents'],
                     image: null,
@@ -244,7 +248,7 @@
                     time: '11:00 AM',
                     title: 'Everyone is dressed!',
                     description: [
-                        'Bridemaids to get dressed (TBA)',
+                        'Bridesmaids to get dressed (TBA)',
                         'Groomsmen to get dressed (TBA)',
                         'Bride and Groom family start to arrive at 11:30am' 
                     ],
@@ -289,7 +293,7 @@
                     description: [
                         '1:30pm: Shuttle arrives',
                         '1:45pm: Depart for Bendooley Estate',
-                        'Double check you have the Rings, Vows, Dress Changes and Speech scripts etcv on the bus!'
+                        'Double check you have the Rings, Vows, Dress Changes and Speech scripts etc on the bus!'
                     ],
                     location: 'Transport to Bendooley',
                     teams: ['all'],
@@ -591,4 +595,3 @@
     </script>
 </body>
 </html>
-
