@@ -17,7 +17,7 @@
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
         
-        /* Custom checkbox style for the dark mode */
+        /* Custom checkbox style */
         .custom-checkbox:checked + div {
             background-color: white;
             border-color: white;
@@ -33,7 +33,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- ICON COMPONENTS ---
+        // --- ICONS ---
         const ChevronDown = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>;
         const ChevronUp = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m18 15-6-6-6 6"/></svg>;
         const Users = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
@@ -43,7 +43,7 @@
         const XIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
         const CheckIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg>;
 
-        // --- CHECKLIST COMPONENT (Hidden Feature) ---
+        // --- CHECKLIST COMPONENT ---
         const ChecklistMode = ({ onClose }) => {
             const [items, setItems] = useState([
                 { id: 1, text: "Suit Jacket & Trousers", checked: false },
@@ -61,9 +61,7 @@
             ]);
 
             const toggleItem = (id) => {
-                setItems(items.map(item => 
-                    item.id === id ? { ...item, checked: !item.checked } : item
-                ));
+                setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
             };
 
             const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
@@ -71,63 +69,30 @@
             return (
                 <div className="fixed inset-0 bg-black text-white z-[100] overflow-y-auto animate-in fade-in duration-300">
                     <div className="max-w-2xl mx-auto p-8">
-                        {/* Header */}
                         <div className="flex justify-between items-start mb-12">
-                            <div>
-                                <h2 className="text-4xl font-serif mb-2 text-white">The Essentials</h2>
-                                <p className="text-stone-400 font-mono text-sm tracking-widest uppercase">Groom Protocol</p>
-                            </div>
-                            <button 
-                                onClick={onClose}
-                                className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"
-                            >
-                                <XIcon className="w-6 h-6 text-white" />
-                            </button>
+                            <div><h2 className="text-4xl font-serif mb-2 text-white">The Essentials</h2><p className="text-stone-400 font-mono text-sm tracking-widest uppercase">Groom Protocol</p></div>
+                            <button onClick={onClose} className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
-
-                        {/* Progress Bar */}
                         <div className="mb-12">
-                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500">
-                                <span>Readiness</span>
-                                <span>{progress}%</span>
-                            </div>
-                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden">
-                                <div 
-                                    className="h-full bg-white transition-all duration-500 ease-out"
-                                    style={{ width: `${progress}%` }}
-                                ></div>
-                            </div>
+                            <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500"><span>Readiness</span><span>{progress}%</span></div>
+                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
                         </div>
-
-                        {/* List */}
                         <div className="space-y-4">
                             {items.map(item => (
                                 <label key={item.id} className="group flex items-center p-4 bg-stone-900/50 border border-stone-800 rounded-xl cursor-pointer hover:border-stone-600 transition-all">
-                                    <input 
-                                        type="checkbox" 
-                                        className="hidden custom-checkbox"
-                                        checked={item.checked}
-                                        onChange={() => toggleItem(item.id)}
-                                    />
-                                    <div className="w-6 h-6 border-2 border-stone-600 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-stone-500">
-                                        <CheckIcon className="w-4 h-4 text-black hidden" />
-                                    </div>
-                                    <span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-stone-500' : 'opacity-100'}`}>
-                                        {item.text}
-                                    </span>
+                                    <input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} />
+                                    <div className="w-6 h-6 border-2 border-stone-600 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-stone-500"><CheckIcon className="w-4 h-4 text-black hidden" /></div>
+                                    <span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-stone-500' : 'opacity-100'}`}>{item.text}</span>
                                 </label>
                             ))}
                         </div>
-                        
-                        <div className="mt-12 text-center">
-                            <p className="text-stone-600 text-xs font-mono uppercase tracking-[0.2em]">Don't Forget the Rings</p>
-                        </div>
+                        <div className="mt-12 text-center"><p className="text-stone-600 text-xs font-mono uppercase tracking-[0.2em]">Don't Forget the Rings</p></div>
                     </div>
                 </div>
             );
         };
 
-        // --- MAIN APP COMPONENT ---
+        // --- MAIN APP ---
         const WeddingTimeline = () => {
             const [expandedEvent, setExpandedEvent] = useState(null);
             const [selectedFilters, setSelectedFilters] = useState(['all']);
@@ -143,10 +108,7 @@
 
             const weddingDate = new Date('2026-02-13T00:00:00');
 
-            useEffect(() => {
-                const timer = setInterval(() => setCurrentTime(new Date()), 60000); 
-                return () => clearInterval(timer);
-            }, []);
+            useEffect(() => { const timer = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(timer); }, []);
 
             useEffect(() => {
                 const updateCountdown = () => {
@@ -159,9 +121,7 @@
                             minutes: Math.floor((difference / 1000 / 60) % 60),
                             seconds: Math.floor((difference / 1000) % 60)
                         });
-                    } else {
-                        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-                    }
+                    } else { setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 }); }
                 };
                 updateCountdown();
                 const timer = setInterval(updateCountdown, 1000);
@@ -221,38 +181,45 @@
             });
 
             const toggleFilter = (filterId) => {
-                // EASTER EGG LOGIC
+                // SPECIAL LOGIC FOR GROOM BUTTON
                 if (filterId === 'groom') {
                     const newCount = groomClickCount + 1;
                     setGroomClickCount(newCount);
                     
-                    // On 4th click, trigger Checklist and reset count
                     if (newCount >= 4) {
                         setShowChecklist(true);
                         setGroomClickCount(0);
+                        setSelectedFilters(['groom']);
                         return;
                     }
-                } else {
-                    // Reset if any other filter is clicked
-                    setGroomClickCount(0);
-                }
 
-                // Standard Filter Logic
-                if (filterId === 'all') { setSelectedFilters(['all']); } 
-                else {
+                    // FORCE SELECT GROOM (Don't toggle off)
+                    // This prevents the UI from "flashing" while clicking repeatedly
+                    setSelectedFilters(['groom']);
+                    return;
+                } 
+
+                // STANDARD LOGIC FOR OTHER BUTTONS
+                setGroomClickCount(0); // Reset easter egg count
+                
+                if (filterId === 'all') { 
+                    setSelectedFilters(['all']); 
+                } else {
                     setSelectedFilters(prev => {
                         const withoutAll = prev.filter(f => f !== 'all');
                         if (prev.includes(filterId)) {
                             const newFilters = withoutAll.filter(f => f !== filterId);
                             return newFilters.length === 0 ? ['all'] : newFilters;
-                        } else { return [...withoutAll, filterId]; }
+                        } else { 
+                            return [...withoutAll, filterId]; 
+                        }
                     });
                 }
             };
 
             const handleSearchChange = (e) => {
                 setSearchQuery(e.target.value);
-                setGroomClickCount(0); // Reset easter egg count on search
+                setGroomClickCount(0); 
             };
 
             const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
@@ -260,7 +227,6 @@
 
             return (
                 <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
-                    {/* Render Checklist Overlay if triggered */}
                     {showChecklist && <ChecklistMode onClose={() => setShowChecklist(false)} />}
                     
                     {/* Header */}
@@ -307,16 +273,14 @@
                                     </div>
                                     <div className="flex flex-wrap gap-2 justify-center items-center">
                                         {filters.map(filter => {
-                                            // Conditional Style for Groom Easter Egg Warning (Click 3)
                                             const isGroomWarning = filter.id === 'groom' && groomClickCount === 3;
-                                            
                                             return (
                                                 <button 
                                                     key={filter.id} 
                                                     onClick={() => toggleFilter(filter.id)} 
                                                     className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all ${
                                                         isGroomWarning 
-                                                            ? 'bg-stone-900 text-white shadow-xl scale-105' // Special style for click #3
+                                                            ? 'bg-stone-900 text-white shadow-xl scale-105'
                                                             : selectedFilters.includes(filter.id) 
                                                                 ? 'bg-black text-white shadow-md' 
                                                                 : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -367,7 +331,6 @@
                         </div>
                     </div>
 
-                    {/* Footer */}
                     <footer className="bg-white border-t border-stone-200 mt-8">
                         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
                             <p className="text-stone-600 font-light text-sm">We can't wait to celebrate with you!</p>
