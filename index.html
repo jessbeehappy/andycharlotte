@@ -135,7 +135,7 @@
             const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
             const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-            // *** EVENTS LIST with MIXED CONTENT (Paragraphs, Lists, Checklists) ***
+            // *** EVENTS LIST with MIXED CONTENT ***
             const events = [
                 {
                     id: 1,
@@ -152,7 +152,6 @@
                     id: 2,
                     time: '7:00 AM',
                     title: 'Hair and Make Up Start',
-                    // Example of mixed content: Title text + List
                     description: [
                         { type: 'paragraph', text: 'Makeup Artists Yoyo and Mary arrive. Please have clean faces!' },
                         { type: 'list', items: [
@@ -217,7 +216,6 @@
                     id: 6,
                     time: '9:30 AM',
                     title: 'Groomsmen: Ready & Packing',
-                    // CHECKLIST EXAMPLE
                     description: [
                         { type: 'paragraph', text: 'Groomsmen need to be fully packed and ready to go. The shuttle waits for no one!' },
                         { type: 'checklist', items: [
@@ -310,7 +308,6 @@
                     id: 12,
                     time: '1:30 PM',
                     title: 'Final Pack Down & Transport',
-                    // CHECKLIST EXAMPLE
                     description: [
                         { type: 'paragraph', text: 'Shuttle arrives at 1:30pm sharp. We depart at 1:45pm.' },
                         { type: 'checklist', items: [
@@ -447,12 +444,12 @@
 
             // --- RENDER HELPERS ---
             const renderDescriptionContent = (desc) => {
-                // Case 1: Simple string (Backward compatibility)
+                // Case 1: Simple string
                 if (typeof desc === 'string') {
                     return <p className="text-stone-700 mt-4 leading-relaxed">{desc}</p>;
                 }
                 
-                // Case 2: Simple List (Backward compatibility: Array of strings)
+                // Case 2: Simple List (Backward compatibility)
                 if (Array.isArray(desc) && typeof desc[0] === 'string') {
                     return (
                         <ul className="text-stone-700 mt-4 leading-relaxed list-none space-y-2">
@@ -517,7 +514,7 @@
             const filteredEvents = events.filter(event => {
                 const teamMatch = selectedFilters.includes('all') || event.teams.includes('all') || event.teams.some(team => selectedFilters.includes(team));
                 
-                // Smart Search: Checks strings, simple arrays, and complex mixed content
+                // Smart Search
                 const searchTextMatches = (text) => text.toLowerCase().includes(searchQuery.toLowerCase());
                 
                 let descMatch = false;
@@ -526,7 +523,6 @@
                     if (typeof event.description[0] === 'string') {
                         descMatch = event.description.some(line => searchTextMatches(line));
                     } else {
-                        // Mixed content search
                         descMatch = event.description.some(section => {
                             if (section.text) return searchTextMatches(section.text);
                             if (section.items) return section.items.some(item => searchTextMatches(item));
@@ -655,63 +651,3 @@
 
                     {/* Timeline */}
                     <div className="max-w-3xl mx-auto px-4 py-12">
-                        <div className="relative">
-                            <div className="absolute left-12 top-0 bottom-0 w-1 bg-stone-300 transform -translate-x-1/2"></div>
-                            <div className="space-y-4">
-                                {filteredEvents.map((event) => {
-                                    const isExpanded = expandedEvent === event.id || expandAll;
-                                    return (
-                                        <div key={event.id} className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'}`}>
-                                            <div className={`transition-all duration-500 ease-in-out z-10 ${isExpanded ? 'relative w-auto transform translate-x-0' : 'absolute left-0 w-24 flex justify-center mt-1'}`}>
-                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative"><span className="text-sm font-medium tracking-wide">{event.time}</span></div>
-                                            </div>
-                                            <div className={`bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all duration-500 ease-in-out ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}`}>
-                                                <button onClick={() => toggleEvent(event.id)} className="w-full px-6 py-4 text-left flex items-center justify-between bg-white">
-                                                    <div className="flex-1">
-                                                        <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
-                                                        <div className="flex flex-col gap-1">
-                                                            <div className="flex items-center gap-1.5 text-sm text-stone-500 font-light">
-                                                                <MapPin className="w-3.5 h-3.5" />
-                                                                {event.location}
-                                                            </div>
-                                                            {event.responsible && (
-                                                                <div className="flex items-center gap-1.5 text-xs text-stone-400 font-medium uppercase tracking-wide">
-                                                                    <UserIcon className="w-3.5 h-3.5" />
-                                                                    {event.responsible.join(', ')}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    {isExpanded ? <ChevronUp className="w-5 h-5 text-stone-600" /> : <ChevronDown className="w-5 h-5 text-stone-600" />}
-                                                </button>
-                                                <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                                                    <div className="px-6 pb-6 border-t border-stone-100">
-                                                        {renderDescriptionContent(event.description)}
-                                                        <div className="mt-4 flex flex-wrap gap-2">{event.teams.map(team => (<span key={team} className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200">{team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}</span>))}</div>
-                                                        {event.image && <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />}
-                                                        {event.links && event.links.length > 0 && (<div className="mt-4 space-y-2">{event.links.map((link, idx) => (<a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="text-black hover:text-stone-600 text-sm underline block">{link.text}</a>))}</div>)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-
-                    <footer className="bg-white border-t border-stone-200 mt-8">
-                        <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-                            <p className="text-stone-600 font-light text-sm">We can't wait to celebrate with you!</p>
-                            <p className="text-stone-500 font-light text-xs mt-2">恭喜發財 • 百年好合</p>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<WeddingTimeline />);
-    </script>
-</body>
-</html>
