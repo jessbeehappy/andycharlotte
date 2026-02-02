@@ -97,6 +97,11 @@
             const [expandAll, setExpandAll] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            
+            // --- THE MISSING LINE HAS BEEN RESTORED BELOW ---
+            const [showFilters, setShowFilters] = useState(false);
+            // ------------------------------------------------
+
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
