@@ -48,6 +48,45 @@
         const UserIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
         const MapPin = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
         const ExternalLinkIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>;
+        const HistoryIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>;
+
+        // --- BRIDE EASTER EGG COMPONENT ---
+        const BrideMessage = ({ onClose }) => {
+            return (
+                <div className="fixed inset-0 bg-rose-50 z-[100] overflow-hidden animate-in fade-in duration-700 flex flex-col items-center justify-center p-8 text-center">
+                    <button onClick={onClose} className="absolute top-8 right-8 p-3 bg-rose-200/50 rounded-full hover:bg-rose-200 transition-colors text-rose-800">
+                        <XIcon className="w-6 h-6" />
+                    </button>
+                    
+                    <div className="max-w-lg space-y-8 animate-in slide-in-from-bottom-8 duration-1000 delay-150">
+                        <div className="flex justify-center mb-6">
+                            <div className="p-4 bg-rose-100 rounded-full">
+                                <Heart className="w-16 h-16 text-rose-400 fill-rose-200" />
+                            </div>
+                        </div>
+                        
+                        <h2 className="text-4xl font-serif text-rose-900 mb-4 tracking-wide">Dearest Charlotte</h2>
+                        
+                        <div className="space-y-6 text-rose-800 font-light text-lg leading-relaxed">
+                            <p className="text-2xl font-serif italic text-rose-700">Take a deep breath.</p>
+                            <p>
+                                Today is going to be the <span className="font-medium">best day of your life</span>. 
+                            </p>
+                            <p>
+                                Be present in every moment. Soak it all in. Look at the people who love you.
+                            </p>
+                            <p>
+                                Don't sweat the small stuff—everything is exactly as it should be.
+                            </p>
+                        </div>
+
+                        <div className="pt-12">
+                            <p className="text-rose-400 text-xs font-mono uppercase tracking-[0.3em]">Enjoy every second</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
 
         // --- CHECKLISTS (Easter Eggs) ---
         const GroomChecklist = ({ onClose }) => {
@@ -112,28 +151,32 @@
             const [expandAll, setExpandAll] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            
+            // --- STATE VARIABLES ---
             const [showFilters, setShowFilters] = useState(false);
+            const [showPastEvents, setShowPastEvents] = useState(false); // NEW STATE FOR HISTORY
+            const [testTime, setTestTime] = useState(null); // TIME TRAVEL STATE
+
+            // EASTER EGG STATES
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
             const [showGroomsmenChecklist, setShowGroomsmenChecklist] = useState(false);
-            
-            // Testing State for "Time Travel"
-            const [testTime, setTestTime] = useState(null);
+            const [brideClickCount, setBrideClickCount] = useState(0); // NEW BRIDE STATE
+            const [showBrideMessage, setShowBrideMessage] = useState(false); // NEW BRIDE STATE
 
-            const activeTime = testTime || currentTime; // Use test time if set, otherwise real time
-            const activeRef = useRef(null); // Ref for auto-scrolling
+            const activeTime = testTime || currentTime; 
+            const activeRef = useRef(null); 
 
             const weddingDate = new Date('2026-02-13T00:00:00');
 
             useEffect(() => { const timer = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(timer); }, []);
 
-            // Auto-scroll effect when component mounts or filter changes, finding the first active event
             useEffect(() => {
                 if (activeRef.current) {
                     setTimeout(() => {
                         activeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 500); // Small delay to ensure render
+                    }, 500); 
                 }
             }, []);
 
@@ -163,10 +206,10 @@
                 return hours * 60 + minutes; 
             };
 
-            const isWeddingDay = true; // Force true for testing purposes as requested, or keep logic: activeTime.toDateString() === weddingDate.toDateString();
+            const isWeddingDay = true; // Force true for testing
             const currentMinutes = activeTime.getHours() * 60 + activeTime.getMinutes();
 
-            // *** EVENTS LIST (FIXED JSON) ***
+            // *** EVENTS LIST ***
             const events = [
                 {
                     id: 1,
@@ -593,48 +636,55 @@
                     searchTextMatches(event.time) ||
                     (event.responsible && event.responsible.some(r => searchTextMatches(r)));
                 
-                // --- MODIFIED: Show all events, no filtering by time ---
+                // Show ALL events regardless of time (logic handled in rendering for visuals)
                 return teamMatch && searchMatch;
             });
 
-            // Find the index of the first active event (not past)
+            // Find first ACTIVE event index for auto-scroll
             const firstActiveIndex = filteredEvents.findIndex(event => {
                 const eventMinutes = parseEventTime(event.time);
-                // Simple logic: if event started more than 30 mins ago, it's "past"
                 return !(isWeddingDay && eventMinutes < currentMinutes - 30);
             });
 
             const toggleFilter = (filterId) => {
                 if (filterId === 'groom') {
-                    setGroomsmenClickCount(0); 
+                    setGroomsmenClickCount(0); setBrideClickCount(0);
                     const newCount = groomClickCount + 1;
                     setGroomClickCount(newCount);
                     if (newCount >= 4) { setShowGroomChecklist(true); setGroomClickCount(0); setSelectedFilters(['groom']); return; }
                     setSelectedFilters(['groom']); return;
                 } 
                 if (filterId === 'groomsmen') {
-                    setGroomClickCount(0);
+                    setGroomClickCount(0); setBrideClickCount(0);
                     const newCount = groomsmenClickCount + 1;
                     setGroomsmenClickCount(newCount);
                     if (newCount === 5) { setTimeout(() => { setShowGroomsmenChecklist(true); setGroomsmenClickCount(0); }, 800); setSelectedFilters(['groomsmen']); return; }
                     setSelectedFilters(['groomsmen']); return;
                 }
-                setGroomClickCount(0); setGroomsmenClickCount(0);
+                if (filterId === 'bride') {
+                    setGroomClickCount(0); setGroomsmenClickCount(0);
+                    const newCount = brideClickCount + 1;
+                    setBrideClickCount(newCount);
+                    if (newCount >= 5) { setShowBrideMessage(true); setBrideClickCount(0); setSelectedFilters(['bride']); return; }
+                    setSelectedFilters(['bride']); return;
+                }
+
+                setGroomClickCount(0); setGroomsmenClickCount(0); setBrideClickCount(0);
                 if (filterId === 'all') { setSelectedFilters(['all']); } 
                 else {
                     setSelectedFilters(prev => {
-                        const cleanPrev = prev.filter(f => f !== 'all' && f !== 'groom' && f !== 'groomsmen');
+                        const cleanPrev = prev.filter(f => f !== 'all' && f !== 'groom' && f !== 'groomsmen' && f !== 'bride');
                         if (prev.includes(filterId)) { const newFilters = cleanPrev.filter(f => f !== filterId); return newFilters.length === 0 ? ['all'] : newFilters; } 
                         else { return [...cleanPrev, filterId]; }
                     });
                 }
             };
 
-            const handleSearchChange = (e) => { setSearchQuery(e.target.value); setGroomClickCount(0); setGroomsmenClickCount(0); };
+            const handleSearchChange = (e) => { setSearchQuery(e.target.value); setGroomClickCount(0); setGroomsmenClickCount(0); setBrideClickCount(0); };
             const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
             const toggleExpandAll = () => { setExpandAll(!expandAll); if (!expandAll) { setExpandedEvent(null); } };
 
-            // Helper to handle slider change for time travel testing
+            // Time Travel Slider Handler
             const handleTimeSliderChange = (e) => {
                 const totalMinutes = parseInt(e.target.value);
                 const hours = Math.floor(totalMinutes / 60);
@@ -650,6 +700,7 @@
                     {/* OVERLAYS */}
                     {showGroomChecklist && <GroomChecklist onClose={() => setShowGroomChecklist(false)} />}
                     {showGroomsmenChecklist && <GroomsmenChecklist onClose={() => setShowGroomsmenChecklist(false)} />}
+                    {showBrideMessage && <BrideMessage onClose={() => setShowBrideMessage(false)} />}
                     
                     {/* Header */}
                     <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
@@ -728,20 +779,17 @@
                                     
                                     // *** TIME LOGIC ***
                                     const eventMinutes = parseEventTime(event.time);
-                                    // If current time is more than 30 mins past event start, consider it "done/past"
-                                    const isPast = isWeddingDay && eventMinutes < currentMinutes - 30;
-                                    
-                                    // Is this the first active event? If so, attach ref for auto-scroll
+                                    const isPast = isWeddingDay && eventMinutes < currentMinutes - 30; // 30 min buffer
                                     const isFirstActive = index === firstActiveIndex;
 
                                     return (
                                         <div 
                                             key={event.id} 
-                                            ref={isFirstActive ? activeRef : null}
+                                            ref={isFirstActive ? activeRef : null} // Attach ref for scrolling
                                             className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'} ${isPast ? 'opacity-60 grayscale' : ''}`}
                                         >
                                             <div className={`transition-all duration-500 ease-in-out z-10 ${isExpanded ? 'relative w-auto transform translate-x-0' : 'absolute left-0 w-24 flex justify-center mt-1'}`}>
-                                                <div className={`px-3 py-2 rounded-lg shadow-md relative ${isPast ? 'bg-stone-200 text-stone-500' : 'bg-black text-white'}`}>
+                                                <div className={`px-3 py-2 rounded-lg shadow-md relative transition-colors duration-500 ${isPast ? 'bg-stone-200 text-stone-500' : 'bg-black text-white'}`}>
                                                     <span className="text-sm font-medium tracking-wide">{event.time}</span>
                                                 </div>
                                             </div>
@@ -770,7 +818,7 @@
                                                         <div className="mt-4 flex flex-wrap gap-2">{event.teams.map(team => (<span key={team} className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200">{team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}</span>))}</div>
                                                         {event.image && <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />}
                                                         
-                                                        {/* --- UPDATED LINK RENDERING WITH SUBTLE ICON --- */}
+                                                        {/* --- UPDATED LINK RENDERING --- */}
                                                         {event.links && event.links.length > 0 && (
                                                             <div className="mt-4 space-y-2">
                                                                 {event.links.map((link, idx) => (
@@ -797,7 +845,7 @@
                         </div>
                     </div>
 
-                    {/* --- TEST TOOL: TIME TRAVEL SLIDER --- */}
+                    {/* --- TIME TRAVEL SLIDER (TESTING) 
                     <div className="fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur border border-stone-300 p-4 rounded-xl shadow-2xl w-64">
                         <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Dev: Time Travel</p>
                         <input 
@@ -811,7 +859,7 @@
                             <span>{activeTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                             <button onClick={() => setTestTime(null)} className="underline text-stone-400 hover:text-black">Reset</button>
                         </div>
-                    </div>
+                    </div>--- */}
 
                     <footer className="bg-white border-t border-stone-200 mt-8">
                         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
