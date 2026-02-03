@@ -60,13 +60,18 @@
                             <div><h2 className="text-4xl font-serif mb-2 text-white">The Essentials</h2><p className="text-stone-400 font-mono text-sm tracking-widest uppercase">Groom Protocol</p></div>
                             <button onClick={onClose} className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
+                        
+                        {/* STICKY PROGRESS BAR - GROOM */}
                         <div className="sticky top-0 z-30 bg-black pb-8 pt-4 mb-4 border-b border-stone-900">
                             <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500">
                                 <span>{progress === 100 ? "Let's go get married!" : "Readiness"}</span>
                                 <span>{progress}%</span>
                             </div>
-                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
+                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden">
+                                <div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
+                            </div>
                         </div>
+
                         <div className="space-y-4">{items.map(item => (<label key={item.id} className="group flex items-center p-4 bg-stone-900/50 border border-stone-800 rounded-xl cursor-pointer hover:border-stone-600 transition-all"><input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} /><div className="w-6 h-6 border-2 border-stone-600 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-stone-500"><CheckIcon className="w-4 h-4 text-black hidden" /></div><span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-stone-500' : 'opacity-100'}`}>{item.text}</span></label>))}</div>
                         <div className="mt-12 text-center"><p className="text-stone-600 text-xs font-mono uppercase tracking-[0.2em]">Don't Forget the Rings</p></div>
                     </div>
@@ -87,13 +92,18 @@
                             <div><h2 className="text-4xl font-serif mb-2 text-white">The Squad</h2><p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Groomsmen Duties</p></div>
                             <button onClick={onClose} className="p-2 bg-zinc-700 rounded-full hover:bg-zinc-600 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
+
+                        {/* STICKY PROGRESS BAR - GROOMSMEN */}
                         <div className="sticky top-0 z-30 bg-zinc-800 pb-8 pt-4 mb-4 border-b border-zinc-700">
                             <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-zinc-400">
                                 <span>{progress === 100 ? "Let's get Andy married!" : "Readiness"}</span>
                                 <span>{progress}%</span>
                             </div>
-                            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
+                            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
+                                <div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
+                            </div>
                         </div>
+
                         <div className="space-y-4">{items.map(item => (<label key={item.id} className="group flex items-center p-4 bg-zinc-700/50 border border-zinc-600 rounded-xl cursor-pointer hover:border-zinc-500 transition-all"><input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} /><div className="w-6 h-6 border-2 border-zinc-500 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-zinc-400"><CheckIcon className="w-4 h-4 text-zinc-800 hidden" /></div><span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-zinc-500' : 'opacity-100'}`}>{item.text}</span></label>))}</div>
                         <div className="mt-12 text-center"><p className="text-zinc-500 text-xs font-mono uppercase tracking-[0.2em]">Keep the Vibes High</p></div>
                     </div>
@@ -110,8 +120,10 @@
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             
-            // --- RESTORED STATE ---
+            // --- THE MISSING LINE HAS BEEN RESTORED BELOW ---
             const [showFilters, setShowFilters] = useState(false);
+            // ------------------------------------------------
+
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
@@ -155,13 +167,13 @@
                 {
                     id: 1,
                     time: '6:30 AM',
-                    title: 'Wake Up & Get Ready',
-                    description: 'All parties wake up at the Airbnb. Time to brush teeth and get the day started!',
+                    title: 'Wake Up & Get Ready!',
+                    description: 'Everyone wakes up at the Airbnb. Time to brush teeth and get the day started!',
                     location: 'Burradoo Airbnb',
                     responsible: ['Charlotte', 'Andrew'],
                     teams: ['all'],
                     image: null,
-                    links: [{ text: "Google Drive Photos", url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9" }]
+                    links: [{ text: "Google Drive Documents", url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9" }]
                 },
                 {
                     id: 2,
@@ -177,7 +189,7 @@
                         ]}
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
+                    responsible: ['Charlotte'],
                     teams: ['bridesmaids'],
                     image: null,
                     links: []
@@ -192,7 +204,7 @@
                         '8:30am: Bridesmaid 2 (Alison) - Makeup'
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
+                    responsible: ['Charlotte'],
                     teams: ['bridesmaids'],
                     image: null,
                     links: []
@@ -223,7 +235,7 @@
                         'Bridesmaids start steaming dresses'
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Charlotte', 'Alison'],
+                    responsible: ['Charlotte'],
                     teams: ['bridesmaids', 'parents'],
                     image: null,
                     links: []
@@ -231,18 +243,20 @@
                 {
                     id: 6,
                     time: '9:30 AM',
-                    title: 'Groomsmen: Ready & Packing',
+                    title: 'Groomsmen to begin getting ready & packing',
                     description: [
                         { type: 'paragraph', text: 'Groomsmen need to be fully packed and ready to go. The shuttle waits for no one!' },
                         { type: 'checklist', items: [
                             'Suit & Tie on',
                             'Bags packed for Bendooley',
-                            'Flasks filled (optional)'
+                            'Outfit changes',
+                            'Rings',
+                            'Vows'
                         ]},
                         { type: 'paragraph', text: 'Once you are ready, help move the luggage to the front door.' }
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Yunho'],
+                    responsible: ['Bryan'],
                     teams: ['bridesmaids', 'groomsmen'],
                     image: null,
                     links: []
@@ -250,7 +264,7 @@
                 {
                     id: 7,
                     time: '10:00 AM',
-                    title: 'The Bride (Charlotte)',
+                    title: 'The Bride (Charlotte) + Mums Hair & Make Up',
                     description: [
                         '10:00am: Charlotte - Hair & Makeup',
                         '10:00am: Mum 2 - Makeup',
@@ -279,8 +293,10 @@
                     time: '11:00 AM',
                     title: 'Everyone is dressed!',
                     description: [
-                        'Bridesmaids to get dressed (TBA)',
-                        'Groomsmen to get dressed (TBA)',
+                        'Bridesmaids are dressed',
+                        'Groomsmen to get dressed',
+                        'Parents are dressed',
+                        'Bride and Groom are ready for Tea Ceremony',
                         'Bride and Groom family start to arrive at 11:30am' 
                     ],
                     location: 'Burradoo Airbnb',
@@ -292,14 +308,22 @@
                 {
                     id: 10,
                     time: '11:30 AM',
-                    title: 'Media Arrives & Setup',
+                    title: 'Photography & Videography Arrives & Tea Ceremony Setup',
                     description: [
-                        '11:30am: Photographer & Videographer arrive',
-                        'Finalise Tea Ceremony decoration setup',
-                        'AW/CL Family ensure tea pots and red envelope items are ready'
+                        { type: 'list', items: [
+                            '11:30am: Photographer & Videographer arrive',
+                            'Finalise Tea Ceremony decoration setup',
+                            'AW/CL Family ensure tea pots and red envelope items are ready'
+                        ]},
+                        { type: 'checklist', items: [
+                            'Tea Pots',
+                            'Ingredients',
+                            'Cushion',
+                            'Space Setup'
+                        ]}
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Yunho', 'Ryan'],
+                    responsible: ['Jess','Janice','Alison'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -311,11 +335,12 @@
                     description: [
                         'Doors Open: Bridal team to open door and ask for red pocket',
                         '12:15pm - 1:30pm: Traditional Tea Ceremony',
-                        'Charlotte\'s family served first, followed by Andrew\'s family',
-                        'Includes door games and red pocket exchange'
+                        'Charlotte\'s family served first (Mum & Dad, Auntie May & Uncle Jacky, Uncle Daniel)',
+                        'Charlotte & Andy need to leave the house with umbrella and come back to the house. Andrew family to be seating at tea ceremony area.',
+                        'Andy\'s family to serve next. (Mum & Dad, Alan & Angela)'
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Yunho'],
+                    responsible: ['Alison'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -330,11 +355,14 @@
                             'Rings',
                             'Vows',
                             'Dress Changes',
-                            'Speech Scripts'
+                            'Speech Scripts',
+                            'Bags needed for Reception & Ceremony',
+                            'Bridal Kit',
+                            'Phone Chargers'
                         ]}
                     ],
                     location: 'Transport to Bendooley',
-                    responsible: ['Yunho', 'Charlotte'],
+                    responsible: ['Yunho', 'Ryan'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -353,8 +381,24 @@
                 {
                     id: 14,
                     time: '3:30 PM',
-                    title: 'Guest Transport & Setup',
-                    description: '3:30pm: Shuttle picks up guests from Imperial Hotel. Styling setup continues (Book Barn, Floral, Wishing Well).',
+                    title: 'Guest Transport & Reception + Ceremony Setup',
+                    description: [
+                        { type: 'paragraph', text: '3:30pm: Shuttle picks up guests from Imperial Hotel.' },
+                        { type: 'paragraph', text: 'Styling setup continues (Book Barn, Floral, Wishing Well).' },
+                        { type: 'checklist', items: [
+                            'Table Flower',
+                            'Flower DIY table',
+                            'Wishing well + In loving memory corner + Pokemon cards table',
+                            'Table Menus',
+                            'Coffee packs + tote bag + personal note (for adults) + place cards',
+                            'Key chains (for kids)',
+                            'Lamps x 10 for each table',
+                            'Candles x 10 sets (2 candles @) for each table',
+                            'Drink List',
+                            'Photo Booth Props'
+                        ]},
+                        { type: 'paragraph', text: 'Ceremony area set up - flower for late grandparents' }
+                    ],
                     location: 'Imperial Hotel / Bendooley',
                     responsible: ['Ryan'],
                     teams: ['groomsmen'],
