@@ -120,10 +120,8 @@
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             
-            // --- THE MISSING LINE HAS BEEN RESTORED BELOW ---
+            // --- RESTORED STATE VARIABLES ---
             const [showFilters, setShowFilters] = useState(false);
-            // ------------------------------------------------
-
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
@@ -188,4 +186,553 @@
                             '7:45am: Bridesmaid 1 (Wing) - Makeup'
                         ]}
                     ],
-                    location: '
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
+                    teams: ['bridesmaids'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 3,
+                    time: '8:00 AM',
+                    title: 'Hair and Make Up - Part 2',
+                    description: [
+                        '8:00am: Bridesmaid 3 (Jess) - Hair',
+                        '8:30am: Bridesmaid 4 (Janice) - Hair',
+                        '8:30am: Bridesmaid 2 (Alison) - Makeup'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Jessica', 'Janice', 'Alison'],
+                    teams: ['bridesmaids'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 4,
+                    time: '8:30 AM',
+                    title: 'Breakfast Setup & Decor',
+                    description: [
+                        'Brides/Groomsman start helping with Breakfast setup',
+                        'Brides/Groomsman start helping with Tea Ceremony setup'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Yunho', 'Ryan'],
+                    teams: ['bridesmaids', 'groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 5,
+                    time: '9:00 AM',
+                    title: 'Hair and Make Up - Mums',
+                    description: [
+                        '9:00am: Mum 1 - Hair',
+                        '9:15am: Bridesmaid 4 (Janice) - Makeup',
+                        '9:30am: Mum 2 - Hair',
+                        'Bridesmaids start steaming dresses'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Alison'],
+                    teams: ['bridesmaids', 'parents'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 6,
+                    time: '9:30 AM',
+                    title: 'Groomsmen: Ready & Packing',
+                    description: [
+                        { type: 'paragraph', text: 'Groomsmen need to be fully packed and ready to go. The shuttle waits for no one!' },
+                        { type: 'checklist', items: [
+                            'Suit & Tie on',
+                            'Bags packed for Bendooley',
+                            'Flasks filled (optional)'
+                        ]},
+                        { type: 'paragraph', text: 'Once you are ready, help move the luggage to the front door.' }
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Yunho'],
+                    teams: ['bridesmaids', 'groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 7,
+                    time: '10:00 AM',
+                    title: 'The Bride (Charlotte)',
+                    description: [
+                        '10:00am: Charlotte - Hair & Makeup',
+                        '10:00am: Mum 2 - Makeup',
+                        '10:45am: Mum 1 - Makeup',
+                        'Bridesmaids start steaming dresses and getting ready'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte'],
+                    teams: ['bride', 'parents'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 8,
+                    time: '10:30 AM',
+                    title: 'Have you eaten?',
+                    description: 'Make sure people have eaten and drank water. Some may start getting ready during this time',
+                    location: 'Burradoo Airbnb',
+                    responsible: ['All Parties'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 9,
+                    time: '11:00 AM',
+                    title: 'Everyone is dressed!',
+                    description: [
+                        'Bridesmaids to get dressed (TBA)',
+                        'Groomsmen to get dressed (TBA)',
+                        'Bride and Groom family start to arrive at 11:30am' 
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Charlotte', 'Andrew'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 10,
+                    time: '11:30 AM',
+                    title: 'Media Arrives & Setup',
+                    description: [
+                        '11:30am: Photographer & Videographer arrive',
+                        'Finalise Tea Ceremony decoration setup',
+                        'AW/CL Family ensure tea pots and red envelope items are ready'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Yunho', 'Ryan'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 11,
+                    time: '12:00 PM',
+                    title: 'Tea Ceremony Start!',
+                    description: [
+                        'Doors Open: Bridal team to open door and ask for red pocket',
+                        '12:15pm - 1:30pm: Traditional Tea Ceremony',
+                        'Charlotte\'s family served first, followed by Andrew\'s family',
+                        'Includes door games and red pocket exchange'
+                    ],
+                    location: 'Burradoo Airbnb',
+                    responsible: ['Yunho'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 12,
+                    time: '1:30 PM',
+                    title: 'Final Pack Down & Transport',
+                    description: [
+                        { type: 'paragraph', text: 'Shuttle arrives at 1:30pm sharp. We depart at 1:45pm.' },
+                        { type: 'checklist', items: [
+                            'Rings',
+                            'Vows',
+                            'Dress Changes',
+                            'Speech Scripts'
+                        ]}
+                    ],
+                    location: 'Transport to Bendooley',
+                    responsible: ['Yunho', 'Charlotte'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 13,
+                    time: '2:00 PM',
+                    title: 'Reception Preparation',
+                    description: '2:15pm - 4:30pm: Reception preparation and dry run of the ceremony. Bridal party to check in with the celebrant and check sound systems.',
+                    location: 'Bendooley Estate',
+                    responsible: ['Charlotte'],
+                    teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 14,
+                    time: '3:30 PM',
+                    title: 'Guest Transport & Setup',
+                    description: '3:30pm: Shuttle picks up guests from Imperial Hotel. Styling setup continues (Book Barn, Floral, Wishing Well).',
+                    location: 'Imperial Hotel / Bendooley',
+                    responsible: ['Ryan'],
+                    teams: ['groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 15,
+                    time: '4:00 PM',
+                    title: 'Guests & First Look',
+                    description: '4:00pm: Guests arrive and are seated. 4:00pm - 4:15pm: First Look photos for Charlotte & Andrew.',
+                    location: 'Book Barn - Reception',
+                    responsible: ['Charlotte', 'Andrew'],
+                    teams: ['bride', 'groom', 'groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 16,
+                    time: '4:30 PM',
+                    title: 'Wedding Ceremony',
+                    description: '4:30pm - 5:30pm: The Ceremony! Followed immediately by group photos with immediate and extended families.',
+                    location: 'Bendooley Estate',
+                    responsible: ['TP'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 17,
+                    time: '5:30 PM',
+                    title: 'Aperitivo (Cocktail Hour)',
+                    description: [
+                        '5:30pm - 6:15pm: Drinks, mingling, and bridal party photos',
+                        '5:45pm: Table set up ready',
+                        '6:15pm: Door opens'
+                    ],
+                    location: 'Bendooley Estate',
+                    responsible: ['TP'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 18,
+                    time: '6:30 PM',
+                    title: 'Reception Entrances',
+                    description: [
+                        '6:30pm: Grand Entrances! Order: Alison & Ryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew',
+                        '6:30pm - 6:40pm: House keeping (Bathroom, Menu, Open bar)',
+                        '6:40pm: Speeches (Father of Bride, Brother of Groom)'
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['TP'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 19,
+                    time: '7:00 PM',
+                    title: 'Dinner & Speeches',
+                    description: [
+                        '7:00pm: Sides & Mains served',
+                        'Couple golden hour photoshoot',
+                        '7:30pm: Speeches (Maid of Honor, Best Woman, Bride, Groom)'
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['Charlotte', 'Andrew'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 20,
+                    time: '8:00 PM',
+                    title: 'Party Time!',
+                    description: [
+                        '8:15pm: Charlotte changes dress',
+                        '8:20pm: First Dance, Dessert served, and Dance Floor opens!'
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['Wing', 'Andrew'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 21,
+                    time: '10:30 PM',
+                    title: 'Farewell',
+                    description: [
+                        '10:30pm: Shuttle bus available for international guests',
+                        '10:45pm: Party concludes. Pack down begins.'
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['TP', 'Jess'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                }
+            ];
+
+            // --- RENDER HELPERS ---
+            const renderDescriptionContent = (desc) => {
+                // Case 1: Simple string
+                if (typeof desc === 'string') {
+                    return <p className="text-stone-700 mt-4 leading-relaxed">{desc}</p>;
+                }
+                
+                // Case 2: Simple List (Backward compatibility)
+                if (Array.isArray(desc) && typeof desc[0] === 'string') {
+                    return (
+                        <ul className="text-stone-700 mt-4 leading-relaxed list-none space-y-2">
+                            {desc.map((line, idx) => (
+                                <li key={idx} className="flex items-start gap-2">
+                                    <span className="text-stone-400 mt-1.5 w-1.5 h-1.5 rounded-full bg-stone-300 shrink-0"></span>
+                                    <span>{line}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    );
+                }
+
+                // Case 3: Mixed Sections (Array of Objects)
+                if (Array.isArray(desc) && typeof desc[0] === 'object') {
+                    return (
+                        <div className="mt-4 space-y-4">
+                            {desc.map((section, idx) => {
+                                // Text Paragraph
+                                if (section.type === 'paragraph' || section.type === 'text') {
+                                    return <p key={idx} className="text-stone-700 leading-relaxed">{section.text || section.content}</p>;
+                                }
+                                // Bullet List
+                                if (section.type === 'list') {
+                                    return (
+                                        <ul key={idx} className="text-stone-700 leading-relaxed list-none space-y-2 pl-1">
+                                            {section.items.map((line, i) => (
+                                                <li key={i} className="flex items-start gap-2">
+                                                    <span className="text-stone-400 mt-1.5 w-1.5 h-1.5 rounded-full bg-stone-300 shrink-0"></span>
+                                                    <span>{line}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    );
+                                }
+                                // Interactive Checklist
+                                if (section.type === 'checklist') {
+                                    return (
+                                        <div key={idx} className="space-y-2 bg-stone-50 p-3 rounded-lg border border-stone-100">
+                                            {section.items.map((item, i) => (
+                                                <label key={i} className="flex items-center gap-3 cursor-pointer group">
+                                                    <div className="relative flex items-center">
+                                                        <input type="checkbox" className="peer appearance-none w-5 h-5 border-2 border-stone-300 rounded bg-white checked:bg-black checked:border-black transition-colors" />
+                                                        <CheckIcon className="w-3.5 h-3.5 text-white absolute left-[3px] top-[3px] opacity-0 peer-checked:opacity-100 pointer-events-none" />
+                                                    </div>
+                                                    <span className="text-sm text-stone-600 group-hover:text-black transition-colors select-none">{item}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    );
+                }
+                return null;
+            };
+
+            const filters = [{id:'all',label:'Everyone',icon:Users},{id:'bride',label:'Bride',icon:Users},{id:'groom',label:'Groom',icon:Users},{id:'bridesmaids',label:'Bridesmaids',icon:Users},{id:'groomsmen',label:'Groomsmen',icon:Users},{id:'parents',label:'Parents',icon:Users}];
+
+            const filteredEvents = events.filter(event => {
+                const teamMatch = selectedFilters.includes('all') || event.teams.includes('all') || event.teams.some(team => selectedFilters.includes(team));
+                
+                // Smart Search
+                const searchTextMatches = (text) => text.toLowerCase().includes(searchQuery.toLowerCase());
+                
+                let descMatch = false;
+                if (typeof event.description === 'string') descMatch = searchTextMatches(event.description);
+                else if (Array.isArray(event.description)) {
+                    if (typeof event.description[0] === 'string') {
+                        descMatch = event.description.some(line => searchTextMatches(line));
+                    } else {
+                        descMatch = event.description.some(section => {
+                            if (section.text) return searchTextMatches(section.text);
+                            if (section.items) return section.items.some(item => searchTextMatches(item));
+                            return false;
+                        });
+                    }
+                }
+
+                const searchMatch = searchQuery === '' || 
+                    searchTextMatches(event.title) || 
+                    descMatch ||
+                    searchTextMatches(event.location) || 
+                    searchTextMatches(event.time) ||
+                    (event.responsible && event.responsible.some(r => searchTextMatches(r)));
+                
+                let timeMatch = true;
+                if (isWeddingDay) {
+                    const eventMinutes = parseEventTime(event.time);
+                    timeMatch = eventMinutes >= currentMinutes - 30;
+                }
+                return teamMatch && searchMatch && timeMatch;
+            });
+
+            const toggleFilter = (filterId) => {
+                if (filterId === 'groom') {
+                    setGroomsmenClickCount(0); 
+                    const newCount = groomClickCount + 1;
+                    setGroomClickCount(newCount);
+                    if (newCount >= 4) { setShowGroomChecklist(true); setGroomClickCount(0); setSelectedFilters(['groom']); return; }
+                    setSelectedFilters(['groom']); return;
+                } 
+                if (filterId === 'groomsmen') {
+                    setGroomClickCount(0);
+                    const newCount = groomsmenClickCount + 1;
+                    setGroomsmenClickCount(newCount);
+                    if (newCount === 5) { setTimeout(() => { setShowGroomsmenChecklist(true); setGroomsmenClickCount(0); }, 800); setSelectedFilters(['groomsmen']); return; }
+                    setSelectedFilters(['groomsmen']); return;
+                }
+                setGroomClickCount(0); setGroomsmenClickCount(0);
+                if (filterId === 'all') { setSelectedFilters(['all']); } 
+                else {
+                    setSelectedFilters(prev => {
+                        const cleanPrev = prev.filter(f => f !== 'all' && f !== 'groom' && f !== 'groomsmen');
+                        if (prev.includes(filterId)) { const newFilters = cleanPrev.filter(f => f !== filterId); return newFilters.length === 0 ? ['all'] : newFilters; } 
+                        else { return [...cleanPrev, filterId]; }
+                    });
+                }
+            };
+
+            const handleSearchChange = (e) => { setSearchQuery(e.target.value); setGroomClickCount(0); setGroomsmenClickCount(0); };
+            const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
+            const toggleExpandAll = () => { setExpandAll(!expandAll); if (!expandAll) { setExpandedEvent(null); } };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
+                    {/* OVERLAYS */}
+                    {showGroomChecklist && <GroomChecklist onClose={() => setShowGroomChecklist(false)} />}
+                    {showGroomsmenChecklist && <GroomsmenChecklist onClose={() => setShowGroomsmenChecklist(false)} />}
+                    
+                    {/* Header */}
+                    <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+                        <div className="max-w-4xl mx-auto px-4 py-6 text-center">
+                            <h1 className="text-4xl font-serif text-black mb-2">Andy & Charlotte</h1>
+                            <p className="text-stone-600 font-light tracking-wide">February 13, 2026</p>
+                            
+                            {countdown.days > 0 || countdown.hours > 0 || countdown.minutes > 0 ? (
+                                <div className="mt-4 flex items-center justify-center gap-4">
+                                    <Clock className="w-4 h-4 text-stone-400" />
+                                    <div className="flex gap-3 text-sm">
+                                        {countdown.days > 0 && <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.days}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Days</span></div>}
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.hours}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Hours</span></div>
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.minutes}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Minutes</span></div>
+                                        <div className="flex flex-col items-center"><span className="text-2xl font-serif text-black">{countdown.seconds}</span><span className="text-xs text-stone-500 uppercase tracking-wide">Seconds</span></div>
+                                    </div>
+                                </div>
+                            ) : isWeddingDay ? (
+                                <div className="mt-4"><p className="text-lg font-serif text-black">Today's the day! 🎉</p></div>
+                            ) : (
+                                <div className="mt-4"><p className="text-sm text-stone-500">The big day has arrived!</p></div>
+                            )}
+                            
+                            <div className="mt-3 flex items-center justify-center gap-2">
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
+                                <Heart className="w-4 h-4 text-stone-400" />
+                                <div className="w-16 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent"></div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Filter Bar */}
+                    <div className="sticky top-[180px] z-40 bg-white border-b border-stone-200 shadow-sm transition-all duration-300">
+                        <div className="max-w-4xl mx-auto px-4">
+                            <button onClick={() => setShowFilters(!showFilters)} className="w-full py-3 flex items-center justify-between text-stone-600 hover:text-black transition-colors">
+                                <div className="flex items-center gap-2"><SearchIcon className="w-4 h-4" /><span className="font-serif text-sm uppercase tracking-wider">Search & Filters</span></div>
+                                {showFilters ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            </button>
+                            {showFilters && (
+                                <div className="pb-4 animate-in slide-in-from-top-2 duration-200">
+                                    <div className="mb-4">
+                                        <input type="text" placeholder="Search events, locations, or times..." value={searchQuery} onChange={handleSearchChange} className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:border-black transition-colors"/>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 justify-center items-center">
+                                        {filters.map(filter => {
+                                            const isGroomWarning = filter.id === 'groom' && groomClickCount === 3;
+                                            const isGroomsmenChill = filter.id === 'groomsmen' && groomsmenClickCount >= 5;
+                                            
+                                            let label = filter.label;
+                                            if (isGroomsmenChill) label = "Okay, Chill!";
+
+                                            let btnClass = "bg-stone-100 text-stone-700 hover:bg-stone-200";
+                                            if (selectedFilters.includes(filter.id)) btnClass = "bg-black text-white shadow-md";
+                                            if (isGroomWarning) btnClass = "bg-stone-900 text-white shadow-xl scale-105";
+                                            if (isGroomsmenChill) btnClass = "bg-red-700 text-white shadow-xl scale-110 font-bold";
+
+                                            return (
+                                                <button key={filter.id} onClick={() => toggleFilter(filter.id)} className={`px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all duration-200 ${btnClass}`}>{label}</button>
+                                            );
+                                        })}
+                                        <div className="w-px h-6 bg-stone-300 mx-2"></div>
+                                        <button onClick={toggleExpandAll} className="px-4 py-2 rounded-full text-sm font-light tracking-wide transition-all bg-stone-800 text-white hover:bg-black shadow-md">{expandAll ? 'Collapse All' : 'Expand All'}</button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Timeline */}
+                    <div className="max-w-3xl mx-auto px-4 py-12">
+                        <div className="relative">
+                            <div className="absolute left-12 top-0 bottom-0 w-1 bg-stone-300 transform -translate-x-1/2"></div>
+                            <div className="space-y-4">
+                                {filteredEvents.map((event) => {
+                                    const isExpanded = expandedEvent === event.id || expandAll;
+                                    return (
+                                        <div key={event.id} className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'}`}>
+                                            <div className={`transition-all duration-500 ease-in-out z-10 ${isExpanded ? 'relative w-auto transform translate-x-0' : 'absolute left-0 w-24 flex justify-center mt-1'}`}>
+                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative"><span className="text-sm font-medium tracking-wide">{event.time}</span></div>
+                                            </div>
+                                            <div className={`bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all duration-500 ease-in-out ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}`}>
+                                                <button onClick={() => toggleEvent(event.id)} className="w-full px-6 py-4 text-left flex items-center justify-between bg-white">
+                                                    <div className="flex-1">
+                                                        <h3 className="text-xl font-serif text-black mb-1">{event.title}</h3>
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="flex items-center gap-1.5 text-sm text-stone-500 font-light">
+                                                                <MapPin className="w-3.5 h-3.5" />
+                                                                {event.location}
+                                                            </div>
+                                                            {event.responsible && (
+                                                                <div className="flex items-center gap-1.5 text-xs text-stone-400 font-medium uppercase tracking-wide">
+                                                                    <UserIcon className="w-3.5 h-3.5" />
+                                                                    {event.responsible.join(', ')}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    {isExpanded ? <ChevronUp className="w-5 h-5 text-stone-600" /> : <ChevronDown className="w-5 h-5 text-stone-600" />}
+                                                </button>
+                                                <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                                    <div className="px-6 pb-6 border-t border-stone-100">
+                                                        {renderDescriptionContent(event.description)}
+                                                        <div className="mt-4 flex flex-wrap gap-2">{event.teams.map(team => (<span key={team} className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200">{team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}</span>))}</div>
+                                                        {event.image && <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />}
+                                                        {event.links && event.links.length > 0 && (<div className="mt-4 space-y-2">{event.links.map((link, idx) => (<a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="text-black hover:text-stone-600 text-sm underline block">{link.text}</a>))}</div>)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer className="bg-white border-t border-stone-200 mt-8">
+                        <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+                            <p className="text-stone-600 font-light text-sm">We can't wait to celebrate with you!</p>
+                            <p className="text-stone-500 font-light text-xs mt-2">恭喜發財 • 百年好合</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<WeddingTimeline />);
+    </script>
+</body>
+</html>
