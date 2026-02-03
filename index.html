@@ -57,32 +57,18 @@
                     <button onClick={onClose} className="absolute top-8 right-8 p-3 bg-rose-200/50 rounded-full hover:bg-rose-200 transition-colors text-rose-800">
                         <XIcon className="w-6 h-6" />
                     </button>
-                    
                     <div className="max-w-lg space-y-8 animate-in slide-in-from-bottom-8 duration-1000 delay-150">
                         <div className="flex justify-center mb-6">
-                            <div className="p-4 bg-rose-100 rounded-full">
-                                <Heart className="w-16 h-16 text-rose-400 fill-rose-200" />
-                            </div>
+                            <div className="p-4 bg-rose-100 rounded-full"><Heart className="w-16 h-16 text-rose-400 fill-rose-200" /></div>
                         </div>
-                        
                         <h2 className="text-4xl font-serif text-rose-900 mb-4 tracking-wide">Dearest Charlotte</h2>
-                        
                         <div className="space-y-6 text-rose-800 font-light text-lg leading-relaxed">
                             <p className="text-2xl font-serif italic text-rose-700">Take a deep breath.</p>
-                            <p>
-                                Today is going to be the <span className="font-medium">best day of your life</span>. 
-                            </p>
-                            <p>
-                                Be present in every moment. Soak it all in. Look at the people who love you.
-                            </p>
-                            <p>
-                                Don't sweat the small stuff—everything is exactly as it should be.
-                            </p>
+                            <p>Today is going to be the <span className="font-medium">best day of your life</span>.</p>
+                            <p>Be present in every moment. Soak it all in. Look at the people who love you.</p>
+                            <p>Don't sweat the small stuff—everything is exactly as it should be.</p>
                         </div>
-
-                        <div className="pt-12">
-                            <p className="text-rose-400 text-xs font-mono uppercase tracking-[0.3em]">Enjoy every second</p>
-                        </div>
+                        <div className="pt-12"><p className="text-rose-400 text-xs font-mono uppercase tracking-[0.3em]">Enjoy every second</p></div>
                     </div>
                 </div>
             );
@@ -152,23 +138,30 @@
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             
-            // --- STATE VARIABLES ---
             const [showFilters, setShowFilters] = useState(false);
-            const [showPastEvents, setShowPastEvents] = useState(false); // NEW STATE FOR HISTORY
-            const [testTime, setTestTime] = useState(null); // TIME TRAVEL STATE
+            const [showPastEvents, setShowPastEvents] = useState(false); 
+            const [testTime, setTestTime] = useState(null); 
+            const [showDevTools, setShowDevTools] = useState(false); // New state to toggle visibility
 
-            // EASTER EGG STATES
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
             const [showGroomsmenChecklist, setShowGroomsmenChecklist] = useState(false);
-            const [brideClickCount, setBrideClickCount] = useState(0); // NEW BRIDE STATE
-            const [showBrideMessage, setShowBrideMessage] = useState(false); // NEW BRIDE STATE
+            const [brideClickCount, setBrideClickCount] = useState(0); 
+            const [showBrideMessage, setShowBrideMessage] = useState(false); 
 
             const activeTime = testTime || currentTime; 
             const activeRef = useRef(null); 
 
             const weddingDate = new Date('2026-02-13T00:00:00');
+
+            // ENABLE DEV TOOLS VIA URL ?test
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('test')) {
+                    setShowDevTools(true);
+                }
+            }, []);
 
             useEffect(() => { const timer = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(timer); }, []);
 
@@ -206,7 +199,7 @@
                 return hours * 60 + minutes; 
             };
 
-            const isWeddingDay = true; // Force true for testing
+            const isWeddingDay = true; 
             const currentMinutes = activeTime.getHours() * 60 + activeTime.getMinutes();
 
             // *** EVENTS LIST ***
@@ -665,7 +658,8 @@
                     setGroomClickCount(0); setGroomsmenClickCount(0);
                     const newCount = brideClickCount + 1;
                     setBrideClickCount(newCount);
-                    if (newCount >= 5) { setShowBrideMessage(true); setBrideClickCount(0); setSelectedFilters(['bride']); return; }
+                    // CHANGED TO 3 CLICKS
+                    if (newCount >= 3) { setShowBrideMessage(true); setBrideClickCount(0); setSelectedFilters(['bride']); return; }
                     setSelectedFilters(['bride']); return;
                 }
 
@@ -845,21 +839,25 @@
                         </div>
                     </div>
 
-                    {/* --- TIME TRAVEL SLIDER (TESTING) --- */}
-                    <div className="fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur border border-stone-300 p-4 rounded-xl shadow-2xl w-64">
-                        <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Dev: Time Travel</p>
-                        <input 
-                            type="range" 
-                            min="360" max="1440" 
-                            value={(activeTime.getHours() * 60) + activeTime.getMinutes()} 
-                            onChange={handleTimeSliderChange}
-                            className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-black"
-                        />
-                        <div className="flex justify-between mt-1 text-xs font-mono text-black">
-                            <span>{activeTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                            <button onClick={() => setTestTime(null)} className="underline text-stone-400 hover:text-black">Reset</button>
+                    {/* --- TEST TOOL: TIME TRAVEL SLIDER (COMMENTED OUT) --- */}
+                    {/*
+                    {showDevTools && (
+                        <div className="fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur border border-stone-300 p-4 rounded-xl shadow-2xl w-64">
+                            <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Dev: Time Travel</p>
+                            <input 
+                                type="range" 
+                                min="360" max="1440" 
+                                value={(activeTime.getHours() * 60) + activeTime.getMinutes()} 
+                                onChange={handleTimeSliderChange}
+                                className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-black"
+                            />
+                            <div className="flex justify-between mt-1 text-xs font-mono text-black">
+                                <span>{activeTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                <button onClick={() => setTestTime(null)} className="underline text-stone-400 hover:text-black">Reset</button>
+                            </div>
                         </div>
-                    </div>
+                    )}
+                    */}
 
                     <footer className="bg-white border-t border-stone-200 mt-8">
                         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
