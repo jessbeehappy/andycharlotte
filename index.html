@@ -26,13 +26,15 @@
         .custom-checkbox:checked + div svg {
             display: block;
         }
+        /* Smooth scrolling for the auto-scroll feature */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-stone-50">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
 
         // --- ICONS ---
         const ChevronDown = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>;
@@ -45,6 +47,7 @@
         const CheckIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"></polyline></svg>;
         const UserIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
         const MapPin = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
+        const ExternalLinkIcon = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>;
 
         // --- CHECKLISTS (Easter Eggs) ---
         const GroomChecklist = ({ onClose }) => {
@@ -60,18 +63,13 @@
                             <div><h2 className="text-4xl font-serif mb-2 text-white">The Essentials</h2><p className="text-stone-400 font-mono text-sm tracking-widest uppercase">Groom Protocol</p></div>
                             <button onClick={onClose} className="p-2 bg-stone-900 rounded-full hover:bg-stone-800 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
-                        
-                        {/* STICKY PROGRESS BAR - GROOM */}
                         <div className="sticky top-0 z-30 bg-black pb-8 pt-4 mb-4 border-b border-stone-900">
                             <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-stone-500">
                                 <span>{progress === 100 ? "Let's go get married!" : "Readiness"}</span>
                                 <span>{progress}%</span>
                             </div>
-                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden">
-                                <div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
-                            </div>
+                            <div className="h-1 bg-stone-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
                         </div>
-
                         <div className="space-y-4">{items.map(item => (<label key={item.id} className="group flex items-center p-4 bg-stone-900/50 border border-stone-800 rounded-xl cursor-pointer hover:border-stone-600 transition-all"><input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} /><div className="w-6 h-6 border-2 border-stone-600 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-stone-500"><CheckIcon className="w-4 h-4 text-black hidden" /></div><span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-stone-500' : 'opacity-100'}`}>{item.text}</span></label>))}</div>
                         <div className="mt-12 text-center"><p className="text-stone-600 text-xs font-mono uppercase tracking-[0.2em]">Don't Forget the Rings</p></div>
                     </div>
@@ -92,18 +90,13 @@
                             <div><h2 className="text-4xl font-serif mb-2 text-white">The Squad</h2><p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Groomsmen Duties</p></div>
                             <button onClick={onClose} className="p-2 bg-zinc-700 rounded-full hover:bg-zinc-600 transition-colors"><XIcon className="w-6 h-6 text-white" /></button>
                         </div>
-
-                        {/* STICKY PROGRESS BAR - GROOMSMEN */}
                         <div className="sticky top-0 z-30 bg-zinc-800 pb-8 pt-4 mb-4 border-b border-zinc-700">
                             <div className="flex justify-between text-xs font-mono mb-2 uppercase tracking-wider text-zinc-400">
                                 <span>{progress === 100 ? "Let's get Andy married!" : "Readiness"}</span>
                                 <span>{progress}%</span>
                             </div>
-                            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
-                                <div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div>
-                            </div>
+                            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div>
                         </div>
-
                         <div className="space-y-4">{items.map(item => (<label key={item.id} className="group flex items-center p-4 bg-zinc-700/50 border border-zinc-600 rounded-xl cursor-pointer hover:border-zinc-500 transition-all"><input type="checkbox" className="hidden custom-checkbox" checked={item.checked} onChange={() => toggleItem(item.id)} /><div className="w-6 h-6 border-2 border-zinc-500 rounded-md flex items-center justify-center mr-4 transition-colors group-hover:border-zinc-400"><CheckIcon className="w-4 h-4 text-zinc-800 hidden" /></div><span className={`text-lg font-light tracking-wide transition-opacity ${item.checked ? 'opacity-30 line-through decoration-zinc-500' : 'opacity-100'}`}>{item.text}</span></label>))}</div>
                         <div className="mt-12 text-center"><p className="text-zinc-500 text-xs font-mono uppercase tracking-[0.2em]">Keep the Vibes High</p></div>
                     </div>
@@ -119,19 +112,30 @@
             const [expandAll, setExpandAll] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-            
-            // --- THE MISSING LINE HAS BEEN RESTORED BELOW ---
             const [showFilters, setShowFilters] = useState(false);
-            // ------------------------------------------------
-
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
             const [groomsmenClickCount, setGroomsmenClickCount] = useState(0);
             const [showGroomsmenChecklist, setShowGroomsmenChecklist] = useState(false);
+            
+            // Testing State for "Time Travel"
+            const [testTime, setTestTime] = useState(null);
+
+            const activeTime = testTime || currentTime; // Use test time if set, otherwise real time
+            const activeRef = useRef(null); // Ref for auto-scrolling
 
             const weddingDate = new Date('2026-02-13T00:00:00');
 
             useEffect(() => { const timer = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(timer); }, []);
+
+            // Auto-scroll effect when component mounts or filter changes, finding the first active event
+            useEffect(() => {
+                if (activeRef.current) {
+                    setTimeout(() => {
+                        activeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500); // Small delay to ensure render
+                }
+            }, []);
 
             useEffect(() => {
                 const updateCountdown = () => {
@@ -159,10 +163,10 @@
                 return hours * 60 + minutes; 
             };
 
-            const isWeddingDay = currentTime.toDateString() === weddingDate.toDateString();
-            const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+            const isWeddingDay = true; // Force true for testing purposes as requested, or keep logic: activeTime.toDateString() === weddingDate.toDateString();
+            const currentMinutes = activeTime.getHours() * 60 + activeTime.getMinutes();
 
-            // *** EVENTS LIST with MIXED CONTENT ***
+            // *** EVENTS LIST (FIXED JSON) ***
             const events = [
                 {
                     id: 1,
@@ -173,7 +177,7 @@
                     responsible: ['Charlotte', 'Andrew'],
                     teams: ['all'],
                     image: null,
-                    links: [{ text: "Google Drive Documents", url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9" }]
+                    links: [{ text: "Google Drive Photos", url: "https://drive.google.com/drive/folders/1maYcB5LFPvCIUy2gbR0_EikSpoEw7NG9" }]
                 },
                 {
                     id: 2,
@@ -504,12 +508,9 @@
 
             // --- RENDER HELPERS ---
             const renderDescriptionContent = (desc) => {
-                // Case 1: Simple string
                 if (typeof desc === 'string') {
                     return <p className="text-stone-700 mt-4 leading-relaxed">{desc}</p>;
                 }
-                
-                // Case 2: Simple List (Backward compatibility)
                 if (Array.isArray(desc) && typeof desc[0] === 'string') {
                     return (
                         <ul className="text-stone-700 mt-4 leading-relaxed list-none space-y-2">
@@ -522,17 +523,13 @@
                         </ul>
                     );
                 }
-
-                // Case 3: Mixed Sections (Array of Objects)
                 if (Array.isArray(desc) && typeof desc[0] === 'object') {
                     return (
                         <div className="mt-4 space-y-4">
                             {desc.map((section, idx) => {
-                                // Text Paragraph
                                 if (section.type === 'paragraph' || section.type === 'text') {
                                     return <p key={idx} className="text-stone-700 leading-relaxed">{section.text || section.content}</p>;
                                 }
-                                // Bullet List
                                 if (section.type === 'list') {
                                     return (
                                         <ul key={idx} className="text-stone-700 leading-relaxed list-none space-y-2 pl-1">
@@ -545,7 +542,6 @@
                                         </ul>
                                     );
                                 }
-                                // Interactive Checklist
                                 if (section.type === 'checklist') {
                                     return (
                                         <div key={idx} className="space-y-2 bg-stone-50 p-3 rounded-lg border border-stone-100">
@@ -574,7 +570,6 @@
             const filteredEvents = events.filter(event => {
                 const teamMatch = selectedFilters.includes('all') || event.teams.includes('all') || event.teams.some(team => selectedFilters.includes(team));
                 
-                // Smart Search
                 const searchTextMatches = (text) => text.toLowerCase().includes(searchQuery.toLowerCase());
                 
                 let descMatch = false;
@@ -598,12 +593,15 @@
                     searchTextMatches(event.time) ||
                     (event.responsible && event.responsible.some(r => searchTextMatches(r)));
                 
-                let timeMatch = true;
-                if (isWeddingDay) {
-                    const eventMinutes = parseEventTime(event.time);
-                    timeMatch = eventMinutes >= currentMinutes - 30;
-                }
-                return teamMatch && searchMatch && timeMatch;
+                // --- MODIFIED: Show all events, no filtering by time ---
+                return teamMatch && searchMatch;
+            });
+
+            // Find the index of the first active event (not past)
+            const firstActiveIndex = filteredEvents.findIndex(event => {
+                const eventMinutes = parseEventTime(event.time);
+                // Simple logic: if event started more than 30 mins ago, it's "past"
+                return !(isWeddingDay && eventMinutes < currentMinutes - 30);
             });
 
             const toggleFilter = (filterId) => {
@@ -635,6 +633,17 @@
             const handleSearchChange = (e) => { setSearchQuery(e.target.value); setGroomClickCount(0); setGroomsmenClickCount(0); };
             const toggleEvent = (id) => { if (!expandAll) { setExpandedEvent(expandedEvent === id ? null : id); } };
             const toggleExpandAll = () => { setExpandAll(!expandAll); if (!expandAll) { setExpandedEvent(null); } };
+
+            // Helper to handle slider change for time travel testing
+            const handleTimeSliderChange = (e) => {
+                const totalMinutes = parseInt(e.target.value);
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+                const newDate = new Date(weddingDate);
+                newDate.setHours(hours);
+                newDate.setMinutes(minutes);
+                setTestTime(newDate);
+            };
 
             return (
                 <div className="min-h-screen bg-gradient-to-b from-stone-50 via-amber-50/30 to-stone-50">
@@ -710,16 +719,31 @@
                     </div>
 
                     {/* Timeline */}
-                    <div className="max-w-3xl mx-auto px-4 py-12">
+                    <div className="max-w-3xl mx-auto px-4 py-12 pb-32">
                         <div className="relative">
                             <div className="absolute left-12 top-0 bottom-0 w-1 bg-stone-300 transform -translate-x-1/2"></div>
                             <div className="space-y-4">
-                                {filteredEvents.map((event) => {
+                                {filteredEvents.map((event, index) => {
                                     const isExpanded = expandedEvent === event.id || expandAll;
+                                    
+                                    // *** TIME LOGIC ***
+                                    const eventMinutes = parseEventTime(event.time);
+                                    // If current time is more than 30 mins past event start, consider it "done/past"
+                                    const isPast = isWeddingDay && eventMinutes < currentMinutes - 30;
+                                    
+                                    // Is this the first active event? If so, attach ref for auto-scroll
+                                    const isFirstActive = index === firstActiveIndex;
+
                                     return (
-                                        <div key={event.id} className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'}`}>
+                                        <div 
+                                            key={event.id} 
+                                            ref={isFirstActive ? activeRef : null}
+                                            className={`relative transition-all duration-500 ease-in-out ${isExpanded ? 'flex flex-col items-center gap-4 py-4 z-20' : 'pl-32'} ${isPast ? 'opacity-60 grayscale' : ''}`}
+                                        >
                                             <div className={`transition-all duration-500 ease-in-out z-10 ${isExpanded ? 'relative w-auto transform translate-x-0' : 'absolute left-0 w-24 flex justify-center mt-1'}`}>
-                                                <div className="bg-black text-white px-3 py-2 rounded-lg shadow-md relative"><span className="text-sm font-medium tracking-wide">{event.time}</span></div>
+                                                <div className={`px-3 py-2 rounded-lg shadow-md relative ${isPast ? 'bg-stone-200 text-stone-500' : 'bg-black text-white'}`}>
+                                                    <span className="text-sm font-medium tracking-wide">{event.time}</span>
+                                                </div>
                                             </div>
                                             <div className={`bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden hover:shadow-md transition-all duration-500 ease-in-out ${isExpanded ? 'w-[95%] sm:w-[90%] shadow-xl relative z-20' : 'w-full'}`}>
                                                 <button onClick={() => toggleEvent(event.id)} className="w-full px-6 py-4 text-left flex items-center justify-between bg-white">
@@ -745,7 +769,24 @@
                                                         {renderDescriptionContent(event.description)}
                                                         <div className="mt-4 flex flex-wrap gap-2">{event.teams.map(team => (<span key={team} className="px-3 py-1 bg-stone-100 text-stone-700 text-xs rounded-full border border-stone-200">{team === 'all' ? 'Everyone' : team.charAt(0).toUpperCase() + team.slice(1)}</span>))}</div>
                                                         {event.image && <img src={event.image} alt={event.title} className="mt-4 rounded-lg w-full" />}
-                                                        {event.links && event.links.length > 0 && (<div className="mt-4 space-y-2">{event.links.map((link, idx) => (<a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="text-black hover:text-stone-600 text-sm underline block">{link.text}</a>))}</div>)}
+                                                        
+                                                        {/* --- UPDATED LINK RENDERING WITH SUBTLE ICON --- */}
+                                                        {event.links && event.links.length > 0 && (
+                                                            <div className="mt-4 space-y-2">
+                                                                {event.links.map((link, idx) => (
+                                                                    <a 
+                                                                        key={idx} 
+                                                                        href={link.url} 
+                                                                        target="_blank" 
+                                                                        rel="noopener noreferrer" 
+                                                                        className="inline-flex items-center gap-2 text-stone-500 hover:text-black text-sm underline-offset-4 hover:underline transition-colors"
+                                                                    >
+                                                                        <ExternalLinkIcon className="w-4 h-4" />
+                                                                        {link.text}
+                                                                    </a>
+                                                                ))}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -753,6 +794,22 @@
                                     );
                                 })}
                             </div>
+                        </div>
+                    </div>
+
+                    {/* --- TEST TOOL: TIME TRAVEL SLIDER --- */}
+                    <div className="fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur border border-stone-300 p-4 rounded-xl shadow-2xl w-64">
+                        <p className="text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Dev: Time Travel</p>
+                        <input 
+                            type="range" 
+                            min="360" max="1440" 
+                            value={(activeTime.getHours() * 60) + activeTime.getMinutes()} 
+                            onChange={handleTimeSliderChange}
+                            className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-black"
+                        />
+                        <div className="flex justify-between mt-1 text-xs font-mono text-black">
+                            <span>{activeTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                            <button onClick={() => setTestTime(null)} className="underline text-stone-400 hover:text-black">Reset</button>
                         </div>
                     </div>
 
