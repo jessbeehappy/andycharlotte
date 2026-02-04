@@ -27,9 +27,16 @@
             display: block;
         }
         html { scroll-behavior: smooth; }
-        
-        /* Hide scrollbar for the main wrapper to prevent horizontal scrolling */
         body { overflow-x: hidden; }
+        
+        /* Hide scrollbar for map panning */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body class="bg-stone-50">
@@ -54,22 +61,22 @@
         const ArrowRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
         const ArrowLeft = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
         const Phone = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+        const ZoomIn = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></svg>;
+        const ZoomOut = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="8" x2="14" y1="11" y2="11"/></svg>;
 
-        // --- VENDOR DATA (EDITABLE) ---
+        // --- VENDOR DATA ---
         const vendors = [
-            { role: 'Venue', name: 'Bendooley Estate (Kelly)', contact: '048688788' },
-            { role: 'Hair & Makeup Artist', name: 'Yoyo & Mary', contact: '0401715526' },
-            { role: 'DJ / Photobooth', name: 'Fave Events (Jesse)', contact: '0421502677' },
-            { role: 'Stylist', name: 'TBA', contact: 'TBA' },
-            { role: 'Florist', name: 'Daze Flowers (Angela)', contact: '0421384181' },
-            { role: 'Photographer', name: 'Anna Liisa Photography', contact: '0427421335' },
-            { role: 'Videographer', name: 'Amiel', contact: '04032517737' },
-            { role: 'Transport', name: 'Highlands Bus & Coach (Jess)', contact: '048111850' },
-            { role: 'Celebrant', name: 'Hitched by Alex', contact: '0431549380' },
-            { role: 'Harpist', name: 'Harper Adams', contact: '0422716113' }
+            { role: 'Venue', name: 'Bendooley Estate', contact: 'TBA' },
+            { role: 'Makeup Artist', name: 'Yoyo & Mary', contact: 'TBA' },
+            { role: 'DJ / Photobooth', name: 'Fave Events', contact: 'TBA' },
+            { role: 'Stylist', name: 'Ionst Stylist', contact: 'TBA' },
+            { role: 'Photographer', name: 'TBA', contact: 'TBA' },
+            { role: 'Videographer', name: 'TBA', contact: 'TBA' },
+            { role: 'Transport', name: 'Imperial Hotel Shuttle', contact: 'TBA' },
+            { role: 'Celebrant', name: 'TBA', contact: 'TBA' }
         ];
 
-        // --- BRIDE EASTER EGG COMPONENT ---
+        // --- BRIDE EASTER EGG ---
         const BrideMessage = ({ onClose }) => {
             return (
                 <div className="fixed inset-0 bg-rose-50 z-[100] overflow-hidden animate-in fade-in duration-700 flex flex-col items-center justify-center p-8 text-center">
@@ -162,10 +169,13 @@
             const [testTime, setTestTime] = useState(null); 
             const [showDevTools, setShowDevTools] = useState(false); 
 
-            // SWIPE STATE
-            const [view, setView] = useState('timeline'); // 'timeline' or 'vendors'
+            // SWIPE & VIEW STATE
+            const [view, setView] = useState('timeline'); // 'map', 'timeline', 'vendors'
             const [touchStart, setTouchStart] = useState(null);
             const [touchEnd, setTouchEnd] = useState(null);
+            
+            // MAP ZOOM STATE
+            const [mapZoom, setMapZoom] = useState(false);
 
             const [groomClickCount, setGroomClickCount] = useState(0);
             const [showGroomChecklist, setShowGroomChecklist] = useState(false);
@@ -197,15 +207,20 @@
                 const isLeftSwipe = distance > minSwipeDistance;
                 const isRightSwipe = distance < -minSwipeDistance;
                 
-                if (isLeftSwipe && view === 'timeline') {
-                    setView('vendors');
+                // Left Swipe (Move Right -> Left)
+                if (isLeftSwipe) {
+                    if (view === 'timeline') setView('vendors');
+                    if (view === 'map') setView('timeline');
                 }
-                if (isRightSwipe && view === 'vendors') {
-                    setView('timeline');
+                
+                // Right Swipe (Move Left -> Right)
+                if (isRightSwipe) {
+                    if (view === 'timeline') setView('map');
+                    if (view === 'vendors') setView('timeline');
                 }
             };
 
-            // ENABLE DEV TOOLS VIA URL ?test
+            // ENABLE DEV TOOLS
             useEffect(() => {
                 const params = new URLSearchParams(window.location.search);
                 if (params.has('test')) {
@@ -253,7 +268,7 @@
             const currentMinutes = activeTime.getHours() * 60 + activeTime.getMinutes();
 
             // *** EVENTS LIST ***
-const events = [
+            const events = [
                 {
                     id: 1,
                     time: '6:30 AM',
@@ -305,7 +320,7 @@ const events = [
                     title: 'Breakfast Setup & Decor',
                     description: [
                         'Brides/Groomsman start helping with Breakfast setup',
-                        'Brides/Groomsman start helping with Tea Ceremony setup', // FIXED: Added missing comma
+                        'Brides/Groomsman start helping with Tea Ceremony setup',
                         'Bridesmaids start steaming dresses + veil'
                     ],
                     location: 'Burradoo Airbnb',
@@ -414,7 +429,7 @@ const events = [
                         ]}
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Jess','Janice'],
+                    responsible: ['Jess','Janice','Alison'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -556,7 +571,7 @@ const events = [
                         'FaveEvents - DJ + Photobooth set up at the Book Barn'
                     ],
                     location: 'Book Barn',
-                    responsible: ['DJ'],
+                    responsible: ['TP'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -588,7 +603,7 @@ const events = [
                         '5:45pm: Aly + Ron - Table set up ready at the book barn - Photographers and Videographers to do styling shots before guest arrive.'
                     ],
                     location: 'Bendooley Estate',
-                    responsible: ['TP','Alison'],
+                    responsible: ['TP'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -598,7 +613,6 @@ const events = [
                     time: '6:30 PM',
                     title: 'Wedding Reception Starts!',
                     description: [
-                        // FIXED: Converted simple strings to objects to match mixed content array format
                         { type: 'paragraph', text: 'MC TP to kick off the Reception and get guest seated for the Grand Extrances' },
                         { type: 'paragraph', text: '6:30pm: Grand Entrances! Order: Alison & Bryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew' },
                         { type: 'paragraph', text: '6:40pm: House keeping' },
@@ -823,6 +837,7 @@ const events = [
                     setGroomClickCount(0); setGroomsmenClickCount(0);
                     const newCount = brideClickCount + 1;
                     setBrideClickCount(newCount);
+                    // CHANGED TO 3 CLICKS
                     if (newCount >= 3) { setShowBrideMessage(true); setBrideClickCount(0); setSelectedFilters(['bride']); return; }
                     setSelectedFilters(['bride']); return;
                 }
@@ -861,19 +876,26 @@ const events = [
                     onTouchEnd={onTouchEnd}
                 >
                     {/* --- DESKTOP NAVIGATION ARROWS --- */}
-                    <div className="hidden md:block fixed top-1/2 right-8 z-50 transform -translate-y-1/2">
-                        {view === 'timeline' ? (
+                    {/* --- OVERLAYS MOVED TO ROOT LEVEL TO FIX Z-INDEX ISSUE --- */}
+                    {showGroomChecklist && <GroomChecklist onClose={() => setShowGroomChecklist(false)} />}
+                    {showGroomsmenChecklist && <GroomsmenChecklist onClose={() => setShowGroomsmenChecklist(false)} />}
+                    {showBrideMessage && <BrideMessage onClose={() => setShowBrideMessage(false)} />}
+
+                    <div className="hidden md:block fixed top-1/2 left-8 z-50 transform -translate-y-1/2">
+                        {/* LEFT ARROW LOGIC */}
+                        {view === 'timeline' && (
                             <button 
-                                onClick={() => setView('vendors')} 
+                                onClick={() => setView('map')} 
                                 className="bg-white/80 backdrop-blur shadow-lg p-4 rounded-full hover:bg-white transition-all hover:scale-110 group border border-stone-100"
-                                title="Vendor List"
+                                title="Venue Map"
                             >
-                                <ArrowRight className="w-6 h-6 text-stone-600 group-hover:text-black" />
+                                <ArrowLeft className="w-6 h-6 text-stone-600 group-hover:text-black" />
                             </button>
-                        ) : (
+                        )}
+                        {view === 'vendors' && (
                             <button 
                                 onClick={() => setView('timeline')} 
-                                className="fixed right-8 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur shadow-lg p-4 rounded-full hover:bg-white transition-all hover:scale-110 group border border-stone-100"
+                                className="bg-white/80 backdrop-blur shadow-lg p-4 rounded-full hover:bg-white transition-all hover:scale-110 group border border-stone-100"
                                 title="Back to Timeline"
                             >
                                 <ArrowLeft className="w-6 h-6 text-stone-600 group-hover:text-black" />
@@ -881,15 +903,68 @@ const events = [
                         )}
                     </div>
 
-                    {/* --- SLIDING CONTAINER --- */}
-                    <div className={`flex w-[200%] transition-transform duration-500 ease-in-out ${view === 'vendors' ? '-translate-x-1/2' : 'translate-x-0'}`}>
+                    <div className="hidden md:block fixed top-1/2 right-8 z-50 transform -translate-y-1/2">
+                        {/* RIGHT ARROW LOGIC */}
+                        {view === 'timeline' && (
+                            <button 
+                                onClick={() => setView('vendors')} 
+                                className="bg-white/80 backdrop-blur shadow-lg p-4 rounded-full hover:bg-white transition-all hover:scale-110 group border border-stone-100"
+                                title="Vendor List"
+                            >
+                                <ArrowRight className="w-6 h-6 text-stone-600 group-hover:text-black" />
+                            </button>
+                        )}
+                        {view === 'map' && (
+                            <button 
+                                onClick={() => setView('timeline')} 
+                                className="bg-white/80 backdrop-blur shadow-lg p-4 rounded-full hover:bg-white transition-all hover:scale-110 group border border-stone-100"
+                                title="Back to Timeline"
+                            >
+                                <ArrowRight className="w-6 h-6 text-stone-600 group-hover:text-black" />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* --- SLIDING CONTAINER (300% WIDTH) --- */}
+                    <div 
+                        className={`flex w-[300%] transition-transform duration-500 ease-in-out`}
+                        style={{ transform: `translateX(-${view === 'map' ? 0 : view === 'timeline' ? 33.333 : 66.666}%)` }}
+                    >
                         
-                        {/* --- VIEW 1: TIMELINE --- */}
-                        <div className="w-1/2 shrink-0">
-                            {/* OVERLAYS */}
-                            {showGroomChecklist && <GroomChecklist onClose={() => setShowGroomChecklist(false)} />}
-                            {showGroomsmenChecklist && <GroomsmenChecklist onClose={() => setShowGroomsmenChecklist(false)} />}
-                            {showBrideMessage && <BrideMessage onClose={() => setShowBrideMessage(false)} />}
+                        {/* --- VIEW 1: MAP (LEFT) --- */}
+                        <div className="w-1/3 shrink-0 h-screen relative bg-stone-100 flex flex-col">
+                            <div className="absolute top-6 left-6 z-10">
+                                <button 
+                                    onClick={() => setView('timeline')}
+                                    className="bg-white/90 p-3 rounded-full shadow-md text-stone-600 hover:text-black"
+                                >
+                                    <ArrowRight className="w-6 h-6" />
+                                </button>
+                            </div>
+                            
+                            <div className={`flex-1 relative overflow-hidden flex items-center justify-center ${mapZoom ? 'cursor-grab active:cursor-grabbing' : ''}`}>
+                                <div className={`transition-all duration-300 w-full h-full ${mapZoom ? 'overflow-auto no-scrollbar' : 'overflow-hidden flex items-center justify-center'}`}>
+                                    <img 
+                                        src="https://bendooleyestate.com.au/wp-content/uploads/2025/11/new-map.jpg" 
+                                        alt="Venue Map" 
+                                        className={`transition-transform duration-300 origin-center ${mapZoom ? 'w-[200%] max-w-none' : 'w-full h-full object-contain p-4'}`}
+                                    />
+                                </div>
+                                
+                                {/* ZOOM CONTROLS */}
+                                <div className="absolute bottom-12 right-6 flex flex-col gap-2">
+                                    <button 
+                                        onClick={() => setMapZoom(!mapZoom)}
+                                        className="bg-black text-white p-4 rounded-full shadow-xl hover:bg-stone-800 transition-transform hover:scale-105 active:scale-95"
+                                    >
+                                        {mapZoom ? <ZoomOut className="w-6 h-6" /> : <ZoomIn className="w-6 h-6" />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* --- VIEW 2: TIMELINE (CENTER) --- */}
+                        <div className="w-1/3 shrink-0">
                             
                             {/* Header */}
                             <header className="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
@@ -1061,8 +1136,17 @@ const events = [
                             </footer>
                         </div>
 
-                        {/* --- VIEW 2: VENDOR LIST --- */}
-                        <div className="w-1/2 shrink-0 bg-stone-50 min-h-screen">
+                        {/* --- VIEW 3: VENDOR LIST (RIGHT) --- */}
+                        <div className="w-1/3 shrink-0 bg-stone-50 min-h-screen relative">
+                            <div className="absolute top-6 left-6 z-10">
+                                <button 
+                                    onClick={() => setView('timeline')}
+                                    className="bg-white/90 p-3 rounded-full shadow-md text-stone-600 hover:text-black"
+                                >
+                                    <ArrowLeft className="w-6 h-6" />
+                                </button>
+                            </div>
+                            
                             <div className="max-w-3xl mx-auto px-4 py-12">
                                 <div className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
                                     <div className="px-6 py-8 border-b border-stone-100 bg-stone-50/50">
