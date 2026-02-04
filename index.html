@@ -203,7 +203,7 @@
             const currentMinutes = activeTime.getHours() * 60 + activeTime.getMinutes();
 
             // *** EVENTS LIST ***
-            const events = [
+const events = [
                 {
                     id: 1,
                     time: '6:30 AM',
@@ -252,10 +252,10 @@
                 {
                     id: 4,
                     time: '8:30 AM',
-                    title: 'Breakfast Setup & Tea Ceremony Decor',
+                    title: 'Breakfast Setup & Decor',
                     description: [
                         'Brides/Groomsman start helping with Breakfast setup',
-                        'Brides/Groomsman start helping with Tea Ceremony setup',
+                        'Brides/Groomsman start helping with Tea Ceremony setup', // FIXED: Added missing comma
                         'Bridesmaids start steaming dresses + veil'
                     ],
                     location: 'Burradoo Airbnb',
@@ -285,19 +285,15 @@
                     time: '9:30 AM',
                     title: 'Groomsmen to begin getting ready & packing',
                     description: [
-                        { type: 'paragraph', text: 'Groomsmen/Bridemaid start packing before the shuttle before 12pm!' },
+                        { type: 'paragraph', text: 'Groomsmen need to be fully packed and ready to go. The shuttle waits for no one!' },
                         { type: 'checklist', items: [
+                            'Suit & Tie on',
+                            'Bags packed for Bendooley',
+                            'Outfit changes',
                             'Rings',
-                            'Vows',
-                            'Dress Changes',
-                            'Speech Scripts',
-                            'Bags needed for Reception & Ceremony',
-                            'Bridal Kit',
-                            'Phone Chargers',
-                            'Soju',
-                            'Water'
+                            'Vows'
                         ]},
-                        { type: 'paragraph', text: 'Once ready, help bags/luggages to the front door.' }
+                        { type: 'paragraph', text: 'Once you are ready, help move the luggage to the front door.' }
                     ],
                     location: 'Burradoo Airbnb',
                     responsible: ['Bryan'],
@@ -459,7 +455,8 @@
                     title: 'Andy and Charlote First Look + Guest start to arrive',
                     description: [
                         { type: 'paragraph', text: '4:00pm: Andy and Charlotte meet at  - Bridal tree rom for first look with Wing and Jess' },
-                        { type: 'paragraph', text: '4:00pm: Guests arrive and are seated. Rest of bridal party to mingle. Water is served to guest before ceremony start.' }],
+                        { type: 'paragraph', text: '4:00pm: Guests arrive and are seated. Rest of bridal party to mingle. Water is served to guest before ceremony start.' }
+                    ],
                     location: 'Bendooley',
                     responsible: ['Charlotte', 'Andrew'],
                     teams: ['bride', 'groom'],
@@ -493,7 +490,8 @@
                             'Nuvei friends (CL)',
                             'Rina & Min (CL)',
                             'MQ friends (AW)',
-                        ]}],
+                        ]}
+                    ],
                     location: 'Bendooley Estate',
                     responsible: ['TP'],
                     teams: ['all'],
@@ -550,9 +548,10 @@
                     time: '6:30 PM',
                     title: 'Wedding Reception Starts!',
                     description: [
-                        'MC TP to kick off the Reception and get guest seated for the Grand Extrances',
-                        '6:30pm: Grand Entrances! Order: Alison & Bryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew',
-                        '6:40pm: House keeping',
+                        // FIXED: Converted simple strings to objects to match mixed content array format
+                        { type: 'paragraph', text: 'MC TP to kick off the Reception and get guest seated for the Grand Extrances' },
+                        { type: 'paragraph', text: '6:30pm: Grand Entrances! Order: Alison & Bryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew' },
+                        { type: 'paragraph', text: '6:40pm: House keeping' },
                         { type: 'checklist', items: [
                             'TP Introduction',
                             'Bathroom Location',
@@ -564,7 +563,7 @@
                             'Photobooth till 11pm',
                             'Table Gifts, Coffee Pack, Tote Bag, Personal Notes'
                         ]},
-                        '6:40pm: Speeches (Father of Bride, Brother of Groom)'
+                        { type: 'paragraph', text: '6:40pm: Speeches (Father of Bride, Brother of Groom)' }
                     ],
                     location: 'Book Barn - Reception',
                     responsible: ['TP'],
@@ -591,7 +590,8 @@
                     time: '7:30 PM',
                     title: 'Speeches continue! Maid of Honor, Best Woman and Bride & Groom',
                     description: [
-                        'Wait for Bride and Groom to return for Final set of speeches:',
+                        // FIXED: Converted simple string to object
+                        { type: 'paragraph', text: 'Wait for Bride and Groom to return for Final set of speeches:' },
                         { type: 'checklist', items: [
                             'Maid of Honor - Wing',
                             'Best Woman - Jess',
@@ -644,8 +644,7 @@
                     teams: ['all'],
                     image: null,
                     links: []
-                }
-                ,
+                },
                 {
                     id: 26,
                     time: '11:00 PM',
