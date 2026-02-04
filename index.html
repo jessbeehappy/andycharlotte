@@ -252,7 +252,7 @@
                 {
                     id: 4,
                     time: '8:30 AM',
-                    title: 'Breakfast Setup & Decor',
+                    title: 'Breakfast Setup & Tea Ceremony Decor',
                     description: [
                         'Brides/Groomsman start helping with Breakfast setup',
                         'Brides/Groomsman start helping with Tea Ceremony setup',
@@ -285,15 +285,19 @@
                     time: '9:30 AM',
                     title: 'Groomsmen to begin getting ready & packing',
                     description: [
-                        { type: 'paragraph', text: 'Groomsmen need to be fully packed and ready to go. The shuttle waits for no one!' },
+                        { type: 'paragraph', text: 'Groomsmen/Bridemaid start packing before the shuttle before 12pm!' },
                         { type: 'checklist', items: [
-                            'Suit & Tie on',
-                            'Bags packed for Bendooley',
-                            'Outfit changes',
                             'Rings',
-                            'Vows'
+                            'Vows',
+                            'Dress Changes',
+                            'Speech Scripts',
+                            'Bags needed for Reception & Ceremony',
+                            'Bridal Kit',
+                            'Phone Chargers',
+                            'Soju',
+                            'Water'
                         ]},
-                        { type: 'paragraph', text: 'Once you are ready, help move the luggage to the front door.' }
+                        { type: 'paragraph', text: 'Once ready, help bags/luggages to the front door.' }
                     ],
                     location: 'Burradoo Airbnb',
                     responsible: ['Bryan'],
@@ -337,7 +341,8 @@
                         'Groomsmen to get dressed',
                         'Parents are dressed',
                         'Bride and Groom are ready for Tea Ceremony',
-                        'Bride and Groom family start to arrive at 11:30am' 
+                        'Bride and Groom family start to arrive at 11:30am',
+                        'Bridesmaids to finalise steaming dresses and veil'
                     ],
                     location: 'Burradoo Airbnb',
                     responsible: ['Charlotte', 'Andrew'],
@@ -363,7 +368,7 @@
                         ]}
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Jess','Janice','Alison'],
+                    responsible: ['Jess','Janice'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -390,7 +395,7 @@
                     time: '1:30 PM',
                     title: 'Final Pack Down & Transport',
                     description: [
-                        { type: 'paragraph', text: 'Shuttle arrives at 1:30pm sharp. We depart at 1:45pm.' },
+                        { type: 'paragraph', text: 'Shuttle arrives at 1:30pm sharp. We depart at 1:45pm. Ensure all items needed for Bendooley is packed and ready to go. May not have time to go back and pick anything missed' },
                         { type: 'checklist', items: [
                             'Rings',
                             'Vows',
@@ -398,7 +403,9 @@
                             'Speech Scripts',
                             'Bags needed for Reception & Ceremony',
                             'Bridal Kit',
-                            'Phone Chargers'
+                            'Phone Chargers',
+                            'Soju',
+                            'Water'
                         ]}
                     ],
                     location: 'Transport to Bendooley',
@@ -410,11 +417,11 @@
                 {
                     id: 13,
                     time: '2:00 PM',
-                    title: 'Reception Preparation',
-                    description: '2:15pm - 4:30pm: Reception preparation and dry run of the ceremony. Bridal party to check in with the celebrant and check sound systems.',
+                    title: 'Reception Preparation + Rehersal',
+                    description: '2:15pm - 3:30pm: Reception preparation and dry run of the ceremony.',
                     location: 'Bendooley Estate',
-                    responsible: ['Charlotte'],
-                    teams: ['bride', 'groom', 'bridesmaids', 'groomsmen'],
+                    responsible: ['Charlotte','Andrew'],
+                    teams: ['all'],
                     image: null,
                     links: []
                 },
@@ -424,7 +431,7 @@
                     title: 'Guest Transport & Reception + Ceremony Setup',
                     description: [
                         { type: 'paragraph', text: '3:30pm: Shuttle picks up guests from Imperial Hotel.' },
-                        { type: 'paragraph', text: 'Styling setup continues (Book Barn, Floral, Wishing Well).' },
+                        { type: 'paragraph', text: 'Alison + Ron: Styling setup continues (Book Barn, Floral, Wishing Well).' },
                         { type: 'checklist', items: [
                             'Table Flower',
                             'Flower DIY table',
@@ -437,22 +444,25 @@
                             'Drink List',
                             'Photo Booth Props'
                         ]},
-                        { type: 'paragraph', text: 'Ceremony area set up - flower for late grandparents' }
+                        { type: 'paragraph', text: 'Wing + Jess: Ceremony area set up - flower for late grandparents' },
+                        { type: 'paragraph', text: 'Charlotte to change into wedding dress, final touch ups and wedding boutique' }
                     ],
                     location: 'Imperial Hotel / Bendooley',
-                    responsible: ['Ryan'],
-                    teams: ['groomsmen'],
+                    responsible: ['Charlote','Alison','Ron','Wing','Jess'],
+                    teams: ['bride','Bridesmaids','Groomsmen','groom'],
                     image: null,
                     links: []
                 },
                 {
                     id: 15,
                     time: '4:00 PM',
-                    title: 'Guests & First Look',
-                    description: '4:00pm: Guests arrive and are seated. 4:00pm - 4:15pm: First Look photos for Charlotte & Andrew.',
-                    location: 'Book Barn - Reception',
+                    title: 'Andy and Charlote First Look + Guest start to arrive',
+                    description: [
+                        { type: 'paragraph', text: '4:00pm: Andy and Charlotte meet at  - Bridal tree rom for first look with Wing and Jess' },
+                        { type: 'paragraph', text: '4:00pm: Guests arrive and are seated. Rest of bridal party to mingle. Water is served to guest before ceremony start.' }],
+                    location: 'Bendooley',
                     responsible: ['Charlotte', 'Andrew'],
-                    teams: ['bride', 'groom', 'groomsmen'],
+                    teams: ['bride', 'groom'],
                     image: null,
                     links: []
                 },
@@ -460,7 +470,30 @@
                     id: 16,
                     time: '4:30 PM',
                     title: 'Wedding Ceremony',
-                    description: '4:30pm - 5:30pm: The Ceremony! Followed immediately by group photos with immediate and extended families.',
+                    description: [
+                        { type: 'paragraph', text: 'The Ceremony will begin!' },
+                        { type: 'paragraph', text: 'Entrance Order - Ari, Alison, Janice, Wing, Charlotte + Dad' },
+                        { type: 'paragraph', text: 'Group Photo Priority List:' },
+                        { type: 'checklist', items: [
+                            'Immediate family (AW)',
+                            'Immediate family (CL)',
+                            'Extended family (CL)',
+                            'Bridal Party (ALL)',
+                            'Bridal Party (Bridemaids)',
+                            'Bridal Party (Groomsmen)',
+                            'Dodgeball friends (AW)',
+                            'All Parents friends (AW)',
+                            'All Parents friends (CL)',
+                            'Sam Poon and Fam (CL)',
+                            'High school friends (CL) (w/ & w/o spouses & kids)',
+                            'Fiona Chan (CL)',
+                            'Ballet friends (CL) (w/ & w/o spouses)',
+                            'Phoebe Fan & Rachel Lee (CL)',
+                            'Christmas at the Kwans friends (CL)',
+                            'Nuvei friends (CL)',
+                            'Rina & Min (CL)',
+                            'MQ friends (AW)',
+                        ]}],
                     location: 'Bendooley Estate',
                     responsible: ['TP'],
                     teams: ['all'],
@@ -469,11 +502,25 @@
                 },
                 {
                     id: 17,
+                    time: '5:00 PM',
+                    title: 'DJ + Photobooth arrives',
+                    description: [
+                        'FaveEvents - DJ + Photobooth set up at the Book Barn'
+                    ],
+                    location: 'Book Barn',
+                    responsible: ['TP'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 18,
                     time: '5:30 PM',
                     title: 'Aperitivo (Cocktail Hour)',
                     description: [
+                        'MC TP to ensure photos are done before heading to food/drinks.',
                         '5:30pm - 6:15pm: Drinks, mingling, and bridal party photos',
-                        '5:45pm: Table set up ready',
+                        '5:45pm: Table set up ready at the book barn - Photographers to do styling shots before guest arrive.',
                         '6:15pm: Door opens'
                     ],
                     location: 'Bendooley Estate',
@@ -483,12 +530,40 @@
                     links: []
                 },
                 {
-                    id: 18,
-                    time: '6:30 PM',
-                    title: 'Reception Entrances',
+                    id: 19,
+                    time: '6:00 PM',
+                    title: 'Aperitivo (Cocktail Hour) + Reception Table Setting Finalised',
                     description: [
-                        '6:30pm: Grand Entrances! Order: Alison & Ryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew',
-                        '6:30pm - 6:40pm: House keeping (Bathroom, Menu, Open bar)',
+                        'MC TP to ensure photos are done before heading to food/drinks.',
+                        '5:30pm - 6:15pm: Drinks, mingling, and bridal party photos',
+                        'Remaining bridal party to help usher guest to Book Barn (Do not enter till 6:15pm)',
+                        '5:45pm: Aly + Ron - Table set up ready at the book barn - Photographers and Videographers to do styling shots before guest arrive.'
+                    ],
+                    location: 'Bendooley Estate',
+                    responsible: ['TP'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 20,
+                    time: '6:30 PM',
+                    title: 'Wedding Reception Starts!',
+                    description: [
+                        'MC TP to kick off the Reception and get guest seated for the Grand Extrances',
+                        '6:30pm: Grand Entrances! Order: Alison & Bryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew',
+                        '6:40pm: House keeping',
+                        { type: 'checklist', items: [
+                            'TP Introduction',
+                            'Bathroom Location',
+                            'Table Sharing Menu, Dessert will be served as buffet',
+                            'Open Bar',
+                            'Floral Station',
+                            'Wishing Well',
+                            'Pokemon Cards - Write on pokemon side (Guest Book)',
+                            'Photobooth till 11pm',
+                            'Table Gifts, Coffee Pack, Tote Bag, Personal Notes'
+                        ]},
                         '6:40pm: Speeches (Father of Bride, Brother of Groom)'
                     ],
                     location: 'Book Barn - Reception',
@@ -498,13 +573,12 @@
                     links: []
                 },
                 {
-                    id: 19,
+                    id: 21,
                     time: '7:00 PM',
-                    title: 'Dinner & Speeches',
+                    title: 'Dinner & Charlotte & Andrew Golden Hour Photos',
                     description: [
                         '7:00pm: Sides & Mains served',
-                        'Couple golden hour photoshoot',
-                        '7:30pm: Speeches (Maid of Honor, Best Woman, Bride, Groom)'
+                        'Couple golden hour photoshoot'
                     ],
                     location: 'Book Barn - Reception',
                     responsible: ['Charlotte', 'Andrew'],
@@ -513,9 +587,27 @@
                     links: []
                 },
                 {
-                    id: 20,
+                    id: 22,
+                    time: '7:30 PM',
+                    title: 'Speeches continue! Maid of Honor, Best Woman and Bride & Groom',
+                    description: [
+                        'Wait for Bride and Groom to return for Final set of speeches:',
+                        { type: 'checklist', items: [
+                            'Maid of Honor - Wing',
+                            'Best Woman - Jess',
+                            'Bride and Groom Speech'
+                        ]}
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['Wing', 'Andrew','Charlotte','Jess'],
+                    teams: ['Bride','Groom','bridesmaids','groomsmen'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 23,
                     time: '8:00 PM',
-                    title: 'Party Time!',
+                    title: 'Dress Change + First Dance',
                     description: [
                         '8:15pm: Charlotte changes dress',
                         '8:20pm: First Dance, Dessert served, and Dance Floor opens!'
@@ -527,14 +619,41 @@
                     links: []
                 },
                 {
-                    id: 21,
-                    time: '10:30 PM',
-                    title: 'Farewell',
+                    id: 24,
+                    time: '8:30 PM',
+                    title: 'Dance Floor is Open!',
                     description: [
-                        '10:30pm: Shuttle bus available for international guests',
+                        'TIME TO PARTY!'
+                    ],
+                    location: 'Book Barn - Reception',
+                    responsible: ['Guest','DJ'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                },
+                {
+                    id: 25,
+                    time: '10:30 PM',
+                    title: 'Farewell!',
+                    description: [
+                        '10:30pm: DJ Announce that Shuttle bus available for international guests',
                         '10:45pm: Party concludes. Pack down begins.'
                     ],
                     location: 'Book Barn - Reception',
+                    responsible: ['DJ'],
+                    teams: ['all'],
+                    image: null,
+                    links: []
+                }
+                ,
+                {
+                    id: 26,
+                    time: '11:00 PM',
+                    title: 'Bridal Party returns back to Airbnb!',
+                    description: [
+                        'Party Over! Bridal Party head to shuttle bus.'
+                    ],
+                    location: 'Airbnb',
                     responsible: ['TP', 'Jess'],
                     teams: ['all'],
                     image: null,
@@ -874,4 +993,3 @@
     </script>
 </body>
 </html>
-
