@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Andy & Charlotte</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23fff1f2' rx='100' ry='100'/%3E%3Cpath fill='%23f43f5e' d='M256 420.4l-27.2-24.7C132.3 308.3 68 250.3 68 179.2 68 121.4 113.4 75.7 171 75.7c32.6 0 63.8 15.2 85 39.5 21.2-24.3 52.4-39.5 85-39.5 57.6 0 103 45.7 103 103.5 0 71.1-64.3 129.1-160.8 216.5L256 420.4z' opacity='0.15'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia, serif' font-size='160' fill='%231c1917'%3EA%26C%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23fff1f2'/%3E%3Cpath fill='%23f43f5e' d='M256 420.4l-27.2-24.7C132.3 308.3 68 250.3 68 179.2 68 121.4 113.4 75.7 171 75.7c32.6 0 63.8 15.2 85 39.5 21.2-24.3 52.4-39.5 85-39.5 57.6 0 103 45.7 103 103.5 0 71.1-64.3 129.1-160.8 216.5L256 420.4z' opacity='0.15'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia, serif' font-size='160' fill='%231c1917'%3EA%26C%3C/text%3E%3C/svg%3E">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#fafaf9">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -64,14 +71,16 @@
 
         // --- VENDOR DATA ---
         const vendors = [
-            { role: 'Venue', name: 'Bendooley Estate', contact: 'TBA' },
-            { role: 'Makeup Artist', name: 'Yoyo & Mary', contact: 'TBA' },
-            { role: 'DJ / Photobooth', name: 'Fave Events', contact: 'TBA' },
-            { role: 'Stylist', name: 'Ionst Stylist', contact: 'TBA' },
-            { role: 'Photographer', name: 'TBA', contact: 'TBA' },
-            { role: 'Videographer', name: 'TBA', contact: 'TBA' },
-            { role: 'Transport', name: 'Imperial Hotel Shuttle', contact: 'TBA' },
-            { role: 'Celebrant', name: 'TBA', contact: 'TBA' }
+            { role: 'Venue', name: 'Bendooley Estate (Kelly)', contact: '048688788' },
+            { role: 'Hair & Makeup Artist', name: 'Yoyo & Mary', contact: '0401715526' },
+            { role: 'DJ / Photobooth', name: 'Fave Events (Jesse)', contact: '0421502677' },
+            { role: 'Stylist', name: 'TBA', contact: 'TBA' },
+            { role: 'Florist', name: 'Daze Flowers (Angela)', contact: '0421384181' },
+            { role: 'Photographer', name: 'Anna Liisa Photography', contact: '0427421335' },
+            { role: 'Videographer', name: 'Amiel', contact: '04032517737' },
+            { role: 'Transport', name: 'Highlands Bus & Coach (Jess)', contact: '048111850' },
+            { role: 'Celebrant', name: 'Hitched by Alex', contact: '0431549380' },
+            { role: 'Harpist', name: 'Harper Adams', contact: '0422716113' }
         ];
 
         // --- BRIDE EASTER EGG ---
@@ -321,7 +330,7 @@
                     title: 'Breakfast Setup & Decor',
                     description: [
                         'Brides/Groomsman start helping with Breakfast setup',
-                        'Brides/Groomsman start helping with Tea Ceremony setup',
+                        'Brides/Groomsman start helping with Tea Ceremony setup', // FIXED: Added missing comma
                         'Bridesmaids start steaming dresses + veil'
                     ],
                     location: 'Burradoo Airbnb',
@@ -430,7 +439,7 @@
                         ]}
                     ],
                     location: 'Burradoo Airbnb',
-                    responsible: ['Jess','Janice','Alison'],
+                    responsible: ['Jess','Janice'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -572,7 +581,7 @@
                         'FaveEvents - DJ + Photobooth set up at the Book Barn'
                     ],
                     location: 'Book Barn',
-                    responsible: ['TP'],
+                    responsible: ['DJ'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -604,7 +613,7 @@
                         '5:45pm: Aly + Ron - Table set up ready at the book barn - Photographers and Videographers to do styling shots before guest arrive.'
                     ],
                     location: 'Bendooley Estate',
-                    responsible: ['TP'],
+                    responsible: ['TP','Alison'],
                     teams: ['all'],
                     image: null,
                     links: []
@@ -614,6 +623,7 @@
                     time: '6:30 PM',
                     title: 'Wedding Reception Starts!',
                     description: [
+                        // FIXED: Converted simple strings to objects to match mixed content array format
                         { type: 'paragraph', text: 'MC TP to kick off the Reception and get guest seated for the Grand Extrances' },
                         { type: 'paragraph', text: '6:30pm: Grand Entrances! Order: Alison & Bryan, Janice & Yunho, Wing & Jessica, Charlotte & Andrew' },
                         { type: 'paragraph', text: '6:40pm: House keeping' },
@@ -811,11 +821,9 @@
                     searchTextMatches(event.time) ||
                     (event.responsible && event.responsible.some(r => searchTextMatches(r)));
                 
-                // Show ALL events regardless of time (logic handled in rendering for visuals)
                 return teamMatch && searchMatch;
             });
 
-            // Find first ACTIVE event index for auto-scroll
             const firstActiveIndex = filteredEvents.findIndex(event => {
                 const eventMinutes = parseEventTime(event.time);
                 return !(isWeddingDay && eventMinutes < currentMinutes - 30);
