@@ -110,7 +110,18 @@
         // --- CHECKLISTS (Easter Eggs) ---
         const GroomChecklist = ({ onClose }) => {
             const [items, setItems] = useState([
-                { id: 1, text: "Suit Jacket & Trousers", checked: false }, { id: 2, text: "White Dress Shirt", checked: false }, { id: 3, text: "Tie / Bow Tie", checked: false }, { id: 4, text: "Belt / Suspenders", checked: false }, { id: 5, text: "Dress Socks (Black)", checked: false }, { id: 6, text: "Dress Shoes (Polished)", checked: false }, { id: 7, text: "Cufflinks", checked: false }, { id: 8, text: "Watch", checked: false }, { id: 9, text: "Wedding Ring!", checked: false }, { id: 10, text: "Vows / Speech", checked: false }, { id: 11, text: "Deodorant / Cologne", checked: false }, { id: 12, text: "Hair Product", checked: false }
+                { id: 1, text: "Suit Jacket & Trousers", checked: false }
+                , { id: 2, text: "White Dress Shirt", checked: false }
+                , { id: 3, text: "Bow Tie", checked: false }
+                , { id: 4, text: "Belt", checked: false }
+                , { id: 5, text: "Dress Socks", checked: false }
+                , { id: 6, text: "Dress Shoes", checked: false }
+                , { id: 7, text: "Watch", checked: false }
+                , { id: 8, text: "Wedding Ring!", checked: false }
+                , { id: 9, text: "Vows / Speech", checked: false }
+                , { id: 10, text: "Red Packets and Pokemon Cards", checked: false }
+                , { id: 11, text: "Deodorant / Cologne", checked: false }
+                , { id: 12, text: "Hair Product", checked: false }
             ]);
             const toggleItem = (id) => setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
             const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
@@ -137,7 +148,26 @@
 
         const GroomsmenChecklist = ({ onClose }) => {
             const [items, setItems] = useState([
-                { id: 1, text: "Suit Up & Look Sharp", checked: false }, { id: 2, text: "Straighten Tie", checked: false }, { id: 3, text: "Boutonnière Check (Don't crush it)", checked: false }, { id: 4, text: "Flask Filled (Optional)", checked: false }, { id: 5, text: "Speech Printed/Ready", checked: false }, { id: 6, text: "Sunglasses", checked: false }, { id: 7, text: "Hype the Groom", checked: false }, { id: 8, text: "Keep Groom Hydrated", checked: false }, { id: 9, text: "Dance Moves Prepared", checked: false }, { id: 10, text: "Escort Guests", checked: false }
+                { id: 1, text: "Suit Jacket and Trousers ", checked: false }
+                , { id: 2, text: "White Dress Shirt", checked: false }
+                , { id: 3, text: "Tie", checked: false }
+                , { id: 4, text: "Shoes/Heels", checked: false }
+                , { id: 5, text: "Mickey Mouse Sunglasses", checked: false }
+                , { id: 6, text: "Soju Bottles (Entrance?)", checked: false }
+                , { id: 7, text: "Mickey Mouse Sunglasses (Entrance)", checked: false }
+                , { id: 8, text: "Pokemon Cards", checked: false }
+                , { id: 9, text: "Power Packs & Chargers", checked: false }
+                , { id: 10, text: "Bae Juice/Korean Pear Juice", checked: false }
+                , { id: 11, text: "[Jess] Dress Change", checked: false }
+                , { id: 12, text: "[Jess] Printed Speech", checked: false }
+                , { id: 13, text: "[Jess] Bridal Bag", checked: false }
+                , { id: 14, text: "[Jess] Bridal Kit Bag", checked: false }
+                , { id: 15, text: "[Jess] Additional Photo booth props (heart glasses)", checked: false }
+                , { id: 16, text: "[Jess] Ribbons for flower Station", checked: false }
+                , { id: 17, text: "[Jess] Jewellery", checked: false }
+                , { id: 18, text: "[Jess] Black Getting Ready Robe", checked: false }
+                , { id: 19, text: "[Jess] Samsung Tab/Laptop", checked: false }
+                
             ]);
             const toggleItem = (id) => setItems(items.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
             const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
